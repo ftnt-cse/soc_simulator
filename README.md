@@ -67,7 +67,7 @@ Example:
     "description": "an infected machine connects to a CnC server, followed by another (false positive), then a third one",
     "category": "soc_analyst",
     "publisher": "CSE-Team",
-    "infographic": "https://github..."
+    "infographic": "https://github.com/ftnt-cse/soc_simulator/raw/master/FSOAR_scenarios/Case_Management_and_Visibility/infocgraphics.gif"
 }
 ```
 
