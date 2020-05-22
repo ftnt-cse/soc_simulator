@@ -1,0 +1,62 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "High Severity Inbound Permitted IPS Exploit",
+		"source":"FORTISIEM",
+		"sourcedata":{
+				"incident": {
+						"externalTicketType": "52.57.40.125",
+						"triggeringAttr": "incidentCount",
+						"creationTime": "{{TR_NOW}}",
+						"ruleRemediation": "",
+						"formatedLastSeenTime": "",
+						"notificationReceipt": "",
+						"incidentSrc": "srcIpAddr:{{TR_MALICIOUS_IP}},",
+						"origDevIp": "{{TR_FG_MGMT_IP}}",
+						"ownerId": 0,
+						"externalTicketId": 26172,
+						"phIncidentCategory": "Application",
+						"resolution": "Open",
+						"viewStatus": 1,
+						"deviceStatus": "Approved",
+						"incidentEt": "PH_RULE_HIGH_SEV_SEC_IPS_IN_PERMIT",
+						"origDevName": "FG240D3913800441",
+						"incidentDetail": "compEventType:FortiGate-ips-signature-15995, attackName:, incidentCount:6,",
+						"origDevIpFirst": "{{TR_FG_MGMT_IP}}",
+						"ruleDesc": "Detects a high severity IPS security exploit from outside that is permitted. This rule makes sense only from an IPS positioned inside the firewall. Since this attack went through the firewall, its consequence must be monitored.",
+						"custId": 1,
+						"ruleName": "High Severity Inbound Permitted IPS Exploit",
+						"id": 4102124219,
+						"incidentCategory": "Security/Execution",
+						"jiraIntegrationMapping": "",
+						"srcIpAddr": "{{TR_MALICIOUS_IP}}",
+						"xmlId": "Incident@4102124219",
+						"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+						"externalTicketState": "new",
+						"ruleId": 1680274,
+						"clearedTime": 0,
+						"incidentStatus": 0,
+						"severity": 9,
+						"lastSeenTime": 1581866850000,
+						"incidentCount": 718,
+						"externalId": 12188,
+						"jiraExtIds": "13390,12188",
+						"incidentTarget": "destIpAddr:{{TR_PUBLIC_IP}},",
+						"formatedFirstSeenTime": "01/21/2020 13:27:30 GMT",
+						"cacheIndex": "<phCustId>1<\\/phCustId><srcGeoCountry>Albania<\\/srcGeoCountry><srcGeoOrg>IPKO Telecommunications LLC<\\/srcGeoOrg><srcGeoLatitude>41<\\/srcGeoLatitude><srcGeoLongitude>20<\\/srcGeoLongitude><incidentSrc>srcIpAddr:91.187.100.204, <\\/incidentSrc><incidentTarget>destIpAddr:192.168.22.10, <\\/incidentTarget><triggeringAttrList>incidentCount<\\/triggeringAttrList><compEventType>FortiGate-ips-signature-15995<\\/compEventType><srcIpAddr>91.187.100.204<\\/srcIpAddr><destIpAddr>192.168.22.10<\\/destIpAddr><attackName><\\/attackName>",
+						"firstSeenTime": 1579613250000,
+						"ticketStatus": "None",
+						"intergrationComments": "",
+						"lastModified": 1581866858907,
+						"incidentId": 1248811,
+						"severityCat": "HIGH",
+						"destIpAddr": "{{TR_PUBLIC_IP}}"
+						}
+				}
+		}
+	]
+}
+]
+

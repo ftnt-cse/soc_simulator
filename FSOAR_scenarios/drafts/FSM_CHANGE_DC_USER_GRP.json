@@ -1,0 +1,62 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+							"hostName": "DC1.fortipoc.test",
+							"creationTime": 1585589949369,
+							"ruleRemediation": "",
+							"formatedLastSeenTime": "03/30/2020 17:39:00 UTC",
+							"notificationReceipt": "",
+							"sourceUser": "administrator",
+							"incidentSrc": "computer:DC1.fortipoc.test,",
+							"origDevIp": "10.0.1.11",
+							"ownerId": 0,
+							"phIncidentCategory": "Application",
+							"resolution": "Open",
+							"viewStatus": 1,
+							"deviceStatus": "Pending",
+							"incidentEt": "PH_RULE_CHANGE_DC_USER_GRP",
+							"computer": "DC1.fortipoc.test",
+							"origDevName": "DC1.fortipoc.test",
+							"incidentDetail": "",
+							"origDevIpFirst": "10.0.1.11",
+							"ruleDesc": "Detects user/group configuration in a domain controller. This rule would trigger on all changes made by any person. To prevent false positives, a restriction on the user attribute should be made by excluding the domain administrators.",
+							"custId": 1,
+							"ruleName": "Domain Controller User/Group Modification",
+							"devImportance": 10,
+							"id": 7886981,
+							"incidentCategory": "Change/Audit",
+							"jiraIntegrationMapping": "",
+							"xmlId": "Incident@7886981",
+							"externalOrg": "/",
+							"ruleId": 1169727,
+							"clearedTime": 0,
+							"incidentStatus": 0,
+							"deviceType": "Microsoft Windows Server 2012 R2",
+							"severity": 6,
+							"lastSeenTime": 1585589940000,
+							"incidentCount": 1,
+							"incidentTarget": "hostName:DC1.fortipoc.test, user:administrator, domain:FORTIPOC, targetUser:snoopy, targetDomain:FORTIPOC,",
+							"formatedFirstSeenTime": "03/30/2020 17:39:00 UTC",
+							"cacheIndex": "1<\\/phCustId>computer:DC1.fortipoc.test, <\\/incidentSrc>hostName:DC1.fortipoc.test, user:administrator, domain:FORTIPOC, targetUser:snoopy, targetDomain:FORTIPOC, <\\/incidentTarget>DC1.fortipoc.test<\\/hostName>DC1.fortipoc.test<\\/computer>FORTIPOC<\\/domain>FORTIPOC<\\/targetDomain>administrator<\\/user>snoopy<\\/targetUser>",
+							"domain": "FORTIPOC",
+							"firstSeenTime": 1585589940000,
+							"ticketStatus": "None",
+							"intergrationComments": "",
+							"lastModified": 1585589949549,
+							"incidentId": 949,
+							"severityCat": "MEDIUM",
+							"targetUser": "snoopy",
+							"user": "administrator"
+						}
+				}
+		}
+	]
+}
+]
+

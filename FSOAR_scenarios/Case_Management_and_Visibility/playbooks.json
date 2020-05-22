@@ -1,0 +1,1823 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "00-FSM-SIM",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSM-SIM-Mapper",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/ed16e7d8-553f-4bfa-8aa9-6d6096069035",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/a092fda8-78b8-476a-9c38-648c9fbe86a9",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%SOC-SIM-%",
+                      "operator": "like",
+                      "_operator": "like"
+                    },
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%MAIL%",
+                      "operator": "notlike",
+                      "_operator": "notlike"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "475",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "a092fda8-78b8-476a-9c38-648c9fbe86a9"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "475",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "360b70be-9732-405c-a13c-69f3b3b9199e"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Variables",
+              "description": null,
+              "arguments": {
+                "custId": "{{vars.source_data.incident.custId}}",
+                "domain": "{{vars.source_data.incident.domain}}",
+                "alertiri": "{{vars.input.records[0]['@id']}}",
+                "hostName": "{{vars.source_data.incident.hostName}}",
+                "ruleDesc": "{{vars.source_data.incident.ruleDesc}}",
+                "ruleName": "{{vars.source_data.incident.ruleName}}",
+                "severity": "{{vars.source_data.incident.severity}}",
+                "username": "{{vars.source_data.incident.user}}",
+                "origDevIp": "{{vars.source_data.incident.origDevIp}}",
+                "source_ip": "{{vars.source_data.incident.srcIpAddr}}",
+                "alert_name": "{{vars.input.records[0].name}}",
+                "cacheIndex": "{{vars.source_data.incident.cacheIndex}}",
+                "deviceType": "{{vars.source_data.incident.deviceType}}",
+                "incidentEt": "{{vars.source_data.incident.incidentEt}}",
+                "incidentId": "{{vars.source_data.incident.incidentId}}",
+                "resolution": "{{vars.source_data.incident.resolution}}",
+                "sourceUser": "{{vars.source_data.incident.sourceUser}}",
+                "clearedTime": "{{vars.source_data.incident.clearedTime}}",
+                "incidentSrc": "{{vars.source_data.incident.incidentSrc}}",
+                "origDevName": "{{vars.source_data.incident.origDevName}}",
+                "severityCat": "{{vars.source_data.incident.severityCat}}",
+                "creationTime": "{{vars.source_data.incident.creationTime}}",
+                "deviceStatus": "{{vars.source_data.incident.deviceStatus}}",
+                "lastModified": "{{vars.source_data.incident.lastModified}}",
+                "lastSeenTime": "{{vars.source_data.incident.lastSeenTime}}",
+                "ticketStatus": "{{vars.source_data.incident.ticketStatus}}",
+                "detination_ip": "{{vars.source_data.incident.destIpAddr}}",
+                "devImportance": "{{vars.source_data.incident.devImportance}}",
+                "firstSeenTime": "{{vars.source_data.incident.firstSeenTime}}",
+                "incidentCount": "{{vars.source_data.incident.incidentCount}}",
+                "incidentDetail": "{{vars.source_data.incident.incidentDetail}}",
+                "incidentStatus": "{{vars.source_data.incident.incidentStatus}}",
+                "incidentTarget": "{{vars.source_data.incident.incidentTarget}}",
+                "origDevIpFirst": "{{vars.source_data.incident.origDevIpFirst}}",
+                "incidentCategory": "{{vars.source_data.incident.incidentCategory}}",
+                "phIncidentCategory": "{{vars.source_data.incident.phIncidentCategory}}"
+              },
+              "status": null,
+              "left": "475",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "4e2b3f4f-0045-4351-acca-0028010d09f8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert Attributes",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Map Alert Fields</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.source_data.incident.ruleName}}-{{vars.source_data.incident.id}}",
+                  "type": "{{vars.incidentCategory | resolveRange(vars.v_Type_Map)}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "domain": "{{vars.v_Domain}}",
+                  "status": "{{vars.v_Status}}",
+                  "reporter": "{{vars.v_Reporter}}",
+                  "severity": "{{vars.severity | resolveRange(vars.v_Severity_map)}}",
+                  "sourceId": "{{vars.v_Source_ID}}",
+                  "sourceIp": "{{vars.v_Source_IP}}",
+                  "userName": "{{vars.v_Username}}",
+                  "epochTime": "{{vars.v_Epoch_Time}}",
+                  "eventTime": "{{arrow.get(vars.v_Epoch_Time).to(\"UTC\").format(\"YYYY-MM-DD HH:mm:ss ZZ\")}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "sourceType": "{{vars.v_Source_Type}}",
+                  "sourcedata": "{{vars.source_data|toJSON}}",
+                  "description": "<p>{{vars.v_Description}}<br />Incident Category:&nbsp;{{vars.v_Source_Type}}<br />{%if vars.v_Source_IP%}Source IP:{{vars.v_Source_IP}}{%endif%}<br />{%if vars.v_Destination_IP%}Destination IP:&nbsp;{{vars.v_Destination_IP}}{%endif%}<br />{%if vars.v_Reporter %} Reporting Device: {{vars.v_Reporter}}{%endif%}<br />{%if vars.v_Username %} Username: {{vars.v_Username}}{%endif%}</p>",
+                  "assigneddate": "{{vars.v_Event_Time}}",
+                  "emailSubject": "None",
+                  "destinationIp": "{{vars.v_Destination_IP}}",
+                  "killChainPhase": "{{ incidentCategory | resolveRange(vars.v_Kill_Chain_Phase_Map)}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "16ceaadb-02e8-4122-bfd0-afe6a15a9294"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Fields Mapping",
+              "description": null,
+              "arguments": {
+                "v_URL": "",
+                "v_Email": "",
+                "v_Domain": "{{vars.domain}}",
+                "v_Status": "{% if vars.source_data.incident.resolution == 'Open' %}{{(\"AlertStatus\" | picklist(\"Open\"))[\"@id\"]}}{% endif %}",
+                "v_Metrics": "",
+                "v_Service": "",
+                "v_Ack_Date": "",
+                "v_Reporter": "{%if vars.origDevName%}{{vars.origDevName}}\n{% elif vars.origDevIp %}\n{{vars.origDevIp}}\n{%endif%}",
+                "v_Type_Map": "{'Availability/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Domain Controller': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Environmental': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/HVAC': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Hardware': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/License': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Mail Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/UPS': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Video Conferencing': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/WAN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Windows Cluster Service': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Windows File System Replication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Change/Audit': {{\"AlertType\" | picklist(\"Compliance\")}},'Change/Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},'Change/UserAccount': {{\"AlertType\" | picklist(\"Compliance\")}},'Other/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Other/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/CPU': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/IPSLA': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Interface': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Mail Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Memory': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage I/O': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage Space': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Virtualization': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Airline': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Audit': {{\"AlertType\" | picklist(\"Compliance\")}},'Security/Authentication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Behavioral Anomaly': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/BotNet': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Collection': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Command and Control': {{\"AlertType\" | picklist(\"Beaconing\")}},'Security/Compromised Host': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Credential Access': {{\"AlertType\" | picklist(\"Lost / Stolen\")}},'Security/DDoS': {{\"AlertType\" | picklist(\"Denial of Service\")}},'Security/Defense Evasion': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Discovery': {{\"AlertType\" | picklist(\"Reconnaissance\")}},'Security/DoS': {{\"AlertType\" | picklist(\"Denial of Service\")}},'Security/Execution': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Exfiltration': {{\"AlertType\" | picklist(\"Data Exfiltration\")}},'Security/Exploit': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Impact': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Initial Access': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Lateral Movement': {{\"AlertType\" | picklist(\"Lateral Movement\")}},'Security/Malware': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Persistence': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},'Security/Privilege Escalation': {{\"AlertType\" | picklist(\"\")}},'Security/Ransomware': {{\"AlertType\" | picklist(\"Ransomware\")}},'Security/Reconnaissance': {{\"AlertType\" | picklist(\"Reconnaissance\")}},'Security/SQL Injection': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Website defacement': {{\"AlertType\" | picklist(\"Other / Unknown\")}}}",
+                "v_Username": "{{vars.username}}",
+                "v_File_Hash": "",
+                "v_File_Name": "",
+                "v_File_Path": "",
+                "v_Source_ID": "{{vars.incidentId}}",
+                "v_Source_IP": "{{vars.source_ip}}",
+                "v_Device_UID": "",
+                "v_Email_Body": "",
+                "v_Email_From": "",
+                "v_Epoch_Time": "{{vars.creationTime}}",
+                "v_Event_Time": "{{vars.lastSeenTime}}",
+                "v_File_Names": "",
+                "v_Process_ID": "",
+                "v_cacheIndex": "{%if vars.cacheIndex%}{{vars.cacheIndex | extract_artifacts}}{%endif%}",
+                "v_Description": "{{vars.ruleDesc}}",
+                "v_Return_Path": "",
+                "v_Source_Port": "",
+                "v_Source_Tool": "",
+                "v_Source_Type": "{{vars.incidentCategory}}",
+                "v_incidentSrc": "{%if vars.incidentSrc%}{{vars.incidentSrc | extract_artifacts}}{%endif%}",
+                "v_Command_Line": "",
+                "v_Latest_Login": "",
+                "v_Process_GUID": "",
+                "v_Process_Name": "",
+                "v_Process_Tree": "",
+                "v_Registry_Key": "",
+                "v_Response_SLA": "",
+                "v_Severity_map": "{\n0: {{\"Severity\" | picklist(\"Minimal\")}},\n1: {{\"Severity\" | picklist(\"Minimal\")}},\n2: {{\"Severity\" | picklist(\"Low\")}},\n3: {{\"Severity\" | picklist(\"Low\")}},\n4: {{\"Severity\" | picklist(\"Medium\")}},\n5: {{\"Severity\" | picklist(\"Medium\")}},\n6: {{\"Severity\" | picklist(\"Medium\")}},\n7: {{\"Severity\" | picklist(\"High\")}},\n8: {{\"Severity\" | picklist(\"High\")}},\n9: {{\"Severity\" | picklist(\"Critical\")}},\n10:{{\"Severity\" | picklist(\"Critical\")}}\n}",
+                "v_Target_Asset": "",
+                "v_User_Details": "",
+                "v_Computer_Name": "{%if vars.incidentCategory =='Change/UserAccount'%}{{vars.origDevName}}{%endif%}",
+                "v_Email_Headers": "",
+                "v_Email_Subject": "",
+                "v_Sender_Domain": "",
+                "v_Destination_IP": "{{vars.detination_ip}}",
+                "v_Scheduled_Task": "",
+                "v_Source_Process": "",
+                "v_Target_Process": "",
+                "v_incidentTarget": "{%if vars.incidentTarget%}{{vars.incidentTarget | extract_artifacts}}{%endif%}",
+                "v_Attachment_Names": "",
+                "v_Destination_Port": "",
+                "v_Bytes_Transferred": "",
+                "v_Escalation_Reason": "",
+                "v_Parent_Process_ID": "",
+                "v_Registry_Key_Value": "",
+                "v_Email_Recipients_To": "",
+                "v_Parent_Process_Name": "",
+                "v_Reporter_Email_Body": "",
+                "v_Decoded_Command_Line": "",
+                "v_Kill_Chain_Phase_Map": "{\n'Availability/Application': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Database': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Domain Controller': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Environmental': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/FortiSIEM': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/HVAC': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Hardware': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/License': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Mail Server': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Network': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/SDN': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Server': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Storage': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Suspicious Activity': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/UPS': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Video Conferencing': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/VoIP': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/WAN': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Windows Cluster Service': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Availability/Windows File System Replication': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Change/Audit': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Change/Policy Violation': {{\"KillChainPhases\" | picklist(\"Installation\")}},\n'Change/UserAccount': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Other/Suspicious Activity': {{\"KillChainPhases\" | picklist(\"Delivery\")}},\n'Other/VoIP': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Application': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/CPU': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Database': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/FortiSIEM': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/IPSLA': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Interface': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Mail Server': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Memory': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Network': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/SDN': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Server': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Storage': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Storage I/O': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Storage Space': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Suspicious Activity': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/Virtualization': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Performance/VoIP': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Security/Airline': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Security/Application': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Audit': {{\"KillChainPhases\" | picklist(\"Not Applicable\")}},\n'Security/Authentication': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Behavioral Anomaly': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/BotNet': {{\"KillChainPhases\" | picklist(\"Command & Control\")}},\n'Security/Collection': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/Command and Control': {{\"KillChainPhases\" | picklist(\"Command & Control\")}},\n'Security/Compromised Host': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/Credential Access': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/DDoS': {{\"KillChainPhases\" | picklist(\"Delivery\")}},\n'Security/Defense Evasion': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Discovery': {{\"KillChainPhases\" | picklist(\"Reconnaissance\")}},\n'Security/DoS': {{\"KillChainPhases\" | picklist(\"Delivery\")}},\n'Security/Execution': {{\"KillChainPhases\" | picklist(\"Installation\")}},\n'Security/Exfiltration': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/Exploit': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Impact': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/Initial Access': {{\"KillChainPhases\" | picklist(\"Delivery\")}},\n'Security/Lateral Movement': {{\"KillChainPhases\" | picklist(\"Installation\")}},\n'Security/Malware': {{\"KillChainPhases\" | picklist(\"Weaponization\")}},\n'Security/Network': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Persistence': {{\"KillChainPhases\" | picklist(\"Installation\")}},\n'Security/Policy Violation': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Privilege Escalation': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Ransomware': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}},\n'Security/Reconnaissance': {{\"KillChainPhases\" | picklist(\"Reconnaissance\")}},\n'Security/SQL Injection': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Suspicious Activity': {{\"KillChainPhases\" | picklist(\"Exploitation\")}},\n'Security/Website defacement': {{\"KillChainPhases\" | picklist(\"Actions on Objectives\")}}\n}",
+                "v_Sender_Email_Address": "",
+                "v_Recipient_Email_Address": "",
+                "v_Parent_Process_Command_Line": ""
+              },
+              "status": null,
+              "left": "475",
+              "top": "435",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "979bccb9-a4c1-4aff-9a5e-5d0b8d606cb2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get IP Reputation",
+              "description": null,
+              "arguments": {
+                "name": "VirusTotal",
+                "when": "{{vars.incidentCategory}}",
+                "config": "f3061eef-223a-4efb-a2d4-5b4518feb7b2",
+                "params": {
+                  "ip": "{{vars.v_Destination_IP}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Get&nbsp;<strong>{{vars.v_Destination_IP}}</strong> reputation from CTI</p>",
+                  "records": ""
+                },
+                "version": "1.0.1",
+                "connector": "virustotal",
+                "operation": "query_ip",
+                "operationTitle": "Get IP Reputation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "300",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "3ce0c0af-775f-4aaf-b3cf-f6dafb3f96e6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "is a Beaconing Alert",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/3ce0c0af-775f-4aaf-b3cf-f6dafb3f96e6",
+                    "condition": "{{ \"Traffic to FortiGuard Malware IP List\" in vars.ruleName }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/aa74f723-84f1-45c4-88c9-612326019674"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "475",
+              "top": "705",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "857430ea-5810-47c9-ad9a-457454c33417"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Malicious Reputation Update",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color: #ff0000;\"><strong>{{vars.v_Destination_IP}}</strong> </span>is Malicious, escalating the alert</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "__link": {
+                    "assets": "{{vars.steps.Create_Asset['@id']}}",
+                    "indicators": "{{vars.steps.Create_Indicator['@id']}}"
+                  },
+                  "severity": {
+                    "id": 69,
+                    "@id": "/api/3/picklists/7efa2220-39bb-44e4-961f-ac368776e3b0",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e31b1d",
+                    "display": "Critical",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Critical",
+                    "orderIndex": 4
+                  },
+                  "description": "<p>{{vars.input.records[0].description}}</p>\n<p><span style=\"color: #ff0000;\"><strong>{{vars.v_Destination_IP}}</strong></span> is found to be malicious by CTI</p>\n<p>Escalating the Alert</p>",
+                  "escalatedtoincident": {
+                    "id": 200,
+                    "@id": "/api/3/picklists/fa12313b-66af-4a2e-864e-a5f19241b734",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#bf0a0a",
+                    "display": "Yes",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "Yes",
+                    "orderIndex": 0
+                  }
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.alertiri}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1380",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "87028f26-21bd-4acd-b854-4297cb81cfbf"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "is Malicious",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/ad68ad86-bfc7-4d9e-ac1e-fe6e75b820cb"
+                  },
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/18ea6fc8-bfe9-43df-9689-78dc4a2922a6",
+                    "condition": "{{ vars.steps.Get_IP_Reputation.data.aggregate > 1 }}"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "300",
+              "top": "975",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "6eb5351a-db38-4ccd-bf16-1ef7af6cbc6d"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Safe Reputation Update",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"color: #00ff00;\"><strong>No Malicious</strong></span> Indicators, Closing the alert as False Positive</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "severity": {
+                    "id": 65,
+                    "@id": "/api/3/picklists/0d609b08-45e0-469f-8910-41145c0b7c03",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#157DD9",
+                    "display": "Minimal",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Minimal",
+                    "orderIndex": 0
+                  },
+                  "description": "<p>{{vars.input.records[0].description}}</p>\n<p><span style=\"color: #00ff00;\"><strong>{{vars.v_Destination_IP}}</strong></span> is&nbsp;close the alert as False positive</p>",
+                  "escalatedtoincident": {
+                    "id": 201,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.alertiri}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "1110",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "ad68ad86-bfc7-4d9e-ac1e-fe6e75b820cb"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Incident",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Creating Incident ID: <strong>{{vars.result['@id']}}</strong></p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.input.records[0].name}}",
+                  "phase": {
+                    "id": 187,
+                    "@id": "/api/3/picklists/bb7407e0-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Containment",
+                    "listName": "/api/3/picklist_names/b862eb1f-b385-40ca-baa7-5a1b1f91a651",
+                    "itemValue": "Containment",
+                    "orderIndex": 3
+                  },
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "assets": "{{vars.steps.Create_Asset['@id']}}",
+                  "status": {
+                    "id": 110,
+                    "@id": "/api/3/picklists/bb7402d6-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "In Progress",
+                    "listName": "/api/3/picklist_names/a549e41c-31ca-406d-89ae-eab3de5c06c4",
+                    "itemValue": "In Progress",
+                    "orderIndex": 1
+                  },
+                  "severity": {
+                    "id": 69,
+                    "@id": "/api/3/picklists/7efa2220-39bb-44e4-961f-ac368776e3b0",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e31b1d",
+                    "display": "Critical",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Critical",
+                    "orderIndex": 4
+                  },
+                  "sourceIP": "{{vars.input.records[0].sourceIp}}",
+                  "__replace": "",
+                  "indicators": "{{vars.steps.Create_Indicator['@id']}}",
+                  "sourcedata": "{{vars.input.records[0].sourcedata}}",
+                  "description": "<p>{{vars.input.records[0].description}}</p>",
+                  "assigneddate": "{{vars.input.records[0].assigneddate}}",
+                  "discoveredOn": "{{vars.v_Event_Time}}",
+                  "incidentLead": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "senderDomain": "{{vars.input.records[0].domain}}",
+                  "destinationIP": "{{vars.input.records[0].destinationIp}}",
+                  "slaPercentage": 3,
+                  "deliveryVector": {
+                    "id": 271,
+                    "@id": "/api/3/picklists/9eaa3beb-f828-411d-b51e-ec14dac9d176",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other",
+                    "listName": "/api/3/picklist_names/82e4ff55-ade7-419c-a1c5-94d5b68cf5b3",
+                    "itemValue": "Other",
+                    "orderIndex": 2
+                  },
+                  "containmentTime": 18,
+                  "confirmationDate": "{{vars.input.records[0].createDate}}",
+                  "senderEmailAddress": "{{vars.input.records[0].senderEmailAddress}}",
+                  "receipientEmailAddress": "{{vars.input.records[0].recipientEmailAddress}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1515",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "272d9c00-08ca-4260-adf2-a9369fa0c519"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Indicator",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Create Indicator from malicious IP:&nbsp;<span style=\"color: #ff0000;\"><strong>{{vars.v_Destination_IP}}</strong></span></p>",
+                  "records": ""
+                },
+                "resource": {
+                  "value": "{{vars.v_Destination_IP}}",
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "sources": "{{vars.input.records[0].source}}",
+                  "vtscore": "{{vars.steps.Get_IP_Reputation.data.aggregate}}",
+                  "__replace": "",
+                  "reputation": {
+                    "id": 196,
+                    "@id": "/api/3/picklists/7074e547-7785-4979-be32-c6d0c863e4bd",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#c42323",
+                    "display": "Malicious",
+                    "listName": "/api/3/picklist_names/e75ed3c3-9f23-4a43-832b-0daf236209ba",
+                    "itemValue": "Malicious",
+                    "orderIndex": 1
+                  },
+                  "indicatorStatus": {
+                    "id": 366,
+                    "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Blocked",
+                    "listName": "/api/3/picklist_names/e6639d57-94a9-432f-a46f-b2b530402077",
+                    "itemValue": "Blocked",
+                    "orderIndex": 0
+                  },
+                  "typeofindicator": {
+                    "id": 77,
+                    "@id": "/api/3/picklists/c0beeda4-2c7a-4214-b7e5-53ba1649539c",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "IP Address",
+                    "listName": "/api/3/picklist_names/50ee5bfa-e18f-49ba-8af9-dcca25b0f9c0",
+                    "itemValue": "IP Address",
+                    "orderIndex": 7
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/indicators",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1110",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "18ea6fc8-bfe9-43df-9689-78dc4a2922a6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Asset",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Asset&nbsp;<span style=\"color: #ff0000;\"><strong>{{vars.v_Source_IP}}</strong></span> is Infected with Botnet</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "ip": "{{vars.v_Source_IP}}",
+                  "state": {
+                    "id": 64,
+                    "@id": "/api/3/picklists/b31da3b9-6f87-469e-a1bf-2517c48a7001",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/45de7d2e-8ef0-495e-a6e5-07fddfbd4749",
+                    "itemValue": "Active",
+                    "orderIndex": 1
+                  },
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "status": {
+                    "id": 26,
+                    "@id": "/api/3/picklists/421c20cd-e63d-4e32-9a25-774b2155cd24",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/3c57ea34-4866-4c8f-ba74-dc51806727a9",
+                    "itemValue": "Active",
+                    "orderIndex": 0
+                  },
+                  "category": {
+                    "id": 2,
+                    "@id": "/api/3/picklists/bb8b4a11-98ab-458e-9db2-d4a3cda8b874",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Desktop",
+                    "listName": "/api/3/picklist_names/0042bf40-d0e6-4324-ab84-0c7b0703f681",
+                    "itemValue": "Desktop",
+                    "orderIndex": 2
+                  },
+                  "__replace": "",
+                  "assetClass": {
+                    "id": 81,
+                    "@id": "/api/3/picklists/00cb224e-4198-4547-bbcb-a90bb9a60806",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Hardware",
+                    "listName": "/api/3/picklist_names/54642443-1ab4-4f2b-968e-a0c43907fad0",
+                    "itemValue": "Hardware",
+                    "orderIndex": 0
+                  },
+                  "criticality": {
+                    "id": 188,
+                    "@id": "/api/3/picklists/f734dfbb-fd61-425e-8a14-ebd560289fac",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/f8d09b4a-9e91-4096-bbdd-06a9f96ef57e",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "operatingSystem": {
+                    "id": 90,
+                    "@id": "/api/3/picklists/f0fc6b95-965f-4b65-9b3c-bb3c7f790c1d",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Windows 10",
+                    "listName": "/api/3/picklist_names/6671f4f2-2fd5-4d00-ba2d-f9fade310689",
+                    "itemValue": "Windows 10",
+                    "orderIndex": 4
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/assets",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1245",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "bf27a7a5-b01e-4b5b-9d07-a010555928e0"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Wait",
+              "description": null,
+              "arguments": {
+                "delay": {
+                  "days": 0,
+                  "hours": 0,
+                  "weeks": 0,
+                  "minutes": 1,
+                  "seconds": 0
+                }
+              },
+              "status": null,
+              "left": "475",
+              "top": "1650",
+              "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
+              "uuid": "1ad9cb00-c41d-4440-8c7b-f3e60741d825"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Close Incident",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "phase": {
+                    "id": 15,
+                    "@id": "/api/3/picklists/10b77cd3-0ba5-4c2e-83bb-d665430a9287",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Aftermath",
+                    "listName": "/api/3/picklist_names/b862eb1f-b385-40ca-baa7-5a1b1f91a651",
+                    "itemValue": "Aftermath",
+                    "orderIndex": 6
+                  },
+                  "status": {
+                    "id": 182,
+                    "@id": "/api/3/picklists/bb73fd5e-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Resolved",
+                    "listName": "/api/3/picklist_names/a549e41c-31ca-406d-89ae-eab3de5c06c4",
+                    "itemValue": "Resolved",
+                    "orderIndex": 3
+                  },
+                  "nextsteps": "Resolved",
+                  "resolution": "Resolved",
+                  "incidentsummary": "incident Resolved"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.steps.Create_Incident['@id']}}",
+                "collectionType": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1785",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "614dfb73-17b6-4e5a-b11d-91d06b0c5cbf"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Incident with Manual Tasks",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Create Incident for {{vars.input.records[0].name}}",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.input.records[0].name}}",
+                  "phase": {
+                    "id": 187,
+                    "@id": "/api/3/picklists/bb7407e0-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Containment",
+                    "listName": "/api/3/picklist_names/b862eb1f-b385-40ca-baa7-5a1b1f91a651",
+                    "itemValue": "Containment",
+                    "orderIndex": 3
+                  },
+                  "tasks": "{{vars.steps.Create_Remediation_Task['@id']}}",
+                  "alerts": "{{vars.alertiri}}",
+                  "status": {
+                    "id": 181,
+                    "@id": "/api/3/picklists/bb73fade-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Inactive",
+                    "listName": "/api/3/picklist_names/a549e41c-31ca-406d-89ae-eab3de5c06c4",
+                    "itemValue": "Inactive",
+                    "orderIndex": 4
+                  },
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  },
+                  "__replace": ""
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "650",
+              "top": "975",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "7cad6caf-b3b3-4f31-9b0d-44101847dbad"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Remediation Task",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Create Remediation Task",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Remediation Task for {{vars.input.records[0].name}}",
+                  "type": {
+                    "id": 122,
+                    "@id": "/api/3/picklists/826ad76d-e418-4928-9bc9-ea552ebcc5f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Incident Response",
+                    "listName": "/api/3/picklist_names/b837e375-76af-4ba5-b6a1-bd1c3cd27292",
+                    "itemValue": "Incident Response",
+                    "orderIndex": 6
+                  },
+                  "alerts": "{{vars.alertiri}}",
+                  "priority": {
+                    "id": 77,
+                    "@id": "/api/3/picklists/539083a6-01f6-4ff9-a588-778cfdad4671",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#d1b524",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/bea9a490-50d1-4597-8ad9-24422e10676e",
+                    "itemValue": "Medium",
+                    "orderIndex": 3
+                  },
+                  "__replace": "",
+                  "description": "Get in touch with **{{vars.v_Username}}** and determine whether the Alert is legitimate",
+                  "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/tasks",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "650",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "aa74f723-84f1-45c4-88c9-612326019674"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0764d5ba-2411-439a-b585-c0dbe2dadd30",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/360b70be-9732-405c-a13c-69f3b3b9199e",
+              "sourceStep": "/api/3/workflow_steps/a092fda8-78b8-476a-9c38-648c9fbe86a9"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "183ac5e7-ea01-4b22-8762-10c64adee5c1",
+              "name": "Set Source Data -> Copy  of Set Variables",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/4e2b3f4f-0045-4351-acca-0028010d09f8",
+              "sourceStep": "/api/3/workflow_steps/360b70be-9732-405c-a13c-69f3b3b9199e"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "77d115bc-66d0-424e-b47b-34483a172d9b",
+              "name": "Set Variables -> Fields Mapping",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/979bccb9-a4c1-4aff-9a5e-5d0b8d606cb2",
+              "sourceStep": "/api/3/workflow_steps/4e2b3f4f-0045-4351-acca-0028010d09f8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4fe256fb-cf1b-4f88-99d7-109e3252250f",
+              "name": "Fields Mapping -> Update Alert Attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/16ceaadb-02e8-4122-bfd0-afe6a15a9294",
+              "sourceStep": "/api/3/workflow_steps/979bccb9-a4c1-4aff-9a5e-5d0b8d606cb2"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4cf1f99d-0bdd-42fe-8567-15e0fdc48861",
+              "name": "is a Beaconing Alert -> Get IP Reputation",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/3ce0c0af-775f-4aaf-b3cf-f6dafb3f96e6",
+              "sourceStep": "/api/3/workflow_steps/857430ea-5810-47c9-ad9a-457454c33417"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "32fc2983-7df1-4c50-989b-3b3f898571aa",
+              "name": "Get IP Reputation -> is Malicious",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6eb5351a-db38-4ccd-bf16-1ef7af6cbc6d",
+              "sourceStep": "/api/3/workflow_steps/3ce0c0af-775f-4aaf-b3cf-f6dafb3f96e6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2bd6eeb3-fcb7-4d86-88c6-f5315147331f",
+              "name": "is Malicious -> Copy  of Update Alert",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ad68ad86-bfc7-4d9e-ac1e-fe6e75b820cb",
+              "sourceStep": "/api/3/workflow_steps/6eb5351a-db38-4ccd-bf16-1ef7af6cbc6d"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2f42472e-1046-4805-b811-b1b75cb9ec1c",
+              "name": "Malicious Reputation Update -> Create Incident",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/272d9c00-08ca-4260-adf2-a9369fa0c519",
+              "sourceStep": "/api/3/workflow_steps/87028f26-21bd-4acd-b854-4297cb81cfbf"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "98ae8a98-f2d1-4ca3-bc46-e945ff202999",
+              "name": "Update Alert Attributes -> is a Beaconing Alert",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/857430ea-5810-47c9-ad9a-457454c33417",
+              "sourceStep": "/api/3/workflow_steps/16ceaadb-02e8-4122-bfd0-afe6a15a9294"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "63749ac2-0713-4da6-b99d-c8d8e498750c",
+              "name": "is Malicious -> Create Indicator",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/18ea6fc8-bfe9-43df-9689-78dc4a2922a6",
+              "sourceStep": "/api/3/workflow_steps/6eb5351a-db38-4ccd-bf16-1ef7af6cbc6d"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "768d1a6f-78f1-4bdf-953f-345a0fd23f82",
+              "name": "Create Indicator -> Create Asset",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/bf27a7a5-b01e-4b5b-9d07-a010555928e0",
+              "sourceStep": "/api/3/workflow_steps/18ea6fc8-bfe9-43df-9689-78dc4a2922a6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b1018300-eb54-4ef4-8d74-39f3b31f8ddd",
+              "name": "Create Asset -> Malicious Reputation Update",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/87028f26-21bd-4acd-b854-4297cb81cfbf",
+              "sourceStep": "/api/3/workflow_steps/bf27a7a5-b01e-4b5b-9d07-a010555928e0"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4163c1ce-7469-4bcb-8066-472504c28eec",
+              "name": "Create Incident -> Wait",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1ad9cb00-c41d-4440-8c7b-f3e60741d825",
+              "sourceStep": "/api/3/workflow_steps/272d9c00-08ca-4260-adf2-a9369fa0c519"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b36a2e90-1ffb-44ec-a9c4-74682db57512",
+              "name": "Wait -> Close Incident",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/614dfb73-17b6-4e5a-b11d-91d06b0c5cbf",
+              "sourceStep": "/api/3/workflow_steps/1ad9cb00-c41d-4440-8c7b-f3e60741d825"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "9744491c-0982-426c-a256-37013f4b0bcd",
+              "name": "is a Beaconing Alert -> Create Remediation Task",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/aa74f723-84f1-45c4-88c9-612326019674",
+              "sourceStep": "/api/3/workflow_steps/857430ea-5810-47c9-ad9a-457454c33417"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "697025f9-1f6d-40bb-8fba-d84aa710cba2",
+              "name": "Create Remediation Task -> Create Incident with Manual Tasks",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7cad6caf-b3b3-4f31-9b0d-44101847dbad",
+              "sourceStep": "/api/3/workflow_steps/aa74f723-84f1-45c4-88c9-612326019674"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1589255818,
+          "uuid": "eb18ed3b-cfcb-4c57-9546-01065e879cfe",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSM-MAIL-Mapper",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/ed16e7d8-553f-4bfa-8aa9-6d6096069035",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/821bed2d-01fc-42d4-80fd-fa19f0013d35",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "SOC-SIM-MAIL",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "300",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "821bed2d-01fc-42d4-80fd-fa19f0013d35"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "300",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "ec1d6eda-ba19-4d32-a00a-8dd88d2295ad"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Variables",
+              "description": null,
+              "arguments": {
+                "v_body": "{{vars.source_data.body}}",
+                "alertiri": "{{vars.input.records[0]['@id']}}",
+                "v_headers": "{{vars.source_data.headers}}",
+                "v_attachments": "{{vars.source_data.attachments}}",
+                "v_folder_path": "{{vars.source_data.folder_path}}",
+                "v_attachment_files": "{{vars.source_data.attachment_files}}"
+              },
+              "status": null,
+              "left": "300",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "df95a08d-a284-4c9e-a2e7-26c2b0c61004"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Malicious Email Update Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Indicator:&nbsp;<span style=\"background-color: #ff0000;\">{{vars.body_artifacts.URL.0}}</span> is Malicious</p>\n<p>Escalating the alert</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Suspicious Email from: {{vars.email_sender}}",
+                  "type": {
+                    "id": 121,
+                    "@id": "/api/3/picklists/0b3ef6f9-eb29-4ab9-ac98-98364bd1a3aa",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Phishing",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Phishing",
+                    "orderIndex": 7
+                  },
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "assets": "{{vars.steps.Crete_Asset['@id']}}",
+                  "status": {
+                    "id": 21,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "emailTo": "{{vars.email_recipient}}",
+                  "severity": {
+                    "id": 69,
+                    "@id": "/api/3/picklists/7efa2220-39bb-44e4-961f-ac368776e3b0",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e31b1d",
+                    "display": "Critical",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Critical",
+                    "orderIndex": 4
+                  },
+                  "sourceId": "{{vars.message_id}}",
+                  "sourceIp": "{{vars.source_ip}}",
+                  "userName": "{{vars.target_username}}",
+                  "emailBody": "<p>{{vars.html_body}}</p>",
+                  "emailFrom": "{{vars.email_sender}}",
+                  "epochTime": "{{vars.email_date}}",
+                  "eventTime": "{{arrow.get(vars.email_date).to(\"UTC\").format(\"YYYY-MM-DD HH:mm:ss ZZ\")}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "indicators": "{{vars.steps.Create_Indicator['@id']}}",
+                  "returnPath": "{{vars.return_path}}",
+                  "sourceType": "Suspicious Email",
+                  "sourcedata": "{{vars.source_data}}",
+                  "description": "<p>Suspicious Email:&nbsp;{{vars.email_sender}}<br />From: <strong>{{vars.v_Source_Type}}</strong></p>\n<p>To:&nbsp;<strong>{{vars.email_recipient}}</strong></p>\n<p>Email contains a malicious URL:&nbsp;<span style=\"background-color: #ff0000;\"><strong>{{vars.body_artifacts.URL.0}}</strong></span></p>",
+                  "targetAsset": "{{vars.email_recipient}}",
+                  "assigneddate": "{{vars.email_date}}",
+                  "emailHeaders": "{{vars.v_headers|toJSON}}",
+                  "emailSubject": "{{vars.email_subject}}",
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalationReason": "Indicator found Malicious by CTI",
+                  "escalatedtoincident": {
+                    "id": 200,
+                    "@id": "/api/3/picklists/fa12313b-66af-4a2e-864e-a5f19241b734",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#bf0a0a",
+                    "display": "Yes",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "Yes",
+                    "orderIndex": 0
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.alertiri}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1110",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "092c29c3-90cc-428f-a653-889fca949d75"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Field Mapper",
+              "description": null,
+              "arguments": {
+                "html_body": "{{vars.v_body.html}}",
+                "source_ip": "{{vars.v_headers['x-originating-ip'].replace('[','').replace(']','')}}",
+                "email_date": "{{vars.v_headers.date}}",
+                "message_id": "{{vars.v_headers['message-id']}}",
+                "user_agent": "{{vars.v_headers['user-agent']}}",
+                "return_path": "{{vars.v_headers['return-path']}}",
+                "email_sender": "{{vars.v_headers.from}}",
+                "email_subject": "{{vars.v_headers.subject}}",
+                "body_artifacts": "{{vars.v_body.html | extract_artifacts}}",
+                "email_recipient": "{{vars.v_headers.to}}",
+                "target_username": "{{vars.v_headers.to.split('<')[1].split('@')[0]}}",
+                "headers_artifacts": "{{vars.v_headers | extract_artifacts}}"
+              },
+              "status": null,
+              "left": "300",
+              "top": "435",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "1b3fa76d-0f50-40d9-b5d4-bdae9c8b9bb9"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get URL Reputation",
+              "description": null,
+              "arguments": {
+                "name": "VirusTotal",
+                "config": "f3061eef-223a-4efb-a2d4-5b4518feb7b2",
+                "params": {
+                  "url": "{{vars.body_artifacts.URL.0}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Extract Artifacts and get CTI reputation</p>",
+                  "records": ""
+                },
+                "version": "1.0.1",
+                "connector": "virustotal",
+                "operation": "query_url",
+                "operationTitle": "Get URL Reputation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "300",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "048ded07-74a7-42ab-8758-9ec8e7382b10"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is Malicious",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/aa69471f-029b-4624-b496-4541da8c2e08"
+                  },
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/47495527-6e12-4f43-b8a6-a2384d32c75d",
+                    "condition": "{{ vars.steps.Get_URL_Reputation.data.aggregate > 1 }}"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "300",
+              "top": "705",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "dfdfed72-37b2-4cc1-aeae-7bc4729733bc"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Safe Email Update Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"color: #00ff00;\"><strong>Legitimate</strong></span> email, closing the alert as False Positive</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Suspicious Email from: {{vars.email_sender}}",
+                  "type": {
+                    "id": 121,
+                    "@id": "/api/3/picklists/0b3ef6f9-eb29-4ab9-ac98-98364bd1a3aa",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Phishing",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Phishing",
+                    "orderIndex": 7
+                  },
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "emailTo": "{{vars.email_recipient}}",
+                  "severity": {
+                    "id": 65,
+                    "@id": "/api/3/picklists/0d609b08-45e0-469f-8910-41145c0b7c03",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#157DD9",
+                    "display": "Minimal",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Minimal",
+                    "orderIndex": 0
+                  },
+                  "sourceId": "{{vars.message_id}}",
+                  "sourceIp": "{{vars.source_ip}}",
+                  "userName": "{{vars.target_username}}",
+                  "emailBody": "<p>{{vars.html_body}}</p>",
+                  "emailFrom": "{{vars.email_sender}}",
+                  "epochTime": "{{vars.email_date}}",
+                  "eventTime": "{{arrow.get(vars.email_date).to(\"UTC\").format(\"YYYY-MM-DD HH:mm:ss ZZ\")}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "returnPath": "{{vars.return_path}}",
+                  "sourceType": "Suspicious Email",
+                  "sourcedata": "{{vars.source_data}}",
+                  "description": "<p>Suspicious Email:&nbsp;{{vars.email_sender}}<br />From: <strong>{{vars.v_Source_Type}}</strong></p>\n<p>To:&nbsp;<strong>{{vars.email_recipient}}</strong></p>\n<p>The email is&nbsp;safe,&nbsp;Alert closed as false positive</p>",
+                  "targetAsset": "{{vars.email_recipient}}",
+                  "assigneddate": "{{vars.email_date}}",
+                  "emailHeaders": "{{vars.v_headers|toJSON}}",
+                  "emailSubject": "{{vars.email_subject}}",
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.alertiri}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "aa69471f-029b-4624-b496-4541da8c2e08"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Indicator",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Creating Indicator from the received Malicious URL:&nbsp;{{vars.steps.Get_URL_Reputation.data.url}}</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "value": "{{vars.steps.Get_URL_Reputation.data.url}}",
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "vtscore": "{{vars.steps.Get_URL_Reputation.data.aggregate}}",
+                  "__replace": "",
+                  "reputation": {
+                    "id": 196,
+                    "@id": "/api/3/picklists/7074e547-7785-4979-be32-c6d0c863e4bd",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#c42323",
+                    "display": "Malicious",
+                    "listName": "/api/3/picklist_names/e75ed3c3-9f23-4a43-832b-0daf236209ba",
+                    "itemValue": "Malicious",
+                    "orderIndex": 1
+                  },
+                  "indicatorStatus": {
+                    "id": 366,
+                    "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Blocked",
+                    "listName": "/api/3/picklist_names/e6639d57-94a9-432f-a46f-b2b530402077",
+                    "itemValue": "Blocked",
+                    "orderIndex": 0
+                  },
+                  "typeofindicator": {
+                    "id": 80,
+                    "@id": "/api/3/picklists/353a37b4-3eeb-43ee-aac6-64806422cfec",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "URL",
+                    "listName": "/api/3/picklist_names/50ee5bfa-e18f-49ba-8af9-dcca25b0f9c0",
+                    "itemValue": "URL",
+                    "orderIndex": 10
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/indicators",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "47495527-6e12-4f43-b8a6-a2384d32c75d"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Crete Asset",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p>Creating Sender Asset</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "ip": "{{vars.source_ip}}",
+                  "state": {
+                    "id": 64,
+                    "@id": "/api/3/picklists/b31da3b9-6f87-469e-a1bf-2517c48a7001",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/45de7d2e-8ef0-495e-a6e5-07fddfbd4749",
+                    "itemValue": "Active",
+                    "orderIndex": 1
+                  },
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "status": {
+                    "id": 26,
+                    "@id": "/api/3/picklists/421c20cd-e63d-4e32-9a25-774b2155cd24",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/3c57ea34-4866-4c8f-ba74-dc51806727a9",
+                    "itemValue": "Active",
+                    "orderIndex": 0
+                  },
+                  "category": {
+                    "id": 3,
+                    "@id": "/api/3/picklists/1bfa4142-b3f2-4945-8393-66228f9260d3",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Server",
+                    "listName": "/api/3/picklist_names/0042bf40-d0e6-4324-ab84-0c7b0703f681",
+                    "itemValue": "Server",
+                    "orderIndex": 3
+                  },
+                  "__replace": "",
+                  "deviceUid": "{{vars.email_sender}}",
+                  "assetClass": {
+                    "id": 82,
+                    "@id": "/api/3/picklists/3864918a-79b9-412d-a09e-3f6f13aae2f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Software",
+                    "listName": "/api/3/picklist_names/54642443-1ab4-4f2b-968e-a0c43907fad0",
+                    "itemValue": "Software",
+                    "orderIndex": 1
+                  },
+                  "indicators": "{{vars.steps.Create_Indicator['@id']}}",
+                  "criticality": {
+                    "id": 188,
+                    "@id": "/api/3/picklists/f734dfbb-fd61-425e-8a14-ebd560289fac",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/f8d09b4a-9e91-4096-bbdd-06a9f96ef57e",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "operatingSystem": {
+                    "id": 406,
+                    "@id": "/api/3/picklists/c9df9904-ef81-47d9-9435-cb6034c17c19",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Server 2012",
+                    "listName": "/api/3/picklist_names/6671f4f2-2fd5-4d00-ba2d-f9fade310689",
+                    "itemValue": "Server 2012",
+                    "orderIndex": 12
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/assets",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "975",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "d720a90e-0d29-47d4-a631-b12913c3d277"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Incident",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Create Incident",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.input.records[0].name}}",
+                  "phase": {
+                    "id": 187,
+                    "@id": "/api/3/picklists/bb7407e0-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Containment",
+                    "listName": "/api/3/picklist_names/b862eb1f-b385-40ca-baa7-5a1b1f91a651",
+                    "itemValue": "Containment",
+                    "orderIndex": 3
+                  },
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "assets": "{{vars.steps.Crete_Asset['@id']}}",
+                  "emails": "{{vars.steps.Create_Email['@id']}}",
+                  "status": {
+                    "id": 184,
+                    "@id": "/api/3/picklists/bb7402d6-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "In Progress",
+                    "listName": "/api/3/picklist_names/a549e41c-31ca-406d-89ae-eab3de5c06c4",
+                    "itemValue": "In Progress",
+                    "orderIndex": 1
+                  },
+                  "category": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/703222e8-f69a-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Phishing",
+                    "listName": "/api/3/picklist_names/f3938848-6220-4b27-af2d-a5329cf63656",
+                    "itemValue": "Phishing",
+                    "orderIndex": 9
+                  },
+                  "severity": {
+                    "id": 56,
+                    "@id": "/api/3/picklists/40187287-89fc-4e9c-b717-e9443d57eedb",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "sourceIP": "{{vars.source_ip}}",
+                  "__replace": "",
+                  "indicators": "{{vars.steps.Create_Indicator['@id']}}",
+                  "sourcedata": "{{vars.input.records[0].sourcedata}}",
+                  "description": "{{vars.input.records[0].description}}",
+                  "assigneddate": "{{vars.email_date}}",
+                  "discoveredOn": "{{vars.email_date}}",
+                  "incidentLead": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "deliveryVector": {
+                    "id": 269,
+                    "@id": "/api/3/picklists/21046bc4-3192-4070-9ca8-e37d4551327e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Email",
+                    "listName": "/api/3/picklist_names/82e4ff55-ade7-419c-a1c5-94d5b68cf5b3",
+                    "itemValue": "Email",
+                    "orderIndex": 0
+                  },
+                  "incidentsummary": "{{vars.input.records[0].description}}",
+                  "receipientEmailAddress": "{{vars.email_recipient}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1380",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "2c5d17f9-39a1-4f7d-af9c-cafc878f3445"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Email",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "alerts": "{{vars.alertiri}}",
+                  "emailTo": "{{vars.email_recipient}}",
+                  "sourceId": "{{vars.message_id}}",
+                  "__replace": "",
+                  "emailBody": "{{vars.v_body}}",
+                  "emailFrom": "{{vars.email_sender}}",
+                  "indicators": "{{vars.steps.Create_Indicator['@id']}}",
+                  "emailHeader": "{{vars.v_headers}}",
+                  "emailSubject": "{{vars.email_subject}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/emails",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "1245",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "0490eb1e-b339-4338-9dd1-c0c88bd436b6"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "1204ecf3-51b1-4f98-8928-7e0f21258a07",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ec1d6eda-ba19-4d32-a00a-8dd88d2295ad",
+              "sourceStep": "/api/3/workflow_steps/821bed2d-01fc-42d4-80fd-fa19f0013d35"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "a3360259-2406-4c4c-9fa1-80c5c190a6e9",
+              "name": "Set Source Data -> Copy  of Set Variables",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/df95a08d-a284-4c9e-a2e7-26c2b0c61004",
+              "sourceStep": "/api/3/workflow_steps/ec1d6eda-ba19-4d32-a00a-8dd88d2295ad"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0e2962dd-eb9b-4448-870c-6ad1998f5f54",
+              "name": "Set Variables -> Field Mapper",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1b3fa76d-0f50-40d9-b5d4-bdae9c8b9bb9",
+              "sourceStep": "/api/3/workflow_steps/df95a08d-a284-4c9e-a2e7-26c2b0c61004"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "6f65406f-8a78-433a-a333-00e73822e1c1",
+              "name": "Field Mapper -> Get URL Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/048ded07-74a7-42ab-8758-9ec8e7382b10",
+              "sourceStep": "/api/3/workflow_steps/1b3fa76d-0f50-40d9-b5d4-bdae9c8b9bb9"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "bd2a75c8-ec57-46f4-ba60-c401f2ccf58c",
+              "name": "Get URL Reputation -> Is Malicious",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/dfdfed72-37b2-4cc1-aeae-7bc4729733bc",
+              "sourceStep": "/api/3/workflow_steps/048ded07-74a7-42ab-8758-9ec8e7382b10"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "04907ee0-49f8-4639-89b2-ca9cf389285f",
+              "name": "Is Malicious -> Copy  of Update Alert Attributes",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/aa69471f-029b-4624-b496-4541da8c2e08",
+              "sourceStep": "/api/3/workflow_steps/dfdfed72-37b2-4cc1-aeae-7bc4729733bc"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7702a065-5822-493e-9e3f-cfd40c0d6b6c",
+              "name": "Is Malicious -> Create Indicator",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/47495527-6e12-4f43-b8a6-a2384d32c75d",
+              "sourceStep": "/api/3/workflow_steps/dfdfed72-37b2-4cc1-aeae-7bc4729733bc"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "a34e5be9-ffad-4c85-9520-8d065db1692d",
+              "name": "Create Indicator -> Crete Asset",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d720a90e-0d29-47d4-a631-b12913c3d277",
+              "sourceStep": "/api/3/workflow_steps/47495527-6e12-4f43-b8a6-a2384d32c75d"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "30a6fe33-419a-473e-a10f-2dbd532252a9",
+              "name": "Crete Asset -> Malicious Email Update Alert",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/092c29c3-90cc-428f-a653-889fca949d75",
+              "sourceStep": "/api/3/workflow_steps/d720a90e-0d29-47d4-a631-b12913c3d277"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "fd4e0e00-e7e3-4845-ab3d-e7b3205c8ee6",
+              "name": "Malicious Email Update Alert -> Create Email",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/0490eb1e-b339-4338-9dd1-c0c88bd436b6",
+              "sourceStep": "/api/3/workflow_steps/092c29c3-90cc-428f-a653-889fca949d75"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "cfdb6cbd-0413-4cd9-b46b-669ec928bb23",
+              "name": "Create Email -> Create Incident",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2c5d17f9-39a1-4f7d-af9c-cafc878f3445",
+              "sourceStep": "/api/3/workflow_steps/0490eb1e-b339-4338-9dd1-c0c88bd436b6"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1589256746,
+          "uuid": "9d6f4a34-e2dc-4b9d-b91b-1815e18e91f9",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ],
+      "uuid": "ed16e7d8-553f-4bfa-8aa9-6d6096069035",
+      "recordTags": []
+    }
+  ],
+  "exported_tags": []
+}

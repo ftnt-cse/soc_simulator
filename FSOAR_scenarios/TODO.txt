@@ -1,0 +1,11 @@
+## SCENARIO Projects:
+
+- Phishing:
+	- Built-in Playbook: customize to work with FortiMail
+	- Check with Bashir
+- MITTRE:
+	- Events available
+	- Check with Abhicheck (email him)
+- Vulnerability Management: scan network => get CVEs => Identify vulnerable => Create Task : remediate asset => User marks task completed => rescan asset => determine clean => close incident
+
+- Unauthorized config change => send Approval to asset owner => reject => restore last known config from attachement

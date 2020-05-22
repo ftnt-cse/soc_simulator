@@ -1,0 +1,814 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "00 - SIM Compromised WebServer",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Compromised_WebServer_Investigation",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/7e89cb0d-65c2-4dab-a495-937478e53f63",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  },
+                  "source_ip": "{{vars.input.records[0].sourcedata.attributes.srcIpAddr}}",
+                  "destination_ip": "{{vars.input.records[0].sourcedata.attributes.destIpAddr}}"
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%FSMSIM-CWS%",
+                      "operator": "like",
+                      "_operator": "like"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "186",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "7e89cb0d-65c2-4dab-a495-937478e53f63"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create WebServer Asset",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Linking the found vulnerability to **{{vars.destination_ip}}**",
+                  "records": ""
+                },
+                "resource": {
+                  "ip": "10.0.1.20",
+                  "name": "WebServer",
+                  "state": {
+                    "id": 176,
+                    "@id": "/api/3/picklists/b31da3b9-6f87-469e-a1bf-2517c48a7001",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/45de7d2e-8ef0-495e-a6e5-07fddfbd4749",
+                    "itemValue": "Active",
+                    "orderIndex": 1
+                  },
+                  "category": {
+                    "id": 25,
+                    "@id": "/api/3/picklists/1bfa4142-b3f2-4945-8393-66228f9260d3",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Server",
+                    "listName": "/api/3/picklist_names/0042bf40-d0e6-4324-ab84-0c7b0703f681",
+                    "itemValue": "Server",
+                    "orderIndex": 3
+                  },
+                  "hostname": "webserver.fortielab.com",
+                  "__replace": "false",
+                  "assetClass": {
+                    "id": 53,
+                    "@id": "/api/3/picklists/3864918a-79b9-412d-a09e-3f6f13aae2f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Software",
+                    "listName": "/api/3/picklist_names/54642443-1ab4-4f2b-968e-a0c43907fad0",
+                    "itemValue": "Software",
+                    "orderIndex": 1
+                  },
+                  "macAddress": "00:01:22:2A:AC:01",
+                  "criticality": {
+                    "id": 237,
+                    "@id": "/api/3/picklists/f734dfbb-fd61-425e-8a14-ebd560289fac",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/f8d09b4a-9e91-4096-bbdd-06a9f96ef57e",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "description": "ELS System WebServer",
+                  "operatingSystem": {
+                    "id": 74,
+                    "@id": "/api/3/picklists/50dd4c6b-4dfc-4771-b639-c57454610600",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Linux",
+                    "listName": "/api/3/picklist_names/6671f4f2-2fd5-4d00-ba2d-f9fade310689",
+                    "itemValue": "Linux",
+                    "orderIndex": 0
+                  },
+                  "vulnerabilities": "{{vars.steps.Record_Vulnerabilities['@id']}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/upsert/assets",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "346",
+              "top": "789",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "00051be5-76e8-4be5-a817-4794d17f9e98"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Record Vulnerabilities",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Found Vulnerability **{{vars.result.cveId}}** on **{{vars.destination_ip}}**",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution",
+                  "risk": "HIGH",
+                  "cveId": "CVE-2015-2208",
+                  "status": {
+                    "id": 219,
+                    "@id": "/api/3/picklists/e001be1d-d050-473c-a82d-003bf14c4b1b",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#A51516",
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/0b2b995f-0292-43ca-be81-03904250791c",
+                    "itemValue": "Open",
+                    "orderIndex": 0
+                  },
+                  "severity": {
+                    "id": 56,
+                    "@id": "/api/3/picklists/40187287-89fc-4e9c-b717-e9443d57eedb",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "__replace": "",
+                  "riskScore": "8",
+                  "description": "This indicates an attack attempt against a remote Code Execution vulnerability in phpMoAdmin. The vulnerability is caused by an error when the vulnerable software handles a malicious HTTP request containing a crafted URI. A remote attacker may be able to exploit this to execute arbitrary code within the context of the application, via a crafted HTTP request",
+                  "vulnerabilityId": "40243",
+                  "pluginPublicationDate": "30-06-2015"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/vulnerabilities",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "346",
+              "top": "660",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "7c0b1a3a-167b-489a-9451-7f4a736618ea"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Find Vulnerability",
+              "description": null,
+              "arguments": {
+                "query": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "vulnerabilityId",
+                      "value": "40243",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ]
+                },
+                "module": "vulnerabilities?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Running Vulnerability Scan on **{{vars.destination_ip}}**",
+                  "records": ""
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "186",
+              "top": "420",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
+              "uuid": "1fd62fc3-e4bd-4401-8de9-9e653bb135fa"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Vulnerability Exists",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea"
+                  },
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/aac8d116-7f69-422b-b606-69064a754e88",
+                    "condition": "{{ vars.steps.Find_Vulnerability|length > 0 }}"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "186",
+              "top": "560",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "incident_attack_id": "{{(vars.input.records[0].sourcedata.attributes.incidentDetail| regex_search(\"ipsSignatureId:\\d+\")).split(\":\")[1]}}",
+                "alerts_severity_map": "{'MINIMAL': {{'Severity'| picklist('Minimal') }}, 'LOW': {{'Severity'| picklist('Low') }}, 'MEDIUM': {{'Severity'| picklist('Medium') }}, 'HIGH': {{'Severity'| picklist('High') }}, 'CRITICAL': {{'Severity'| picklist('Critical') }}}",
+                "incident_attack_name": "{{(vars.input.records[0].sourcedata.attributes.incidentDetail| regex_search(\"attackName:([^,]*)\")).split(\":\")[1].replace(\".\",\"-\")}}",
+                "incident_source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "680",
+              "top": "789",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "a8aaac05-6c4e-4206-ab84-5f165c7f60be"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Setting the Alert details:\n<p>Alert&nbsp;Description:&nbsp;{{vars.incident_source_data.attributes.incidentTitle}}</p>\n</p>{%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}</p>\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Click Here for the Attack Details on Fortiguard.com</a>\n",
+                  "records": ""
+                },
+                "resource": {
+                  "url": "/dvwa/moadmin/moadmin.php?collection=secpulse&action=listRows&find=array();phpinfo();exit;",
+                  "name": "{{vars.incident_source_data.attributes.eventName}}-{{vars.incident_source_data.attributes.incidentId}}",
+                  "type": {
+                    "id": 124,
+                    "@id": "/api/3/picklists/574a6ee2-7265-4701-815e-cff83b053bce",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other / Unknown",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Other / Unknown",
+                    "orderIndex": 13
+                  },
+                  "dueBy": "{{globalVars.Current_Data}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "assets": "{{vars.steps.Create_WebServer_Asset['@id']}}",
+                  "domain": "fortielab.com",
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  },
+                  "sourceIp": "{%if vars.incident_source_data.attributes.srcIpAddr%}{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}",
+                  "sourceType": "SIEM",
+                  "sourcedata": "{{vars.incident_source_data|toJSON}}",
+                  "description": "#### Description:\n> {{vars.incident_source_data.attributes.incidentTitle}}\n> {%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Click Here for the Attack Details on Fortiguard.com</a>\n#### Source location\n> {{vars.steps.Get_Attacker_IP_Information.data['asn_country_code']}}-{{vars.steps.Get_Attacker_IP_Information.data['asn_description']}}\n#### Virus Total Reputation:\n> # **{{vars.steps.Get_Attacker_IP_Reputation_VT.data.aggregate}}**",
+                  "destinationIp": "{%if vars.incident_source_data.attributes.destIpAddr%}{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}",
+                  "sourceProcess": "httpd",
+                  "killChainPhase": {
+                    "id": 376,
+                    "@id": "/api/3/picklists/1713c4c8-7e66-4bb9-bf46-096a9e2bc071",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Exploitation",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Exploitation",
+                    "orderIndex": 4
+                  },
+                  "vulnerabilities": "{{vars.steps.Record_Vulnerabilities['@id']}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "680",
+              "top": "660",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "a17cecaa-9497-4996-94c1-7cd640befa60"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "TASK_Check if server is vulnerable to the Attack",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "**TASK:**\n\nCompare the received Attack CVE with the list of the Asset Vulnerabilities.\n1) Identify the Attack Vulnerability CVE via FortiGuard <a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Right click here => Open in a new TAB</a>\n2) Compare the CVE with the below CVE to which the Asset is vulnerable:\n{{vars.steps.Record_Vulnerabilities.cveId}}\n3) if the above CVE matches the one on FortiGuard escalate the alert\n    - Open the alert\n    - Click Escalate Button on the bottom left of the page\n    - Fill Incident Name: Web Server Remote Exploit\n    - Set Severity to High\n    - Set Incident Lead to your username\n    - Fill Escalation Reason: Attack on vulnerable web server",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Check if server is vulnerable to the Attack",
+                  "type": {
+                    "id": 96,
+                    "@id": "/api/3/picklists/6d113f01-123a-4c78-b68c-029e16df9b8b",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other",
+                    "listName": "/api/3/picklist_names/b837e375-76af-4ba5-b6a1-bd1c3cd27292",
+                    "itemValue": "Other",
+                    "orderIndex": 9
+                  },
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "status": {
+                    "id": 169,
+                    "@id": "/api/3/picklists/ab65eb0f-e7a7-4993-8474-da5c8b52f380",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Assigned",
+                    "listName": "/api/3/picklist_names/21ddbcfd-b4a3-4273-adea-c674fe47d643",
+                    "itemValue": "Assigned",
+                    "orderIndex": 0
+                  },
+                  "priority": {
+                    "id": 139,
+                    "@id": "/api/3/picklists/90088ebe-0a7d-4aa6-9c9c-93b937a4e4f8",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e36c29",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/bea9a490-50d1-4597-8ad9-24422e10676e",
+                    "itemValue": "High",
+                    "orderIndex": 2
+                  },
+                  "taskdata": "Check if the server is vulnerable to the Attack",
+                  "tasktype": "Manual Task",
+                  "__replace": "",
+                  "startDate": "{{globalVars.Current_Date}}",
+                  "description": "\nCompare the received Attack CVE with the list of the Asset Vulnerabilities.\n1) Identify the Attack Vulnerability CVE via FortiGuard <a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Right click here => Open in a new TAB</a>\n2) Compare the CVE with the below CVE to which the Asset is vulnerable:\n{{vars.steps.Record_Vulnerabilities.cveId}}\n3) if the above CVE matches the one on FortiGuard escalate the alert\n    - Open the alert\n    - Click Escalate Button on the bottom left of the page\n    - Fill Incident Name: Web Server Remote Exploit\n    - Set Severity to High\n    - Set Incident Lead to your username\n    - Fill Escalation Reason: Attack on vulnerable web server",
+                  "assignedOnDate": "{{globalVars.Current_Date}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/tasks",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "680",
+              "top": "520",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "6ba453c4-b2ff-4d9c-b728-94234edc7b98"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Delete Previous Vulnerabilities",
+              "description": null,
+              "arguments": {
+                "params": {
+                  "iri": "{{vars.steps.Find_Vulnerability[0]['@id']}}",
+                  "body": "",
+                  "method": "DELETE"
+                },
+                "version": "3.0.2",
+                "connector": "cyops_utilities",
+                "operation": "make_cyops_request",
+                "operationTitle": "CyOPs: Make CyOPs API Call",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "14",
+              "top": "660",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "uuid": "aac8d116-7f69-422b-b606-69064a754e88"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Attacker IP Information",
+              "description": null,
+              "arguments": {
+                "name": "Whois RDAP",
+                "config": "494aff8a-0a09-4dd6-b151-98e4a3555fe0",
+                "params": {
+                  "ip": "{{vars.source_ip}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Get Attacker IP **{{vars.source_ip}}** Whois Information",
+                  "records": ""
+                },
+                "version": "1.0.0",
+                "connector": "whois-rdap",
+                "operation": "whois_ip",
+                "operationTitle": "Whois IP",
+                "step_variables": {
+                  "whois_artifacts": "{{vars.result.data | extract_artifacts}}"
+                }
+              },
+              "status": null,
+              "left": "186",
+              "top": "154",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "fa4626e0-9b29-4783-b4d6-c83947fb4219"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Email Notification to ISP",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "method": {
+                    "id": 116,
+                    "@id": "/api/3/picklists/7a04788b-5128-4288-a0fc-6e82d18c3b7b",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "System",
+                    "listName": "/api/3/picklist_names/d7bdd0ba-d721-4324-bec5-410e23f0f485",
+                    "itemValue": "System",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 208,
+                    "@id": "/api/3/picklists/d26464e0-1df4-46c2-a032-018911ba0c40",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#bf9937",
+                    "listName": "/api/3/picklist_names/ce294c1f-9318-425f-9a12-2957292f4cbf",
+                    "itemValue": "Pending",
+                    "orderIndex": 2
+                  },
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "playbookiri": "api/3/workflows/df538bef-a008-4137-91f3-0505bcb6d1f6",
+                  "playbookname": "Compromised_WebServer_Investigation",
+                  "playbookuuid": "df538bef-a008-4137-91f3-0505bcb6d1f6",
+                  "approvaldescription": "Should I send an email to the attacker ISP ?"
+                },
+                "collection": "approvals",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "900",
+              "top": "154",
+              "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dcg",
+              "uuid": "f48e815d-9e1a-4556-8d8f-2decc9fdaf5f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Send Email to ISP",
+              "description": null,
+              "arguments": {
+                "config": "88c3d39c-2fa9-4731-b00d-29815008f17c",
+                "params": {
+                  "cc": "",
+                  "to": "{{vars.whois_artifacts.Email[0]}}",
+                  "bcc": "",
+                  "from": "",
+                  "type": "Manual Input",
+                  "content": "We were object of a remote exploit attack on our assets from your IP {{vars.source_ip}} kindly take the appropriate measures to prevent this in the future.",
+                  "subject": "Remote exploit from your Prefix",
+                  "iri_list": "",
+                  "body_type": "Plain Text",
+                  "file_name": "",
+                  "file_path": ""
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Sending a complain message to the Attacker ISP at {{vars.steps.Get_Attacker_IP_Information.data.objects[0].contact.address[0].value}}",
+                  "records": ""
+                },
+                "version": "2.3.3",
+                "from_str": "admin@example.com",
+                "connector": "smtp",
+                "operation": "send_email_new",
+                "operationTitle": "Send Email",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "900",
+              "top": "6",
+              "stepType": "/api/3/workflow_step_types/4c0019b2-055c-44d0-968c-678a0c2d762e",
+              "uuid": "b4e66339-f021-40d0-b310-66b33eb2f77c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "ISP Contact Exists",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/f48e815d-9e1a-4556-8d8f-2decc9fdaf5f",
+                    "condition": "{{ vars.whois_artifacts.Email[0]|length > 0 }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/9993c966-adbf-4c1b-af3d-22e54989405a"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "520",
+              "top": "154",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "bf35a32b-37cf-458e-bb85-5a18aa36abc3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Do Nothing",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.0.2",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "520",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "uuid": "9993c966-adbf-4c1b-af3d-22e54989405a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Attacker IP Reputation VT",
+              "description": null,
+              "arguments": {
+                "name": "VirusTotal",
+                "config": "fae557ca-f6dd-46eb-928b-5ac8150c9329",
+                "params": {
+                  "ip": "{{vars.source_ip}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Attacker IP Reputation Score from VirusTotal.com: {{vars.result.data.aggregate}}",
+                  "records": ""
+                },
+                "version": "1.0.1",
+                "connector": "virustotal",
+                "operation": "query_ip",
+                "operationTitle": "Get IP Reputation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "186",
+              "top": "288",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "1b38e1d9-39f8-4663-a95e-f7efaa6276d9"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "defb895c-56b1-4bc2-89ac-83ba5d967c57",
+              "name": "Assess Vulnerabilities -> Create WebServer Asset",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/00051be5-76e8-4be5-a817-4794d17f9e98",
+              "sourceStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8b201f9a-d0e7-4ae9-93f5-199912b67379",
+              "name": "Find Vulnerability -> Vulnerability Exists",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3",
+              "sourceStep": "/api/3/workflow_steps/1fd62fc3-e4bd-4401-8de9-9e653bb135fa"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4ee93047-d880-4e52-b5ee-2f2ec28d779d",
+              "name": "Vulnerability Exists -> Assess Vulnerabilities",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea",
+              "sourceStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7875292e-56be-4b45-be61-9ff4145c42bb",
+              "name": "Create WebServer Asset -> Configuration",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be",
+              "sourceStep": "/api/3/workflow_steps/00051be5-76e8-4be5-a817-4794d17f9e98"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "fcc59364-b9b7-4e35-8596-c4334ad83c23",
+              "name": "Configuration -> Update Alertss",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a17cecaa-9497-4996-94c1-7cd640befa60",
+              "sourceStep": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "5a872267-822c-4444-930c-922a2c577af8",
+              "name": "Update Alert -> Check if server vulnerable to the Attack",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6ba453c4-b2ff-4d9c-b728-94234edc7b98",
+              "sourceStep": "/api/3/workflow_steps/a17cecaa-9497-4996-94c1-7cd640befa60"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3e0c6a91-2c30-430f-9763-b655d3986033",
+              "name": "Vulnerability Exists -> Delete Previous Vulnerabilities",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/aac8d116-7f69-422b-b606-69064a754e88",
+              "sourceStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "24e5348d-74ca-48fa-a147-6286899929b9",
+              "name": "Delete Previous Vulnerabilities -> Record Vulnerabilities",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea",
+              "sourceStep": "/api/3/workflow_steps/aac8d116-7f69-422b-b606-69064a754e88"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0eca6d97-b5c8-456c-99e2-d3f6c1e237fb",
+              "name": "Start -> Get Attacker IP Information",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fa4626e0-9b29-4783-b4d6-c83947fb4219",
+              "sourceStep": "/api/3/workflow_steps/7e89cb0d-65c2-4dab-a495-937478e53f63"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0a7d68fb-5167-4589-92d9-53fb45f705d1",
+              "name": "Email Notification to ISP -> Send Email to ISP",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b4e66339-f021-40d0-b310-66b33eb2f77c",
+              "sourceStep": "/api/3/workflow_steps/f48e815d-9e1a-4556-8d8f-2decc9fdaf5f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e17db223-0441-4da4-9b1a-dbc94eb314ca",
+              "name": "Get Attacker IP Information -> ISP Contact present",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/bf35a32b-37cf-458e-bb85-5a18aa36abc3",
+              "sourceStep": "/api/3/workflow_steps/fa4626e0-9b29-4783-b4d6-c83947fb4219"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "52e3296c-1583-498f-ac34-06b50ead4cbd",
+              "name": "ISP Contact present -> Email Notification to ISP",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/f48e815d-9e1a-4556-8d8f-2decc9fdaf5f",
+              "sourceStep": "/api/3/workflow_steps/bf35a32b-37cf-458e-bb85-5a18aa36abc3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "6201ccd7-3f37-4b01-8d3b-7e30064c4b32",
+              "name": "ISP Contact Exists -> Do Nothing",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/9993c966-adbf-4c1b-af3d-22e54989405a",
+              "sourceStep": "/api/3/workflow_steps/bf35a32b-37cf-458e-bb85-5a18aa36abc3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c8c53148-5377-4f49-91a1-a18963c72671",
+              "name": "Get Attacker IP Information -> Get Attacker IP Reputation VT",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1b38e1d9-39f8-4663-a95e-f7efaa6276d9",
+              "sourceStep": "/api/3/workflow_steps/fa4626e0-9b29-4783-b4d6-c83947fb4219"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "529e81c9-fb6f-4daf-b4ea-117c22b38942",
+              "name": "Get Attacker IP Reputation VT -> Find Vulnerability",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1fd62fc3-e4bd-4401-8de9-9e653bb135fa",
+              "sourceStep": "/api/3/workflow_steps/1b38e1d9-39f8-4663-a95e-f7efaa6276d9"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1589995256,
+          "uuid": "df538bef-a008-4137-91f3-0505bcb6d1f6",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ],
+      "uuid": "fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
+      "recordTags": []
+    }
+  ],
+  "macros": [
+    {
+      "name": "Current_Data",
+      "value": "{{vars.input.records[0]}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Date",
+      "value": "{{arrow.utcnow().timestamp}}",
+      "default_value": null
+    }
+  ],
+  "exported_tags": []
+}

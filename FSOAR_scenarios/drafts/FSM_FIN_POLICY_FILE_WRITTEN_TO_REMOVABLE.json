@@ -1,0 +1,63 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+							"id": 4132475231,
+							"user": "contractor1",
+							"xmlId": "Incident@4132475231",
+							"custId": 1,
+							"domain": "acmeltd",
+							"ruleId": 376800412,
+							"ownerId": 0,
+							"hostName": "mimas",
+							"ruleDesc": "FortiInsight Policy File Written to Removable is triggered by an user",
+							"ruleName": "Policy: File Written to Removable",
+							"severity": 9,
+							"origDevIp": "76.223.8.251",
+							"cacheIndex": "<phCustId>1</phCustId><incidentSrc></incidentSrc><incidentTarget>hostName:mimas, domain:acmeltd, user:contractor1, </incidentTarget><hostName>mimas</hostName><domain>acmeltd</domain><fileName>ipdata.txt</fileName><filePath>rm:\\f:\\copyto\\remdrive</filePath><user>contractor1</user>",
+							"deviceType": "Fortinet FortiInsight",
+							"incidentEt": "PH_RULE_FIN_POLICY_FILE_WRITTEN_TO_REMOVABLE",
+							"incidentId": 1250397,
+							"resolution": "Open",
+							"sourceUser": "contractor1",
+							"viewStatus": 1,
+							"clearedTime": 0,
+							"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+							"incidentSrc": "",
+							"origDevName": "fortidemosales.fortiinsight.cloud",
+							"severityCat": "HIGH",
+							"creationTime": 1579796736999,
+							"deviceStatus": "Pending",
+							"lastModified": 1585484829547,
+							"lastSeenTime": 1585484820000,
+							"ticketStatus": "None",
+							"devImportance": 1,
+							"firstSeenTime": 1579796730000,
+							"incidentCount": 58,
+							"incidentDetail": "fileName:ipdata.txt, filePath:rm:\\f:\\copyto\\remdrive,",
+							"incidentStatus": 0,
+							"incidentTarget": "hostName:mimas, domain:acmeltd, user:contractor1,",
+							"origDevIpFirst": "76.223.8.251",
+							"ruleRemediation": "",
+							"externalTicketId": 26785,
+							"incidentCategory": "Security/Collection",
+							"externalTicketType": "52.57.40.125",
+							"phIncidentCategory": "Application",
+							"externalTicketState": "new",
+							"notificationReceipt": "",
+							"formatedLastSeenTime": "03/29/2020 13:27:00 BST",
+							"intergrationComments": "",
+							"formatedFirstSeenTime": "01/23/2020 16:25:30 GMT",
+							"jiraIntegrationMapping": ""
+						}
+				}
+		}
+	]
+}
+]
+

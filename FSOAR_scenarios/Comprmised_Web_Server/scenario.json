@@ -1,0 +1,70 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "High Severity Inbound Permitted IPS Exploit",
+		"source":"FSMSIM-CWS",
+		"demo_message":"1) A Remote Exploit is detected",
+		"sourcedata":{
+					"id": "0",
+					"nid": "982",
+					"index": "2",
+					"custId": "1",
+					"dataStr": null,
+					"eventType": "PH_RULE_HIGH_SEV_SEC_IPS_IN_PERMIT",
+					"attributes": {
+						"count": "1",
+						"customer": "Super",
+						"eventName": "High Severity Inbound Permitted IPS Exploit",
+						"eventType": "PH_RULE_HIGH_SEV_SEC_IPS_IN_PERMIT",
+						"srcIpAddr": "{{TR_MALICIOUS_IP}}",
+						"bizService": "",
+						"destIpAddr": "10.0.50.20",
+						"incidentId": "{{TR_RANDOM_INTEGER}}",
+						"phRecvTime": "Sun May 17 11:01:30 CEST 2020",
+						"srcGeoCity": "Brisbane",
+						"incidentSrc": "srcIpAddr:{{TR_MALICIOUS_IP}},",
+						"srcGeoState": "Queensland",
+						"incidentReso": "1 (Open)",
+						"eventSeverity": "9",
+						"incidentRptIp": "10.222.248.71",
+						"incidentTitle": "High Severity Inbound Permitted IPS Exploit FortiGate-ips-signature-40243 from {{TR_MALICIOUS_IP}} to 10.0.50.20",
+						"srcGeoCountry": "Australia",
+						"incidentDetail": "compEventType:FortiGate-ips-signature-40243, attackName:PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution, ipsSignatureId:40243, incidentCount:1,",
+						"incidentStatus": "0 (Active)",
+						"incidentTarget": "destIpAddr:10.200.3.100,",
+						"srcGeoLatitude": "-27.46977",
+						"incidentExtUser": "",
+						"phEventCategory": "1 (Incident)",
+						"srcGeoLongitude": "153.02512",
+						"eventSeverityCat": "HIGH",
+						"incidentComments": "",
+						"incidentLastSeen": "Sun May 17 11:01:30 CEST 2020",
+						"incidentTicketId": "",
+						"incidentFirstSeen": "Sun May 17 11:01:30 CEST 2020",
+						"incidentViewUsers": "",
+						"phIncidentImpacts": "Application",
+						"incidentNotiStatus": "",
+						"incidentRptDevName": "FortiGate-Core",
+						"incidentTicketUser": "",
+						"incidentViewStatus": "1 (Read)",
+						"phIncidentCategory": "4",
+						"incidentClearedTime": "Thu Jan 01 01:00:00 CET 1970",
+						"incidentClearedUser": "",
+						"incidentExtTicketId": "",
+						"incidentRptDevStatus": "1 (Pending)",
+						"incidentTicketStatus": "6 (None)",
+						"incidentClearedReason": "",
+						"incidentExtTicketType": "",
+						"phSubIncidentCategory": "PH_RULE_SECURITY_EXECUTION",
+						"incidentExtClearedTime": "Thu Jan 01 01:00:00 CET 1970",
+						"incidentExtTicketState": "",
+						"incidentNotiRecipients": ""
+						},
+					"receiveTime": "2020-05-17T11:01:30+02:00"
+					}
+		}
+	]
+}
+]

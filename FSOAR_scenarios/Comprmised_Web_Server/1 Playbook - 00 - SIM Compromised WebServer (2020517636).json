@@ -1,0 +1,471 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@context": "/api/3/contexts/WorkflowCollection",
+      "@type": "WorkflowCollection",
+      "name": "00 - SIM Compromised WebServer",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "id": 90,
+      "createDate": 1589715310,
+      "modifyDate": 1589715310,
+      "recordTags": [],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Compromised_WebServer_Investigation",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/7e89cb0d-65c2-4dab-a495-937478e53f63",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%FSMSIM-CWS%",
+                      "operator": "like",
+                      "_operator": "like"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "125",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "7e89cb0d-65c2-4dab-a495-937478e53f63"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create WebServer Asset",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Create Asset {{vars.result.ip}}",
+                  "records": ""
+                },
+                "resource": {
+                  "ip": "10.0.1.20",
+                  "name": "WebServer",
+                  "state": {
+                    "id": 176,
+                    "@id": "/api/3/picklists/b31da3b9-6f87-469e-a1bf-2517c48a7001",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Active",
+                    "listName": "/api/3/picklist_names/45de7d2e-8ef0-495e-a6e5-07fddfbd4749",
+                    "itemValue": "Active",
+                    "orderIndex": 1
+                  },
+                  "category": {
+                    "id": 25,
+                    "@id": "/api/3/picklists/1bfa4142-b3f2-4945-8393-66228f9260d3",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Server",
+                    "listName": "/api/3/picklist_names/0042bf40-d0e6-4324-ab84-0c7b0703f681",
+                    "itemValue": "Server",
+                    "orderIndex": 3
+                  },
+                  "hostname": "webserver.fortielab.com",
+                  "__replace": "false",
+                  "assetClass": {
+                    "id": 53,
+                    "@id": "/api/3/picklists/3864918a-79b9-412d-a09e-3f6f13aae2f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Software",
+                    "listName": "/api/3/picklist_names/54642443-1ab4-4f2b-968e-a0c43907fad0",
+                    "itemValue": "Software",
+                    "orderIndex": 1
+                  },
+                  "macAddress": "00:01:22:2A:AC:01",
+                  "criticality": {
+                    "id": 237,
+                    "@id": "/api/3/picklists/f734dfbb-fd61-425e-8a14-ebd560289fac",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/f8d09b4a-9e91-4096-bbdd-06a9f96ef57e",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "description": "ELS System WebServer",
+                  "operatingSystem": {
+                    "id": 74,
+                    "@id": "/api/3/picklists/50dd4c6b-4dfc-4771-b639-c57454610600",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Linux",
+                    "listName": "/api/3/picklist_names/6671f4f2-2fd5-4d00-ba2d-f9fade310689",
+                    "itemValue": "Linux",
+                    "orderIndex": 0
+                  },
+                  "vulnerabilities": "{{vars.steps.Record_Vulnerabilities['@id']}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/upsert/assets",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "334",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "00051be5-76e8-4be5-a817-4794d17f9e98"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Record Vulnerabilities",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Create Vulnerability {{vars.result.cveId}}",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution",
+                  "risk": "HIGH",
+                  "cveId": "CVE-2015-2208",
+                  "status": {
+                    "id": 219,
+                    "@id": "/api/3/picklists/e001be1d-d050-473c-a82d-003bf14c4b1b",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#A51516",
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/0b2b995f-0292-43ca-be81-03904250791c",
+                    "itemValue": "Open",
+                    "orderIndex": 0
+                  },
+                  "severity": {
+                    "id": 56,
+                    "@id": "/api/3/picklists/40187287-89fc-4e9c-b717-e9443d57eedb",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  },
+                  "__replace": "",
+                  "riskScore": "8",
+                  "description": "This indicates an attack attempt against a remote Code Execution vulnerability in phpMoAdmin. The vulnerability is caused by an error when the vulnerable software handles a malicious HTTP request containing a crafted URI. A remote attacker may be able to exploit this to execute arbitrary code within the context of the application, via a crafted HTTP request",
+                  "vulnerabilityId": "40243",
+                  "pluginPublicationDate": "30-06-2015"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/vulnerabilities",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "334",
+              "top": "440",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "7c0b1a3a-167b-489a-9451-7f4a736618ea"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Find Vulnerability",
+              "description": null,
+              "arguments": {
+                "query": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "id",
+                      "value": "40243",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ]
+                },
+                "module": "vulnerabilities?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Find Existing Vulnerabilities",
+                  "records": ""
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
+              "uuid": "1fd62fc3-e4bd-4401-8de9-9e653bb135fa"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Vulnerability Exists",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be",
+                    "condition": "{{ vars.steps.Find_Vulnerability|length > 0 }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "125",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "alerts_severity_map": "{'MINIMAL': {{'Severity'| picklist('Minimal') }}, 'LOW': {{'Severity'| picklist('Low') }}, 'MEDIUM': {{'Severity'| picklist('Medium') }}, 'HIGH': {{'Severity'| picklist('High') }}, 'CRITICAL': {{'Severity'| picklist('Critical') }}}",
+                "incident_source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "20",
+              "top": "569",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "a8aaac05-6c4e-4206-ab84-5f165c7f60be"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Record",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Update Alert {{vars.result.name}}",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.incident_source_data.attributes.eventName}}-{{vars.incident_source_data.eventType}}",
+                  "type": {
+                    "id": 124,
+                    "@id": "/api/3/picklists/574a6ee2-7265-4701-815e-cff83b053bce",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other / Unknown",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Other / Unknown",
+                    "orderIndex": 13
+                  },
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "assets": "{{vars.steps.Create_WebServer_Asset['@id']}}",
+                  "ackDate": "{{globalVars.Created_Date}}",
+                  "severity": "{{vars.incident_source_data.attributes.eventSeverityCat | resolveRange(vars.alerts_severity_map)}}",
+                  "sourceId": "{{vars.incident_source_data.nid}}",
+                  "__replace": "true",
+                  "sourceType": "SIEM",
+                  "sourcedata": "{{vars.incident_source_data | toJSON}}",
+                  "description": "<p>Alert Details: {{vars.incident_source_data.attributes.incidentDetail}}</p>\n<p>Alert&nbsp;Comment:&nbsp;{{vars.incident_source_data.attributes.incidentComments}}</p>",
+                  "targetAsset": "{{vars.incident_source_data.attributes.incidentTarget}}",
+                  "killChainPhase": {
+                    "id": 376,
+                    "@id": "/api/3/picklists/1713c4c8-7e66-4bb9-bf46-096a9e2bc071",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Exploitation",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Exploitation",
+                    "orderIndex": 4
+                  },
+                  "vulnerabilities": "{{vars.steps.Record_Vulnerabilities['@id']}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/upsert/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "567",
+              "top": "720",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "506d1a00-f773-4542-bb8e-b03f2766126e"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "name": "{{vars.incident_source_data.attributes.eventName}}-{{vars.incident_source_data.eventType}}",
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "__replace": "true",
+                  "sourceType": "SIEM"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/upsert/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "20",
+              "top": "700",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "0c8f3a7b-ee5c-4aa1-bc43-b32419d9a109"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "defb895c-56b1-4bc2-89ac-83ba5d967c57",
+              "name": "Assess Vulnerabilities -> Create WebServer Asset",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/00051be5-76e8-4be5-a817-4794d17f9e98",
+              "sourceStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "d52e4418-fe1a-4e84-b025-4844b6e4be9b",
+              "name": "Start -> Find Vulnerability",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1fd62fc3-e4bd-4401-8de9-9e653bb135fa",
+              "sourceStep": "/api/3/workflow_steps/7e89cb0d-65c2-4dab-a495-937478e53f63"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8b201f9a-d0e7-4ae9-93f5-199912b67379",
+              "name": "Find Vulnerability -> Vulnerability Exists",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3",
+              "sourceStep": "/api/3/workflow_steps/1fd62fc3-e4bd-4401-8de9-9e653bb135fa"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4ee93047-d880-4e52-b5ee-2f2ec28d779d",
+              "name": "Vulnerability Exists -> Assess Vulnerabilities",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea",
+              "sourceStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8c56bc23-887b-4311-81df-de9236522198",
+              "name": "Vulnerability Exists -> Configuration",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be",
+              "sourceStep": "/api/3/workflow_steps/8f33b557-f91f-4c51-aec3-5291467cace3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7875292e-56be-4b45-be61-9ff4145c42bb",
+              "name": "Create WebServer Asset -> Configuration",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be",
+              "sourceStep": "/api/3/workflow_steps/00051be5-76e8-4be5-a817-4794d17f9e98"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "eaf71e88-3e22-4322-85c9-0b282062bd1a",
+              "name": "Configuration -> Update Alert",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/0c8f3a7b-ee5c-4aa1-bc43-b32419d9a109",
+              "sourceStep": "/api/3/workflow_steps/a8aaac05-6c4e-4206-ab84-5f165c7f60be"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1589726203,
+          "uuid": "df538bef-a008-4137-91f3-0505bcb6d1f6",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "name": "Created_Date",
+      "value": "{{vars.input.records[0].createdDate}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Date",
+      "value": "{{arrow.utcnow().timestamp}}",
+      "default_value": null
+    }
+  ],
+  "exported_tags": []
+}
