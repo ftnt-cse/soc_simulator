@@ -12,6 +12,7 @@ it is written in python so it can run on any machine with python installed inclu
 
 The Environement requires a FortiGate to be used as a response enforcement point.
 ## How to use:
+```
 usage: ProgramName [-h] [-s SERVER] [-u USERNAME] [-p PASSWORD] [-j STEP] -f
                    SCENARIO_FOLDER [-t TENANT]
 
@@ -24,7 +25,7 @@ optional arguments:
   -f SCENARIO_FOLDER, --scenario-folder SCENARIO_FOLDER 
                         Scenario folder exp: FSOAR_scenarios/Malware_Lateral_Movement
   -t TENANT, --tenant tenant 	Tenant name in case of a multi-tenant instance (Optional)
-
+```
 Any of the above parameters can be stored in a config.json file to avoid having to supply it as an cli argument, see info.json below
 
 ## Components:
@@ -43,18 +44,34 @@ scenario.json 		: The list of Alerts to be send with their timing/transition con
 
 #### info.json
 It contains the scenario meta data and dependencies, this file is first read and used in the scenario initiation
+
+| Config attribute | description|
+|---|---|
+|name | Scneario Descriptive Name, (usualy the same as the folder name where the scenario files are stored)|
+| product | fortisoar, fortisiem, This is for the simulator to identify the target product|
+| connectors_dependencies| [name_of_the_connectors,] FortiSOAR connector name which must be configured and set to default before running the scneario|
+|version | version of the scenario |
+|description | high level scenario description|
+|category | audience type: analysts, C level...etc|
+|publisher | scenario owner|
+|infographic | link to the infographic file|
+
+Example:
 ```json
 {
-    "name": "Scneario Descriptive Name", #(usualy the same is the folder name where the scenario files resides)
-    "product":"fortisoar, fortisiem", # This is for the simulator to identify the target product",
-    "connectors_dependencies":["name_of_the_connector:"], # FortiSOAR connector name which must be configured and set to default before running the scneario
+    "name": "Malware Lateral Movement Scenario",
+    "product":"fortisoar",
+    "category":"soc_analyst",
+    "connectors_dependencies":["virustotal"],
     "version": "1.0.0",
-    "description": "high level scenario description",
-    "category": "audience type: analysts, C level...etc",
-    "publisher": "scenario owner",
-    "infographic": "link to the infographic file"
+    "description": "an infected machine connects to a CnC server, followed by another (false positive), then a third one",
+    "category": "soc_analyst",
+    "publisher": "CSE-Team",
+    "infographic": "https://github..."
 }
 ```
+
+
 #### playbooks.json
 Typically the playbook collection is created while developing the scenario on FortiSOAR, once completed it has to be exported as playbooks.json so the simulator can upload it to the FortiSOAR unstance where it runs. To make sure the playbooks within this collection are only triggered for the scenario alerts the 'source' value of the scneario.json template file has to be used as a filter all playbooks.json collection playbooks. 
 
@@ -148,6 +165,7 @@ All variables will be replaced with their dynamic value at runtime. when a list 
 If {{TR_ASSET_IP}} is present in both alerts of the same template it's possible to set the first as: {{TR_ASSET_IP}}1 and {{TR_ASSET_IP}}2 in the second, so the sent alert will have 2 values of {{TR_ASSET_IP}}
 
 The list of available dynamic values (Variables):
+
 |"VARIABLE"|function name|use case|
 |:----------|:-------------|:-------------|
 |"TR_FG_MGMT_IP"|get_fg_mgmt_ip|get fortigate mgmt IP (according to the topology file)|
