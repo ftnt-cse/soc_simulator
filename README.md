@@ -26,7 +26,22 @@ optional arguments:
                         Scenario folder exp: FSOAR_scenarios/Malware_Lateral_Movement
   -t TENANT, --tenant tenant 	Tenant name in case of a multi-tenant instance (Optional)
 ```
-Any of the above parameters can be stored in a config.json file to avoid having to supply it as an cli argument, see info.json below
+Any of the above parameters can be stored in a config.json file to avoid having to supply it as an cli argument. to use it, edit config.json_sample and rename it to config.json.
+
+Example:
+```json
+{
+	"server":"10.2.2.1",
+	"username":"csadmin",
+	"password":"password",
+	"random":"yes",
+	"tenant":"",
+	"TR_FG_MGMT_IP":"10.200.3.1",
+	"TR_FG_DEV_NAME":"FortiGate-Edge",
+	"TR_CUSTOMER_LAN":"10.200.3.0/24"
+}
+```
+TR_* are environment constant attributes to be used in the scenarios, see scenario.json section below
 
 ## Components:
 
