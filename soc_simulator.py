@@ -2,6 +2,10 @@
 # Main: CLI
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
+
+import os, sys
+os.chdir(sys.path[0])
+
 from simulator_files.artifact_factory import *
 from simulator_files.fortisoar_lib import *
 from simulator_files.main_lib import *
@@ -48,7 +52,13 @@ def main():
 	if args.tenant:
 		tenant_iri=lookup_tenant_iri(args.server,headers,args.tenant)['@id']
 	
-	check_prerequisites(args.server,headers,scenario_data['info.json']['connectors_dependencies'])
+	if scenario_data['info.json']['connectors_dependencies']:
+		check_connectors_prerequisites(args.server,headers,scenario_data['info.json']['connectors_dependencies'])
+
+	if scenario_data['info.json']['fsm_events_dependencies'] and config['sudo_password']:
+		for event in scenario_data['info.json']['fsm_events_dependencies']:
+			send_fsm_events(event,config['sudo_password'])
+			time.sleep(1)
 
 	alerts,playbooks_definition=cook_alert(args.server,headers,scenario_data['scenario.json'],malware_hashes,malicious_urls,malicious_ips,malicious_domains,scenario_data['playbooks.json'])
 	#print(json.dumps(playbooks_definition, indent=4, sort_keys=True))

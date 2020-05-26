@@ -1,0 +1,63 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "Successful VPN Logon From Outside My Country",
+		"source":"FSM",
+		"sourcedata":{
+				"incident": {
+						"externalTicketType": "52.57.40.125",
+						"creationTime": 1579615270263,
+						"ruleRemediation": "",
+						"formatedLastSeenTime": "02/13/2020 15:01:00 GMT",
+						"notificationReceipt": "",
+						"sourceUser": "Sun.Tzu",
+						"incidentSrc": "srcIpAddr:81.142.0.53,",
+						"origDevIp": "192.168.19.65",
+						"ownerId": 0,
+						"externalTicketId": 23914,
+						"phIncidentCategory": "Network",
+						"resolution": "Open",
+						"viewStatus": 1,
+						"deviceStatus": "Approved",
+						"incidentEt": "PH_RULE_VPN_LOGON_SUCCESS_OUTSIDE_COUNTRY",
+						"origDevName": "SJ-Main-ASA.threatlab.net",
+						"incidentDetail": "",
+						"origDevIpFirst": "192.168.19.65",
+						"ruleDesc": "Detects VPN logon from outside my country. My Country is set to \"United States\" and may need to be changed for outside United States deployments",
+						"custId": 1,
+						"ruleName": "Successful VPN Logon From Outside My Country",
+						"id": 4102125298,
+						"incidentCategory": "Security/Initial Access",
+						"jiraIntegrationMapping": "",
+						"srcIpAddr": "81.142.0.53",
+						"xmlId": "Incident@4102125298",
+						"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+						"externalTicketState": "new",
+						"ruleId": 1679088,
+						"clearedTime": 0,
+						"incidentStatus": 0,
+						"severity": 8,
+						"lastSeenTime": 1581606060000,
+						"incidentCount": 554,
+						"externalId": 12246,
+						"jiraExtIds": "13475,12246",
+						"incidentTarget": "user:chris.durkin,",
+						"formatedFirstSeenTime": "01/21/2020 14:01:00 GMT",
+						"cacheIndex": "<phCustId>1<\\/phCustId><srcGeoCountry>United Kingdom<\\/srcGeoCountry><srcGeoState>Edinburgh, City of<\\/srcGeoState><srcGeoCity>Edinburgh<\\/srcGeoCity><srcGeoOrg>BT<\\/srcGeoOrg><srcGeoLatitude>55.95<\\/srcGeoLatitude><srcGeoLongitude>-3.2<\\/srcGeoLongitude><incidentSrc>srcIpAddr:81.142.0.53, <\\/incidentSrc><incidentTarget>user:chris.durkin, <\\/incidentTarget><srcIpAddr>81.142.0.53<\\/srcIpAddr><user>chris.durkin<\\/user>",
+						"firstSeenTime": 1579615260000,
+						"ticketStatus": "None",
+						"intergrationComments": "",
+						"lastModified": 1581606070509,
+						"incidentId": 1248900,
+						"severityCat": "MEDIUM",
+						"user": "chris.durkin"
+						}
+				}
+		}
+	]
+}
+]
+
+

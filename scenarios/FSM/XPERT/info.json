@@ -1,0 +1,10 @@
+{
+    "name": "Web Server Exploit",
+    "product":"fortisiem",
+    "category":"soc_analyst",
+    "version": "1.0.0",
+    "description": "Remote exploit of a webserver andi implanting a malicious redirection",
+    "category": "soc_analyst",
+    "publisher": "CSE-Team",
+    "infographic": "https://github..."
+}

@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 # Function library to handle FortiSOAR communication
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
@@ -53,3 +53,33 @@ def read_mainconfig():
 		return None		
 	else:
 		return mainconfig_file
+
+def send_fsm_events(event,sudo_password):
+	try:
+		daemon_status=stat.S_ISFIFO(os.stat(SOCSIM_FIFO).st_mode)
+		print('daemon is running')
+	except FileNotFoundError:
+		print('SOCSIM daemon is not running')
+		command = 'python3 ./simulator_files/socsim_daemon.py &'
+		exit_status = os.system('echo %s|sudo -S %s' % (sudo_password, command))
+		time.sleep(2)
+		if exit_status != 0:
+			print("Couldn't start socsim_daemon, exit status: ",exit_status)
+			exit()
+
+
+		#replace \' with \\'
+	raw_event = json.dumps(event).replace('\\"','\\\"')
+	event = str.encode((raw_event))
+
+	fifo = os.open(SOCSIM_FIFO, os.O_WRONLY)
+	os.write(fifo, event)
+	os.close(fifo)
+
+		
+
+		
+
+
+
+

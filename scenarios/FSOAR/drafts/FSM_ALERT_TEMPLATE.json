@@ -1,0 +1,17 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+						FSM_INCIDENT_ATTRIBUTES
+						}
+				}
+		}
+	]
+}
+]
+

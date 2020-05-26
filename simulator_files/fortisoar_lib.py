@@ -72,7 +72,7 @@ def lookup_tenant_iri(server,headers,tenant_name):
 # 		for connector in response.json()["data"]:
 			
 
-def check_prerequisites(server,headers,connectors_dependencies): # check whether the initial config is done to run the playbooks properly
+def check_connectors_prerequisites(server,headers,connectors_dependencies): # check whether the initial config is done to run the playbooks properly
 	try:
 		response = requests.get(url='https://'+server+'/api/integration/connectors/?configured=true&ordering=label&page_size=250format=json',
 			headers=headers,verify=False)

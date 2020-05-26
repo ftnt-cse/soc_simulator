@@ -1,0 +1,67 @@
+[
+  {
+	"data": [
+	  {
+		"sleep": 0,
+		"name": "Suspicious eMail",
+		"source": "SOCSIM-MAIL",
+		"demo_message": "Malicious Email sent",
+		"sourcedata": {
+		  "body": {
+			"html": "<html>\\r\\n<head>\\r\\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\\r\\n<style type=\"text/css\" style=\"display:none;\"><!-- P {margin-top:0;margin-bottom:0;} --></style>\\r\\n</head>\\r\\n<body dir=\"ltr\">\\r\\n<div id=\"divtagdefaultwrapper\" style=\"font-size:12pt;color:#000000;font-family:Calibri,Helvetica,sans-serif;\" dir=\"ltr\">\\r\\n<p>please investigate it looks suspicious</p>\\r\\n<br>\\r\\n<br>\\r\\n<div style=\"color: rgb(0, 0, 0);\">\\r\\n<hr tabindex=\"-1\" style=\"display:inline-block; width:98%\">\\r\\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" color=\"#000000\" style=\"font-size:11pt\"><b>From:</b> CTO Office &lt;cto_office@{{TR_MALICIOUS_DOMAIN}}&gt;<br>\\r\\n<b>Sent:</b> Monday, May 18, 2020 6:50 AM<br>\\r\\n<b>To:</b> adam smith<br>\\r\\n<b>Subject:</b> Important Patch</font>\\r\\n<div>&nbsp;</div>\\r\\n</div>\\r\\n<div>\\r\\n<div style=\"font-family:Verdana; font-size:12.0px\">\\r\\n<div>&lt;html&gt;All,&lt;br/&gt; &nbsp;A Critical vulnerability has been found in our internal ERP client application&lt;br/&gt;, a patch has been made available in our internal website &lt;br/&gt;&lt;a href={{TR_MALICIOUS_URL}}&gt;Windows\\r\\n Patch&lt;/a&gt;&lt;br/&gt;. it is mandatory for all employes to download it and install it immediately.&lt;br/&gt;Office of the CTO&lt;br/&gt;.&lt;/html&gt;</div>\\r\\n<div>&nbsp;</div>\\r\\n</div>\\r\\n</div>\\r\\n</div>\\r\\n</div>\\r\\n</body>\\r\\n</html>\\r\\n",
+			"json": null,
+			"text": ""
+		  },
+		  "headers": {
+			"to": "sysadmin <sysadmin@fortielab.com>",
+			"date": "Mon, 18 May 2020 13:52:25 +0000",
+			"from": "adam smith <asmith@fortielab.com>",
+			"subject": "Fw: Important Patch",
+			"received": "from Exch19.fortielab.com ([::1]) by Exch19.fortielab.com ([::1]) with mapi id 15.02.0529.005; Mon, 18 May 2020 06:52:25 -0700",
+			"message-id": "<3d608901d41a4b9cac6c28aa2f7{{TR_RANDOM_INTEGER}}@fortielab.com>",
+			"references": "\\t<trinity-bd6386d6-bd3b-450a-b891-568a58bb9451-1589777406906@3c-app-mailcom-bs14>",
+			"in-reply-to": "\\t<trinity-bd6386d6-bd3b-450a-b891-568a58bb9451-1589777406906@3c-app-mailcom-bs14>",
+			"content-type": "multipart/mixed; boundary=\"_004_3d608901d41a4b9cac6c28aa2f7f6482fortielabcom_\"",
+			"mime-version": "1.0",
+			"thread-index": "AQHWLRs8LbaV7JClfk+OJUM6d1glXait3Lq+",
+			"thread-topic": "Important Patch",
+			"accept-language": "en-US",
+			"x-ms-has-attach": "yes",
+			"content-language": "en-US",
+			"x-ms-tnef-correlator": "",
+			"x-ms-exchange-organization-scl": "-1",
+			"x-ms-exchange-organization-authas": "Internal",
+			"x-ms-exchange-organization-authsource": "Exch19.fortielab.com",
+			"x-ms-exchange-organization-authmechanism": "04",
+			"x-ms-exchange-organization-network-message-id": "\\tef9b53ec-dab9-4ed9-9348-08d7fb32b227",
+			"x-ms-exchange-organization-recordreviewcfmtype": "0"
+		  },
+		  "item_id": "AAMkADZlMDUzMTg3LTExNDItNGI5ZC05Y2Q3LWMxZmVkNmE1YmFhMwBGAAAAAABzZXpOu00yT74x97UacTW9BwBFcsYwZw3XQ4GsCA56I3BFAAAAAAEMAABFcsYwZw3XQ4GsCA56I3BFAAAAAAn6AAA=",
+		  "epilogue": "",
+		  "preamble": "",
+		  "attachments": [
+			{
+			  "file": "{{TR_MALICIOUS_HASH}}",
+			  "json": null,
+			  "text": "<data expunged>",
+			  "metadata": {
+				"md5": "",
+				"sha1": "{{TR_MALICIOUS_HASH}}",
+				"sha256": "",
+				"filename": "patch.msi",
+				"content_type": "application/x-msi",
+				"content_length": 29004
+			  }
+			}
+		  ],
+		  "folder_path": "/root/Top of Information Store/Inbox",
+		  "attachment_files": [
+			"e97a56113c1c4820a8b77da92a80ac91"
+		  ],
+		  "extract_attach_data": true,
+		  "parsed_attachment_data": []
+		}
+	  }
+	]
+  }
+]

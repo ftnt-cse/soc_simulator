@@ -5,7 +5,7 @@
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
-import requests, argparse, textwrap, json, random, time, os, csv, re
+import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -14,6 +14,7 @@ malware_hashes 		= './threat_intelligence/malware_hashes.txt'
 malicious_domains	= './threat_intelligence/malicious_domains.txt'
 malicious_ips		= './threat_intelligence/malicious_ips.txt'
 malicious_urls		= './threat_intelligence/malicious_urls.txt'
+SOCSIM_FIFO			= '/tmp/socsim.pipe'
 
 
 class bcolors:

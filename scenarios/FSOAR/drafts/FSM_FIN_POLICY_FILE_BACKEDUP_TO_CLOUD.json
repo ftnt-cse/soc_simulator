@@ -1,0 +1,64 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+							"id": 1037768553,
+							"user": "engineer3",
+							"xmlId": "Incident@1037768553",
+							"custId": 1,
+							"domain": "acmeltd",
+							"ruleId": 376800411,
+							"ownerId": 0,
+							"destName": "server-54-230-2-153.lhr5.r.cloudfront.net",
+							"hostName": "mimas",
+							"ruleDesc": "FortiInsight Policy File Backed Up to Cloud is triggered  by an user",
+							"ruleName": "Policy: File Backed Up to Cloud",
+							"severity": 9,
+							"origDevIp": "76.223.8.251",
+							"cacheIndex": "<phCustId>1</phCustId><incidentSrc></incidentSrc><incidentTarget>hostName:mimas, destName:server-54-230-2-153.lhr5.r.cloudfront.net, domain:acmeltd, user:engineer3, </incidentTarget><destName>server-54-230-2-153.lhr5.r.cloudfront.net</destName><hostName>mimas</hostName><domain>acmeltd</domain><fileName>plan1.doc:com.icloud.attributes</fileName><filePath>c:\\users\\engineer3\\icloud</filePath><user>engineer3</user>",
+							"deviceType": "Fortinet FortiInsight",
+							"incidentEt": "PH_RULE_FIN_POLICY_FILE_BACKEDUP_TO_CLOUD",
+							"incidentId": 1201217,
+							"resolution": "Open",
+							"sourceUser": "engineer3",
+							"viewStatus": 1,
+							"clearedTime": 0,
+							"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+							"incidentSrc": "",
+							"origDevName": "fortidemosales.fortiinsight.cloud",
+							"severityCat": "HIGH",
+							"creationTime": 1569935889518,
+							"deviceStatus": "Pending",
+							"lastModified": 1585559947825,
+							"lastSeenTime": 1585559940000,
+							"ticketStatus": "None",
+							"devImportance": 1,
+							"firstSeenTime": 1569935880000,
+							"incidentCount": 130,
+							"incidentDetail": "fileName:plan1.doc:com.icloud.attributes, filePath:c:\\users\\engineer3\\icloud,",
+							"incidentStatus": 0,
+							"incidentTarget": "hostName:mimas, destName:server-54-230-2-153.lhr5.r.cloudfront.net, domain:acmeltd, user:engineer3,",
+							"origDevIpFirst": "76.223.8.251",
+							"ruleRemediation": "",
+							"externalTicketId": 26873,
+							"incidentCategory": "Security/Exfiltration",
+							"externalTicketType": "52.57.40.125",
+							"phIncidentCategory": "Application",
+							"externalTicketState": "new",
+							"notificationReceipt": "",
+							"formatedLastSeenTime": "03/30/2020 10:19:00 BST",
+							"intergrationComments": "",
+							"formatedFirstSeenTime": "10/01/2019 14:18:00 BST",
+							"jiraIntegrationMapping": ""
+						}
+				}
+		}
+	]
+}
+]
+

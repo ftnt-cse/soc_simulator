@@ -1,0 +1,12 @@
+{
+    "name": "Compromised Web Server Scenario",
+    "product":"fortisoar",
+    "category":"soc_analyst",
+    "connectors_dependencies":["whois-rdap","virustotal"],
+    "fsm_events_dependencies":[{"source_ip":"10.10.11.204","destination_ip":"10.222.248.71","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.222.1.10 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},{"source_ip":"10.10.11.204","destination_ip":"10.222.248.71","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.222.1.200 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},{"source_ip":"10.10.11.204","destination_ip":"10.222.248.71","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.222.1.166 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""}],
+    "version": "1.0.0",
+    "description": "A Web Server is Compromised, its index.htm overridden with a malicious URL redirect",
+    "category": "soc_analyst",
+    "publisher": "CSE-Team",
+    "infographic": "https://github..."
+}

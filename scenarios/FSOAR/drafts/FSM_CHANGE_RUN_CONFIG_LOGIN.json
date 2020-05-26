@@ -1,0 +1,60 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+							"id": 5168737883,
+							"xmlId": "Incident@5168737883",
+							"custId": 1,
+							"ruleId": 1680120,
+							"ownerId": 0,
+							"hostName": "SJ-Main-Cat6500",
+							"ruleDesc": "Detects that the configuration of a network device (router or firewall) has changed. This is achieved via logging in and keeping track of the last config. The IP address of the user likely to have executed the change, is obtained from a preceding syslog that indicates a prior login. This rule requires the network devices to forward syslog to the monitoring system.",
+							"ruleName": "Running Config Change: with login info",
+							"severity": 6,
+							"origDevIp": "192.168.20.1",
+							"srcIpAddr": "192.168.19.245",
+							"bizService": "Axians,COBIT Service,Core Switches,Email,FS,GDPR,GPG13 Service,IT Application Service,ITIL,MISION-CRITICA-SERVICIO-NOMINA,PCI Service,PortalWeb,QuickTeller,SOX Service,Security Gateway Service,TEC-ERP,Tony,WebPortal,WebPortal_100,exchange,frontend,webserviceAccl",
+							"cacheIndex": "<phCustId>1</phCustId><incidentSrc>srcIpAddr:192.168.19.245, </incidentSrc><incidentTarget>hostIpAddr:192.168.20.1, hostName:SJ-Main-Cat6500, </incidentTarget><bizService>Axians,COBIT Service,Core Switches,Email,FS,GDPR,GPG13 Service,IT Application Service,ITIL,MISION-CRITICA-SERVICIO-NOMINA,PCI Service,PortalWeb,QuickTeller,SOX Service,Security Gateway Service,TEC-ERP,Tony,WebPortal,WebPortal_100,exchange,frontend,webserviceAccl</bizService><srcIpAddr>192.168.19.245</srcIpAddr><hostIpAddr>192.168.20.1</hostIpAddr><hostName>SJ-Main-Cat6500</hostName><addedItem>enable secret 5 $1$3T2G$AhfZnnW58ird0lmOHea0M/;</addedItem><deletedItem>(none)</deletedItem>",
+							"deviceType": "Cisco IOS",
+							"hostIpAddr": "192.168.20.1",
+							"incidentEt": "PH_RULE_CHANGE_RUN_CONFIG_LOGIN",
+							"incidentId": 1287685,
+							"resolution": "Open",
+							"viewStatus": 1,
+							"clearedTime": 0,
+							"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+							"incidentSrc": "srcIpAddr:192.168.19.245,",
+							"origDevName": "SJ-Main-Cat6500",
+							"severityCat": "MEDIUM",
+							"creationTime": 1584511265744,
+							"deviceStatus": "Approved",
+							"lastModified": 1585587671028,
+							"lastSeenTime": 1585587660000,
+							"ticketStatus": "None",
+							"devImportance": 7,
+							"firstSeenTime": 1584511260000,
+							"incidentCount": 36,
+							"incidentDetail": "addedItem:enable secret 5 $1$3T2G$AhfZnnW58ird0lmOHea0M/;, deletedItem:(none),",
+							"incidentStatus": 0,
+							"incidentTarget": "hostIpAddr:192.168.20.1, hostName:SJ-Main-Cat6500,",
+							"origDevIpFirst": "192.168.20.1",
+							"ruleRemediation": "",
+							"incidentCategory": "Change/Audit",
+							"phIncidentCategory": "Network",
+							"notificationReceipt": "",
+							"formatedLastSeenTime": "03/30/2020 18:01:00 BST",
+							"intergrationComments": "",
+							"formatedFirstSeenTime": "03/18/2020 06:01:00 GMT",
+							"jiraIntegrationMapping": ""
+						}
+				}
+		}
+	]
+}
+]
+

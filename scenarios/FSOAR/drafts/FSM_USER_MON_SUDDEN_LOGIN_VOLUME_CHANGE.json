@@ -1,0 +1,61 @@
+[
+{
+"data":[
+		{
+		"sleep":0,
+		"name": "ALERT_NAME",
+		"source":"ALERT_SOURCE",
+		"sourcedata":{
+				"incident": {
+							"id": 5401344991,
+							"user": "greg.allan",
+							"xmlId": "Incident@5401344991",
+							"custId": 1,
+							"ruleId": 9304952,
+							"ownerId": 0,
+							"computer": "",
+							"destName": "ip-192-168-19-65.eu-central-1.compute.internal",
+							"ruleDesc": "Detects daily user login volume anomaly against profile. This may indicate suspicious user behaviors.",
+							"ruleName": "Sudden Increase in User Login Volume",
+							"severity": 7,
+							"origDevIp": "10.7.12.121",
+							"cacheIndex": "<phCustId>1</phCustId><incidentSrc>computer:, </incidentSrc><incidentTarget>user:greg.allan, destName:ip-192-168-19-65.eu-central-1.compute.internal, </incidentTarget><triggeringAttrList>incidentCount</triggeringAttrList><destName>ip-192-168-19-65.eu-central-1.compute.internal</destName><computer></computer><user>greg.allan</user>",
+							"deviceType": "Amazon AWS EC2",
+							"incidentEt": "PH_RULE_USER_MON_SUDDEN_LOGIN_VOLUME_CHANGE",
+							"incidentId": 1294450,
+							"resolution": "Open",
+							"sourceUser": "greg.allan",
+							"viewStatus": 1,
+							"clearedTime": 0,
+							"externalOrg": "/api/3/tenants/b3a700f7-00be-4ef9-90c6-3c8fe6e1be63",
+							"incidentSrc": "computer:,",
+							"origDevName": "ec2-18-197-180-78.eu-central-1.compute.amazonaws.com",
+							"severityCat": "MEDIUM",
+							"creationTime": 1585440190387,
+							"deviceStatus": "Approved",
+							"lastModified": 1585440190440,
+							"lastSeenTime": 1585440180000,
+							"ticketStatus": "None",
+							"devImportance": 10,
+							"firstSeenTime": 1585440180000,
+							"incidentCount": 1,
+							"incidentDetail": "incidentCount:1,",
+							"incidentStatus": 0,
+							"incidentTarget": "user:greg.allan, destName:ip-192-168-19-65.eu-central-1.compute.internal,",
+							"origDevIpFirst": "10.7.12.121",
+							"triggeringAttr": "incidentCount",
+							"ruleRemediation": "",
+							"incidentCategory": "Security/Behavioral Anomaly",
+							"phIncidentCategory": "Other",
+							"notificationReceipt": "",
+							"formatedLastSeenTime": "03/29/2020 00:03:00 GMT",
+							"intergrationComments": "",
+							"formatedFirstSeenTime": "03/29/2020 00:03:00 GMT",
+							"jiraIntegrationMapping": ""
+						}
+				}
+		}
+	]
+}
+]
+
