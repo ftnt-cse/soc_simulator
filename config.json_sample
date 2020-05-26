@@ -2,6 +2,7 @@
 	"server":"10.2.2.1",
 	"username":"csadmin",
 	"password":"password",
+	"sudo_password":"password",
 	"random":"yes",
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",

@@ -60,7 +60,7 @@ def send_fsm_events(event,sudo_password):
 		print('daemon is running')
 	except FileNotFoundError:
 		print('SOCSIM daemon is not running')
-		command = 'python3 ./simulator_files/socsim_daemon.py &'
+		command = sys.executable + ' ./simulator_files/socsim_daemon.py &'
 		exit_status = os.system('echo %s|sudo -S %s' % (sudo_password, command))
 		time.sleep(2)
 		if exit_status != 0:
