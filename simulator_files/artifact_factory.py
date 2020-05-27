@@ -5,7 +5,7 @@
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
-import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time
+import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time, sys
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
