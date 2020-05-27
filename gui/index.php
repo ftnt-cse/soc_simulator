@@ -66,7 +66,7 @@
 
 .scenario {
   width: 100%; 
-  padding-top: 60%;
+  padding-top: 45%;		/* this is important, it sets the aspect ratio of the iframe */
   position: relative;
 }
 
@@ -182,7 +182,8 @@
     echo "<br><br>";
 
     if ($scenarioGroupFolder == "my_scenarios") {		// IF MY SCENARIOS THEN SHOW SCENARIO BUILDER BUTTON
-  ?>
+
+    ?>
 
       <h2 align="center">Scenario Builder</h2>
       
