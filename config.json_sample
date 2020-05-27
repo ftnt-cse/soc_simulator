@@ -5,6 +5,11 @@
 	"sudo_password":"password",
 	"random":"yes",
 	"tenant":"",
+    "GUI_mode": "local",
+    "GUI_sshHost": "10.222.248.234",
+    "GUI_sshPort": "20200",
+    "GUI_sshUser": "admin",
+    "GUI_sshPass": "admin*1",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
 	"TR_CUSTOMER_LAN":"10.200.3.0/24"

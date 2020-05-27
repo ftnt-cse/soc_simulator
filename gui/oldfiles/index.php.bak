@@ -1,0 +1,237 @@
+<html>
+<head>
+
+<style>
+
+  body {
+    font-family: arial;
+  }
+
+ 
+  table, th, td { 
+    border: 1px solid;
+    border-collapse: collapse;
+    padding: 5px; 
+  }
+
+.button {
+  background-color: dimgrey;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  padding: 10px 20px;
+  display: block;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: lightgrey;
+
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu {
+  max-width: 250;
+  padding: 20px;
+  background: lightgrey;
+}
+
+.scenario {
+  max-width: 1100;
+  padding: 20px;
+}
+
+.steps {
+  padding: 20px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+  <h1>Alert Simulator</h1>
+</div>
+
+<div class="container">
+
+<div class="menu">
+  <h2 align="center">Scenarios</h2>
+  <?php
+
+    // BUILD MENU BUTTONS FROM SCENARIOS FOLDER
+
+    $files1 = array_slice(scandir("../scenarios/"), 2);
+
+    foreach ($files1 as $value1) {
+      $files2 = array_slice(scandir("../scenarios/$value1/"), 2);
+      foreach ($files2 as $value2) {
+        if (is_dir('../scenarios/' . $value1 . '/' . $value2)) {
+  ?>
+
+      <form action="" method="post">
+      <input type="hidden" name="scenario_id" value="<?php echo $value1 . "/" . $value2;?>"> 
+      <input type="submit" name="name" class="button" value="<?php echo $value2 ?>">
+      </form>
+  
+  <?php
+        }
+      }
+    }
+  ?>
+
+  <br><br>
+  <h2 align="center">Scenario Builder</h2>
+
+  <form action="" method="post" target="">
+     <input type="hidden" name="scenario_builder" value="scenario_builder">
+     <input type="submit" name="name" class="button" value="Scenario Builder [Beta]">
+   </form>
+
+  <br><br>
+ 
+  <h2 align="center">Settings</h2>
+
+  <form action="" method="post" target="">
+     <input type="hidden" name="settings" value="settings">
+     <input type="submit" name="name" class="button" value="Settings">
+   </form>
+
+  <br><br>
+  <p><i>(c) 2020 Fortinet<br>Mahdi Naili, Ben Britton</i></p>
+
+</div>
+
+<div class="scenario">
+
+
+  <?php  if($scenario = $_POST["scenario_id"]) {    // GET SCENARIO ID FROM SCENARIO SELECTION CHOICE
+  ?>
+
+  <table width="1000">
+  <tr>
+  <td colspan="2">
+  <h2>Scenario : <?php echo $_POST["scenario_id"]; ?> </h2>
+  </td>
+  </tr>
+
+  <?php
+
+    // SET FILE PATHS
+ 
+    $infoFilePath = "../scenarios/$scenario/info.json";
+    $scenarioFilePath = "../scenarios/$scenario/scenario.json";
+
+  // READ AND PROCESS THE SCENARIO DESCRIPTION FILE INFO.JSON TO A HTML TABLE
+  // READ FILE AND PARSE TO A PHP ASSOCIATIVE ARRAYi
+
+    $infoFile = fopen($infoFilePath, "r");
+    $descriptionArray = json_decode(fread($infoFile, filesize($infoFilePath)), true);
+    fclose($infoFile);
+
+    // BUILD HTML TABLE ROWS FROM ARRAY BASED ON INFO.JSON
+
+    foreach($descriptionArray as $x => $x_value) {
+      if (is_array($descriptionArray[$x])) {  
+         echo "<tr><td><b>" . $x . "</b></td><td>";
+         print_r($descriptionArray[$x]); 
+         echo  "</pre></td></tr>";  
+     } else {
+        echo "<tr><td><b>" .  $x . "</b></td><td>" . $x_value . "</td></tr>";  
+      }
+    }
+
+    ?>
+
+    <tr>
+    <td colspan="2">
+
+    <img src="../simulator/scenarios/<?php echo $_POST["scenario_id"]; ?>/diagram.gif" width="960" height="540" align="centre">
+
+    </td>
+    </tr>
+    </table>
+
+  <?php } elseif ($_POST["scenario_builder"]) {      // ACTION IF SCENARIO BUILDER BUTTON PRESSED
+   
+  ?> 
+    <iframe name="scenario_builder" src="scenario_builder.php" height="800" width="1500" style="border: 1px solid black;">
+    </iframe>
+
+  <?php
+  } elseif ($_POST["settings"]) {		// ACTION IF SETTINGS BUTTON PRESSED
+
+  ?>
+
+    <iframe name="settings" src="settings.php" height="800" width="1000" style="border: 1px solid black;">
+    </iframe>
+
+  <?php
+  }
+  ?>
+
+</div>
+ 
+<div class="steps">
+  
+    <?php
+    if($scenario = $_POST["scenario_id"]) {    // GET SCENARIO ID FROM SCENARIO SELECTION CHOICE
+
+      $scenarioFilePath = "../scenarios/$scenario/scenario.json"; 
+      $scenarioFile = fopen($scenarioFilePath, "r");
+      $scenarioArray = json_decode(fread($scenarioFile, filesize($scenarioFilePath)), true);
+
+      fclose($scenarioFilePath);
+
+      // COUNT THE DATA ELEMENTS IN THE ARRAY
+
+       $stepCount = count($scenarioArray);
+
+      ?>
+
+      <table>
+
+      <?php
+
+      // EXTRACT THE DEMO MESSAGE FROM EACH DATA ELEMENT AND PRINT
+
+      for ($x = 0; $x < $stepCount; $x++) {
+
+      $humanReadableStep = $x + 1;
+      echo "<tr><td><p><b>Step $humanReadableStep - " .  $scenarioArray[$x]['data'][0]['name'] . "</b></p>";
+      echo "<p>" . $scenarioArray[$x]['data'][0]['demo_message'] . "<p>";
+
+      ?>
+
+      <form method="post" action="run_step.php" target="stepResultsFrame<?php echo $humanReadableStep; ?>">
+        <input type="hidden" name="step" value="<?php echo $humanReadableStep; ?>">
+        <input type="hidden" name="mode" value="<?php echo $_POST["mode"]; ?>">
+        <button type="submit" name="executefunction">Execute Step <?php echo $humanReadableStep;?></button>
+      </form>
+
+      <iframe name="stepResultsFrame<?php echo $humanReadableStep; ?>" src="" height="50" width="500"></iframe>
+
+      </td></tr>
+
+      <?php
+
+      }		//END FOR
+    }		// END IF
+
+    ?>
+
+    </table>
+  </div>
+</div>
+</body>
+</html>

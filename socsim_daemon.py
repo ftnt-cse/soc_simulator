@@ -2,40 +2,10 @@
 # Function library to handle FortiSOAR communication
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
-from artifact_factory import *
+from simulator_files.artifact_factory import *
+from simulator_files.main_lib import *
+
 #import pdb;pdb.set_trace()
-from scapy.all import *
-
-
-def is_valid_ip(ip):
-	ip = ip.split('.')
-	if len(ip) != 4:
-		return False
-	for x in ip:
-		if not x.isdigit():
-			return False
-		i = int(x)
-		if i < 0 or i > 255:
-			return False
-	return True
-
-def send_event(source_ip,destination_ip,payload):
-	try:	
-		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload
-		send(spoofed_packet)
-	except:
-		print ('Sending Event Failed', sys.exc_info()[0])
-
-def read_json(data):
-		try:
-			json_data=json.loads(data)
-
-		except ValueError:
-			print(bcolors.FAIL+"Bad JSON event syntax: "+data+bcolors.ENDC)
-			return None
-		else:
-			return json_data
-
 
 try:
 	os.mkfifo(SOCSIM_FIFO)
@@ -53,7 +23,6 @@ def main():
 				if len(data) == 0:
 					#print("Writer closed")
 					break
-				print(data)	
 				try:	
 					json_data = read_json(data)
 					if json_data:
@@ -61,7 +30,7 @@ def main():
 						destination_ip=json_data['destination_ip']
 						payload=json_data['payload']
 						if not is_valid_ip(source_ip) or not is_valid_ip(destination_ip):
-							print(source_ip,destination_ip,' not a valid IP address')
+							print(bcolors.FAIL+source_ip,destination_ip,' not a valid IP address'+bcolors.ENDC)
 							continue
 						send_event(source_ip,destination_ip,payload)
 
