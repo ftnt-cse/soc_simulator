@@ -2,8 +2,11 @@
     "name": "Compromised Web Server Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
-    "connectors_dependencies":["whois-rdap","virustotal"],
-    "fsm_events_dependencies":[{"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},{"source_ip":"10.0.50.150","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.150 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},{"source_ip":"10.0.50.204","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.204 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""}],
+    "connectors_dependencies":["whois-rdap","virustotal","fortigate-firewall","fortinet-fortisiem"],
+    "fsm_events_dependencies":[
+        {"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},
+        {"source_ip":"10.0.50.150","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.150 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""},
+        {"source_ip":"10.0.50.204","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.204 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Super;IMPID=01234\""}],
     "version": "1.0.0",
     "description": "A Web Server is Compromised, its index.htm overridden with a malicious URL redirect",
     "category": "soc_analyst",

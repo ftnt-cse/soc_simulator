@@ -19,7 +19,7 @@
 }
 ]
 
-FSM <> Fri May 15 20:28:04 2020 centos: [FSM_LINUX_FILE_CHANGE_BASELINE]: [fileName]=/dvwa/moadmin/moadmin.php,[targetHashCode]="8549468684834f53b36db05ba45ff5ac",[hashCode]="d41d8cd98f00b204e9800998ecf8427e",[hashAlgo]="MD5",[user]=root
+FSM <120> Fri May 15 20:28:04 2020 centos: [FSM_LINUX_FILE_CHANGE_BASELINE]: [fileName]=/dvwa/moadmin/moadmin.php,[targetHashCode]="8549468684834f53b36db05ba45ff5ac",[hashCode]="d41d8cd98f00b204e9800998ecf8427e",[hashAlgo]="MD5",[user]=root
 
 Centos: 10.0.50.20 
 "10.12.132.1 - - [12/May/2020:15:58:07 +0200] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 1049 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36\""
