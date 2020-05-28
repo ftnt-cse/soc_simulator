@@ -48,6 +48,7 @@ TR_* are environment constant attributes to be used in the scenarios, see scenar
 - Main script: The main cli
 - Modules Directory: Contain various functions libraries
 - Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario. it is a list of dictionary objects.
+- SOCSIM_Daemon: implementing functions which require root privileges such as sending spoofed syslogs to FortiSIEM
 
 ### Templates:
 Each scenario template is a folder containing:
@@ -201,3 +202,7 @@ The list of available dynamic values (Variables):
 |"TR_T-5"|get_time_minus_five|get timestamp of about five hours ago|
 |"TR_T-6"|get_time_minus_six |get timestamp of about six hours ago)
 |"TR_USERNAME"|get_username|a random username|
+
+### SOCSIM_Daemon:
+If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration paramter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
+If soc_simulator is run as root, events are sent directly.

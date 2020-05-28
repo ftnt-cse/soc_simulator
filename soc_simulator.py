@@ -52,8 +52,8 @@ def main():
 	if args.tenant:
 		tenant_iri=lookup_tenant_iri(args.server,headers,args.tenant)['@id']
 	
-	# if scenario_data['info.json']['connectors_dependencies']:
-	# 	check_connectors_prerequisites(args.server,headers,scenario_data['info.json']['connectors_dependencies'])
+	if scenario_data['info.json']['connectors_dependencies']:
+		check_connectors_prerequisites(args.server,headers,scenario_data['info.json']['connectors_dependencies'])
 
 	if getpass.getuser() == 'root':
 		if scenario_data['info.json']['fsm_events_dependencies']:
