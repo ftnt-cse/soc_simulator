@@ -237,7 +237,7 @@
                     "phRecvTime": "Mon May 25 08:03:28 CEST 2020",
                     "reptVendor": "Generic",
                     "collectorId": "1",
-                    "rawEventMsg": "FSM <> Fri May 15 20:28:04 2020 centos: [FSM_LINUX_FILE_CHANGE_BASELINE]: [fileName]= /var/www/html/index.php,[targetHashCode]=\"8549468684834f53b36db05ba45ff5ac\",[hashCode]=\"d41d8cd98f00b204e9800998ecf8427e\",[hashAlgo]=\"MD5\",[user]={{TR_USERNAME}}",
+                    "rawEventMsg": "FSM <> Fri May 15 20:28:04 2020 centos: [FSM_LINUX_FILE_CHANGE_BASELINE]: [fileName]= /var/www/html/index.php,[targetHashCode]=\"d41d8cd98f00b204e9800998ecf8427e\",[hashCode]=\"8549468684834f53b36db05ba45ff5ac\",[hashAlgo]=\"MD5\",[user]={{TR_USERNAME}}",
                     "reptDevName": "centos",
                     "timeSkewSec": "819324",
                     "eventParsedOk": "1",

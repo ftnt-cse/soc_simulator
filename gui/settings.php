@@ -3,21 +3,15 @@
 
 <style>
 
-  body {
-    font-family: arial;
-  }
-
-  table, th, td {
-    border: 1px solid;
-    border-collapse: collapse;
-    padding: 10px;
-  }
-
-  .button {
-    padding: 10px 20px;
-  }
-
 </style>
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
 
 </head>
 <body>
@@ -80,7 +74,7 @@ foreach ($currentSettings as $key => $value) {
   <td colspan="3"> 
 -->
     <input type="hidden" name="settingsFilePath" value="<?php echo $settingsFilePath; ?>">
-    <input type="submit" class="button" name="submit" value="Save">
+    <input type="submit" class="smallButton" name="submit" value="Save">
   </td>
 </tr>
 </table>

@@ -2,25 +2,17 @@
 <head>
 
 <style>
-
-  body {
-    font-family: arial;
-  }
- 
-  table, th, td {
-    padding: 10px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-
-  form {
-
-  display: grid;
-  grid-template-columns: 100px 100px;
-  grid-gap: 10px;
-  }
-
 </style>
+
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
+
 
 </head>
 </body>
@@ -40,11 +32,14 @@ if (!($_POST['confirm'] or $_POST['cancel'])) {
 
   <form method="post" action="" target="main_pane" >
      <input type="hidden" name="scenarioName" value="<?php echo $scenario; ?>">
+     <br>
      <input type="checkbox" name="confirm" value="confirm">	
      <label for="confirm">Confirm</label>
+     <br>
      <input type="checkbox" name="cancel" value="cancel">
      <label for="cancel">Cancel</label>
-     <input type="submit" name="submit" value="Continue">   
+     <br><br>
+     <input type="submit" name="submit" value="Continue" class="smallButton">   
   </form>
 
 <br>
@@ -61,7 +56,7 @@ if ($_POST['confirm']) {
   <form method="post" action="index.php" target="_top">
     <input type="hidden" name="scenario_folder" value="my_scenarios">		<!-- HIDDEN VALUES TO SET SCENARIO BUILDER PAGE WHEN RELOADING INDEX.PHP -->
     <input type="hidden" name="scenario_builder" value="scenario_builder">
-  <input type="submit" name="submit" value="Continue">
+  <input type="submit" name="submit" value="Continue" class="smallButton">
   </form>
 
 <?php
@@ -74,7 +69,7 @@ if ($_POST['confirm']) {
   <form method="post" action="index.php" target="_top">
     <input type="hidden" name="scenario_folder" value="my_scenarios">	<!--	 HIDDEN VALUES TO SET SCENARIO BUILDER PAGE WHEN RELOADING INDEX.PHP -->
     <input type="hidden" name="scenario_builder" value="scenario_builder"> 
-  <input type="submit" name="submit" value="Continue">
+  <input type="submit" name="submit" value="Continue" class="smallButton" >
   </form>
 <?php
 }

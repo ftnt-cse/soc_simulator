@@ -2,24 +2,15 @@
 <head>
 
 <style>
-
-  body {
-    font-family: arial;
-  }
- 
-  table, th, td {
-    padding: 5px;
-    border: none;
-    border-collapse: collapse;
-  }
-
-   plaintable {
-     padding: 0px;
-    border: none;
-    border-collapse: collapse;
-  }
-
 </style>
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
 
 </head>
 </body>
@@ -46,28 +37,28 @@
     for ($x = 0; $x < $stepCount; $x++) {
       $humanReadableStep = $x + 1;
       ?>
-        <table>		<!-- table to lay out title and buttons -->
+        <table class="noborder">		<!-- table to lay out title and buttons -->
           <tr>
             <td><h3>Step <?php echo $humanReadableStep; ?></h3></td>
             <td>
               <form method="post" action="edit_step.php" target="" >  <!-- set target="step_editor" to use the iframe -->
                <input type="hidden" name="scenarioFilePath" value="<?php echo $scenarioFilePath; ?>">
                <input type="hidden" name="step" value="<?php echo $x; ?>">
-               <button type="submit" name="submit">Edit Step <?php echo $humanReadableStep;?></button>
+               <button type="submit" name="submit" class="smallButton">Edit Step <?php echo $humanReadableStep;?></button>
               </form>  
             </td>
             <td>
               <form method="post" action="delete_step.php" target="">
                 <input type="hidden" name="scenarioFilePath" value="<?php echo $scenarioFilePath; ?>">     
                 <input type="hidden" name="step" value="<?php echo $x; ?>">
-                <button type="submit" name="submit">Delete Step <?php echo $humanReadableStep;?></button>
+                <button type="submit" name="submit" class="smallButton">Delete Step <?php echo $humanReadableStep;?></button>
               </form>  
             </td>
             <td>   
               <form method="post" action="Insert_step.php" target="">
                 <input type="hidden" name="scenarioFilePath" value="<?php echo $scenarioFilePath; ?>">
                 <input type="hidden" name="step" value="<?php echo $x; ?>">
-                <button type="submit" name="submit">Insert Step </button>
+                <button type="submit" name="submit" class="smallButton">Insert Step </button>
               </form>  
             </td>
           </tr>

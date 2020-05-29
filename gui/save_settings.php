@@ -3,17 +3,14 @@
 
 <style>
 
-  body {
-    font-family: arial;
-  }
- 
-  table, th, td {
-    padding: 10px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-
 </style>
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';                                                                                                                                                                                         } else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
 
 </head>
 </body>
@@ -68,7 +65,7 @@ fclose($settingsFile);
 
 
 <form method="post" action="settings.php" target="">
-  <input type="submit" name="submit" value="Click to Return">
+  <input type="submit" name="submit" value="Click to Return" class="smallButton">
 </form>
 
 

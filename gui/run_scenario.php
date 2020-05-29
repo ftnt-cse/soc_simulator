@@ -3,41 +3,17 @@
 <head>
 
 <style>
-
-  body {
-    font-family: arial;
-  }
-
-
-  table, th, td {
-    border: 1px solid;
-    border-collapse: collapse;
-    padding: 5px;
-  }
-
-  .container {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .scenario {
-    max-width: 1100;
-    padding: 20px;
-  }
-
-  .steps {
-    padding: 20px;
-  }
-
-  .iframe {
-    font: monospace;
-    background-color: black;
-    color: lime;
-    border: none;
-    font-weight: bold;
-  }
-
 </style>
+
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
+
 
 </head>
 <body>
@@ -58,7 +34,7 @@
  
       <form method="post" action="load_scenario.php">
         <input type="hidden" name="scenarioName" value="<?php echo $scenario; ?>"> 
-        <input type="submit" name="submit" value="Customize (Overwrite existing custom scenario)">
+        <input type="submit" name="submit" class="smallButton" value="Customize (Overwrite existing custom scenario)">
       </form>
     </td>
   </tr>
@@ -72,7 +48,8 @@
 
   // READ AND PROCESS THE SCENARIO DESCRIPTION FILE INFO.JSON TO A HTML TABLE
   // READ FILE AND PARSE TO A PHP ASSOCIATIVE ARRAYi
-
+  
+  if(file_exists($infoFilePath)) {
     $infoFile = fopen($infoFilePath, "r");
     $descriptionArray = json_decode(fread($infoFile, filesize($infoFilePath)), true);
     fclose($infoFile);
@@ -88,6 +65,9 @@
         echo "<tr><td><b>" .  $x . "</b></td><td>" . $x_value . "</td></tr>";  
       }
     }
+  } else {
+    echo "<tr><td>No info.json Found</tr></td>";
+  }
 
     ?>
 
@@ -121,14 +101,16 @@
     <?php
     
       $scenarioFilePath = "../scenarios/$scenario/scenario.json"; 
-      $scenarioFile = fopen($scenarioFilePath, "r");
-      $scenarioArray = json_decode(fread($scenarioFile, filesize($scenarioFilePath)), true);
-      fclose($scenarioFile);
 
-      // COUNT THE DATA ELEMENTS IN THE ARRAY
+      if ( file_exists($scenarioFilePath)) {
+        $scenarioFile = fopen($scenarioFilePath, "r");
+        $scenarioArray = json_decode(fread($scenarioFile, filesize($scenarioFilePath)), true);
+        fclose($scenarioFile);
 
-       $stepCount = count($scenarioArray);
+        // COUNT THE DATA ELEMENTS IN THE ARRAY
 
+         $stepCount = count($scenarioArray);
+      }
       ?>
 
       <table class="regularTable">
@@ -148,7 +130,8 @@
       <form method="post" action="run_step.php" target="stepResultsFrame<?php echo $humanReadableStep; ?>">
         <input type="hidden" name="step" value="<?php echo $humanReadableStep; ?>">
         <input type="hidden" name="mode" value="<?php echo $_POST["mode"]; ?>">
-        <button type="submit" name="executefunction">Execute Step <?php echo $humanReadableStep;?></button>
+        <input type="hidden" name="scenario_id" value="<?php echo $_POST["scenario_id"]; ?>">
+        <button type="submit" name="executefunction" class="smallButton">Execute Step <?php echo $humanReadableStep;?></button>
       </form>
 
       <iframe name="stepResultsFrame<?php echo $humanReadableStep; ?>" src="" height="100" width="500" class="iframe"></iframe>

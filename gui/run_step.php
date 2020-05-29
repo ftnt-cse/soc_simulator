@@ -4,13 +4,14 @@
 
 <style>
 
-  body {
-    font-family: monospace;
-    color: lime;
-    background-color: black;
-  }
+body {
+ font-family: monospace;
+ color: limegreen;
+  font-size: 16px;
+}
 
 </style>
+
 
 </head>
 <body>
@@ -30,16 +31,21 @@
     $sshPort = $currentSettings["GUI_sshPort"];
     $sshUser = $currentSettings["GUI_sshUser"];
     $sshPass = $currentSettings["GUI_sshPass"];
+    $targetUser = $currentSettings["username"];
+    $targetPass = $currentSettings["password"];
+    $targetServer = $currentSettings["server"];
 
 //GET STEP NUMBER FROM INDEX.PHP RUN STEP BUTTON
 
 $step = $_POST["step"];
+$scenario = $_POST["scenario_id"];
 
 // echo "Mode : " . $mode . "<br>";
+// echo "$targetUser<br>$targetPass<br>$targetServer<br>$scenario<br>$step";
 
 //COMMAND TO EXECUTE
 
-$command = "uptime";
+$command = "python3 ../soc_simulator.py -s $targetServer -u $targetUser -p $targetPass -f scenarios/$scenario -j $step";
 
 // CHECK $mode AND EXECUTE COMMAND LOCALLY OR BY SSH
 
@@ -62,8 +68,7 @@ $process = proc_open($command, $descr, $pipes);
 
 if (is_resource($process)) {
   while ($f = fgets($pipes[1])) {
-  echo "<p>Local mode</p>";
-  echo "<p>" . $f . "</p>";
+  echo "<p><b>Local mode</b><br>" . $f . "</p>";
   }
   fclose($pipes[1]);
   proc_close($process);

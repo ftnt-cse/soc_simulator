@@ -2,19 +2,16 @@
 <head>
 
 <style>
-
-  body {
-    font-family: arial;
-  }
- 
-  table, th, td {
-    padding: 10px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-
 </style>
 
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
+  
 </head>
 </body>
 
@@ -56,48 +53,67 @@
     </tr>
 
 <?php		// READ ARRAY AND BUILD TABLE
-		// NAME PREFIX WITH _1 TO DIFFERENITATE STEP DATA FROM INCIDNET DATA IN _POST
+		// NAME PREFIX WITH _1  _2 etc TO DIFFERENITATE NESTED ARRAYS IN _POST
 
-foreach ($currentScenario[$step][data][0] as $key => $i) {
+foreach ($currentScenario[$step]['data'][0] as $key => $i) {
+  if(!is_array($i)) {		// CHECK THIS ISNT AN ARRAY AND PRINT VAR
 ?>
   <tr>
      <td><label for="<?php echo $key; ?>"><?php echo $key; ?></label></td>
      <td><?php echo $i; ?></td>
-     <td><input type="text" size="50" id="<?php echo $key; ?>" name="1_<?php echo $key; ?>" value="<?php echo $i; ?>"</td>
+     <td><input type="text" size="50" id="<?php echo $key; ?>" name="1_<?php echo $key ; ?>" value="<?php echo $i; ?>"</td>
    </tr>
 
 <?php
+  } else { 		// OTHERWISE IT IS AN ARRAY, STEP DOWN
+    echo "<tr><td colspan=\"3\">$key</td></tr>";		// ADD A TITLE ROW FOR SUB ARRAY
+    foreach ($currentScenario[$step]['data'][0][$key] as $key2 => $i2) {
+      if(!is_array($i2)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+        <tr>
+          <td><label for="<?php echo $key2; ?>"><?php echo $key2; ?></label></td>
+          <td><?php echo $i2; ?></td>
+          <td><input type="text" size="50" id="<?php echo $key2; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>" value="<?php echo $i2; ?>"</td>
+        </tr>
+
+<?php
+      } else {
+        echo "<tr><td colspan=\"3\">$key2</td></tr>";		// ADD A TITLE ROW FOR SUB ARRAY
+        foreach ($currentScenario[$step]['data'][0][$key][$key2] as $key3 => $i3) {
+          if(!is_array($i3)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+            <tr>
+              <td><label for="<?php echo $key3; ?>"><?php echo $key3; ?></label></td>
+              <td><?php echo $i3; ?></td>
+              <td><input type="text" size="50" id="<?php echo $key3; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>" value="<?php echo $i3; ?>"</td>
+            </tr>
+
+<?php
+          } else {
+            echo "<tr><td colspan=\"3\">$key3</td></tr>";		// ADD A TITLE ROW OF PREVIOUS KEY VALUE FOR SUB ARRAY
+            foreach ($currentScenario[$step]['data'][0][$key][$key2][$key3] as $key4 => $i4) {
+              if(!is_array($i4)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+                <tr>
+                  <td><label for="<?php echo $key4; ?>"><?php echo $key4; ?></label></td>
+                  <td><?php echo $i4; ?></td>
+                  <td><input type="text" size="50" id="<?php echo $key4; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>" value="<?php echo $i4; ?>"</td>
+                </tr>
+<?php
+          } else {
+              echo "<tr><td colspan=\"3\"><b>ERROR MAXIMUM ARRAY DEPTH REACHED!!</b></td></tr>";    
+            }
+          }
+        }
+      }
+    }
+  }
+}
 }
 ?>
 
 </tbody>
 </table>
-
-<br>
-<table style="width:80%">			<!-- TABLE FOR INCIDENT DATA -->
-  <colgroup>
-    <col span="1" style="width:20%">
-    <col span="1" style="width:40%">
-    <col span="1" style="width:40%">
-  <colgroup>
-
-<tbody>
-
-<tr><td colspan="3"><b>Incident Data</b></td></tr>
-<?php
-
-foreach ($currentScenario[$step][data][0][sourcedata][incident] as $key => $i) {
-?>
-  <tr>
-     <td><label for="<?php echo $key; ?>"><?php echo $key; ?></label></td>
-     <td><?php echo $i; ?></td>
-     <td><input type="text" size="50" id="<?php echo $key; ?>" name="<?php echo $key; ?>" value="<?php echo $i; ?>"</td>
-   </tr>
-
-<?php
-}
-
-?>
 
   <tr>
     <td colspan="3">
@@ -105,7 +121,7 @@ foreach ($currentScenario[$step][data][0][sourcedata][incident] as $key => $i) {
       <!-- send $step and $scenariofilePath on when form is resubmitted -->
       <input type="hidden" name="scenarioFilePath" value="<?php echo $scenarioFilePath; ?>">
       <input type="hidden" name="step" value="<?php echo $step; ?>">
-      <input type="submit" name="submit" value="Save">
+      <input type="submit" name="submit" value="Save" class="smallButton">
     </td>
   </tr>
   </tbody>

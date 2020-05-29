@@ -4,7 +4,6 @@
 <style>
 </style>
 
-
 <?php
 
 if (file_exists('usedarktheme.txt')) {

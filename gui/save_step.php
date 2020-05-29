@@ -3,17 +3,16 @@
 
 <style>
 
-  body {
-    font-family: arial;
-  }
- 
-  table, th, td {
-    padding: 10px;
-    border: 1px solid;
-    border-collapse: collapse;
-  }
-
 </style>
+
+
+<?php
+if (file_exists ('usedarktheme.txt')) {
+echo '<link href="darkTheme.css" rel="stylesheet">';
+} else {
+echo '<link href="lightTheme.css" rel="stylesheet">';
+}
+?>
 
 </head>
 </body>
@@ -30,30 +29,50 @@
     fclose($scenarioFile);
 
 /*
-  //  DEBUG PRINT OUTPUT OF _POST TO CHECK VARS 
-  echo "<p>Output of _POST</p>";
+ //  DEBUG PRINT OUTPUT OF _POST TO CHECK VARS 
+  echo "<p>Output of _POST</p><pre>";
   print_r($_POST);
   echo "</pre>";
 */
 
   // SET $CURRENTSCENARIO WITH NEW KEY => VALUE FROM _POST
 
-  foreach ($_POST as $key => $i) {       
+foreach ($_POST as $key => $i) {       
     //FIRST MATCH THE SCENARIO DATA KEYS STARTING 1_ 
-    if (preg_match('/^1_/', $key)) {		// MATCH STEP KEYS
-      $key2 = preg_replace('/^1_/', '', $key); 
-      // CHECK KEY EXISTS, AND THAT IT IS NOT A NESTED ARRAY TO PREVENT OVERWRITNG 
-      if (array_key_exists($key2, $currentScenario[$step][data][0]) && !(is_array($currentScenario[$step][data][0][$key2]))) {
-        $currentScenario[$step][data][0][$key2] = $i;
+   if (preg_match('/^1_/', $key)) {		// MATCH STEP KEYS
+     $key = preg_replace('/^1_/', '', $key); 
+      
+      $keys = explode("::", $key);
+   
+     /* DEBUG
+       echo "<pre>";
+       print_r($keys);
+       echo "</pre>";
+       echo $keys[1];
+       echo "<br>" . $currentScenario[$step]['data'][0][$keys[0]] . "<br>";
+     */
+
+    if(count($keys) == 1) {
+      if (array_key_exists($keys[0], $currentScenario[$step]['data'][0]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]] = $i;
       }
-    } 
-    // NOW MATCH INCIDENT DATA
-    if (array_key_exists($key, $currentScenario[$step][data][0][sourcedata][incident])) {
-      //  HANDLE INCIDNET DATA KEYS, CHECK VALID KEY TO PREVENT OTHER _POST VARS BEING ADDED TO STEP DATA 
-      $currentScenario[$step][data][0][sourcedata][incident][$key] = $i;
-    }
+    } elseif(count($keys) == 2) {
+      if (array_key_exists($keys[1], $currentScenario[$step]['data'][0][$keys[0]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]]))) {
+          $currentScenario[$step]['data'][0][$keys[0]][$keys[1]] = $i;
+      }
+    } elseif(count($keys) == 3) {
+      if (array_key_exists($keys[2], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]] = $i;
+       }
+    } elseif(count($keys) == 4) {
+      if (array_key_exists($keys[3], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $i;
+      }
+    }    
   } 
-  
+} 
+
+
   // WRITE $CURRENTSCENARIO TO FILE
   // LIMIT TO 2000000 BYTES TO PREVENT ABUSE
   $scenarioFileOpen = fopen("$scenarioFilePath", "w+");
@@ -78,7 +97,7 @@
 
 
 <form method="post" action="scenario_builder.php" target="">
-  <input type="submit" name="submit" value="Click to Return">
+  <input type="submit" name="submit" value="Click to Return" class="smallButton">
 </form>
 
 

@@ -1,0 +1,122 @@
+
+  body {
+    font-family: monospace;
+    color: limegreen;
+    font-size: 16px;
+  }
+
+ 
+  table, tr, td { 
+    border: 1px solid;
+    border-color: limegreen;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 16px: 
+  }
+ 
+ table.noborder, table.noborder tr, table.noborder td {   
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    border-collapse: collapse;
+  } 
+
+ input[type=text] {
+  border: 1px solid limegreen;
+  background-color: limegreen;
+  color: black;
+  font-family: monospace;
+}
+
+.button {
+  background-color: black;
+  font-family: monospace;
+  color: orange;
+  font-size: 16px;
+  font-weight: bold;
+  border: 5px solid orange;
+  text-align: right;
+  width: 100%;
+  padding: 10px 20px;
+  white-space: normal;		/*  THIS ALLOWS WORD WRAP ON BUTTON */
+}
+
+.activeButton {
+  background-color: orange;
+  color: black;
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: bolder;
+  border: 5px solid orange;
+  text-align: right;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.smallButton {
+  background-color: black;
+  font-family: monospace;
+  color: orange;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid orange;
+  text-align: center;
+  padding: 5px 5px;
+  white-space: normal;		/*  THIS ALLOWS WORD WRAP ON BUTTON */
+}
+
+
+
+.header {
+  text-align: center;
+  padding: 10px;
+  background-color: black;
+
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+}
+
+
+.topMenu {
+  background: black;
+  display: flex;
+  justify-content: center;
+}
+
+.sideMenu {
+  width: 250;
+  padding: 20px;
+  background: black;
+  display: inline-block;
+}
+
+.scenario {
+  width: 100%; 
+  padding-top: 45%;		/* this is important, it sets the aspect ratio of the iframe */
+  position: relative;
+  background: black;
+  color: limegreen;
+  font-size: 16px;
+}
+
+.scenario iframe {
+  border: none;
+  width: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  color: limegreen;
+  background: black;
+  font-size: 16px;
+}
+
+.steps {
+  padding: 20px;
+}
+
+
