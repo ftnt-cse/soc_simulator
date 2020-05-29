@@ -11,6 +11,805 @@
         {
           "@type": "Workflow",
           "triggerLimit": null,
+          "name": "File_Integrity_Investigation",
+          "aliasName": null,
+          "description": "Investigate file content change",
+          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/806c8290-2d02-4583-b9bd-f0cead77be9a",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "FSMSIM-CWS-2",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "126",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "806c8290-2d02-4583-b9bd-f0cead77be9a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Configuration",
+              "description": null,
+              "arguments": {
+                "incident_file_name": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentDetail | regex_search(\"fileName:([^,]*)\")).split(':')[1]}}",
+                "alerts_severity_map": "{'MINIMAL': {{'Severity'| picklist('Minimal') }}, 'LOW': {{'Severity'| picklist('Low') }}, 'MEDIUM': {{'Severity'| picklist('Medium') }}, 'HIGH': {{'Severity'| picklist('High') }}, 'CRITICAL': {{'Severity'| picklist('Critical') }}}",
+                "incident_source_data": "{{vars.input.records[0].sourcedata.incident_data}}",
+                "incident_src_hashcode": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentDetail | regex_search(\"hashCode:([^,]*)\")).split(':')[1]}}",
+                "incident_modification_hashcode": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentTarget | regex_search(\"targetHashCode:([^,]*)\")).split(':')[1]}}"
+              },
+              "status": null,
+              "left": "126",
+              "top": "160",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "73a89225-9a23-4d58-b47d-42e7374408a3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Updating the Alert with Virus Total Reputation",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.incident_source_data.attributes.eventName}}-{{vars.incident_source_data.attributes.incidentId}}",
+                  "type": {
+                    "id": 124,
+                    "@id": "/api/3/picklists/574a6ee2-7265-4701-815e-cff83b053bce",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other / Unknown",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Other / Unknown",
+                    "orderIndex": 13
+                  },
+                  "dueBy": "{{globalVars.Current_Data}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "domain": "fortielab.com",
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "fileHash": "{{vars.incident_modification_hashcode}}",
+                  "fileName": "{{vars.incident_file_name | basename}}",
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  },
+                  "sourceIp": "{%if vars.incident_source_data.attributes.srcIpAddr%}{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}",
+                  "userName": "{{vars.incident_source_data.attributes.user}}",
+                  "fileNames": "{{vars.incident_src_hashcode}}",
+                  "sourceType": "SIEM",
+                  "sourcedata": "{{vars.incident_source_data|toJSON}}",
+                  "description": "#### Description:\n> {{vars.incident_source_data.attributes.incidentTitle}}\n> Original File Hash: **{{vars.incident_src_hashcode}}**\n> New File Hash: **{{vars.incident_modification_hashcode}}**\n> Host Name: **{{vars.incident_source_data.attributes.hostName}}**\n> Username: **{{vars.incident_source_data.attributes.user}}**\n\n### VirusTotal reputation of the dropped file: <span style=\"color:red\">{{vars.steps.Get_Modified_File_Reputation.data.aggregate}}</span>",
+                  "computerName": "{{vars.incident_source_data.attributes.hostName}}",
+                  "destinationIp": "{%if vars.incident_source_data.attributes.destIpAddr%}{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}",
+                  "sourceProcess": "httpd",
+                  "killChainPhase": {
+                    "id": 376,
+                    "@id": "/api/3/picklists/1713c4c8-7e66-4bb9-bf46-096a9e2bc071",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Exploitation",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Exploitation",
+                    "orderIndex": 4
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "127",
+              "top": "511",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "b59ea21e-d700-40d1-844c-73add83f7e90"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Modified File Reputation",
+              "description": null,
+              "arguments": {
+                "name": "VirusTotal",
+                "config": "471aeb8c-8a8f-4a91-aa73-aee8012b31f8",
+                "params": {
+                  "file_hash": "{{vars.incident_modification_hashcode}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Get The dropped file reputation from VirusTotal",
+                  "records": ""
+                },
+                "version": "1.0.1",
+                "connector": "virustotal",
+                "operation": "file_reputation",
+                "operationTitle": "Get File Reputation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "127",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "95b30e64-24a2-4563-8d3e-15601577f289"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Indicator",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "value": "{{vars.incident_modification_hashcode}}",
+                  "__replace": "true",
+                  "reputation": {
+                    "id": 109,
+                    "@id": "/api/3/picklists/7074e547-7785-4979-be32-c6d0c863e4bd",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#c42323",
+                    "display": "Malicious",
+                    "listName": "/api/3/picklist_names/e75ed3c3-9f23-4a43-832b-0daf236209ba",
+                    "itemValue": "Malicious",
+                    "orderIndex": 1
+                  },
+                  "description": "New file dropped",
+                  "filehashMD5": "{{vars.incident_modification_hashcode}}",
+                  "indicatorStatus": {
+                    "id": 366,
+                    "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Blocked",
+                    "listName": "/api/3/picklist_names/e6639d57-94a9-432f-a46f-b2b530402077",
+                    "itemValue": "Blocked",
+                    "orderIndex": 0
+                  },
+                  "typeofindicator": {
+                    "id": 74,
+                    "@id": "/api/3/picklists/0ca054f2-d923-4992-a4a7-c516e6df281e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "FileHash-MD5",
+                    "listName": "/api/3/picklist_names/50ee5bfa-e18f-49ba-8af9-dcca25b0f9c0",
+                    "itemValue": "FileHash-MD5",
+                    "orderIndex": 4
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/upsert/indicators",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "127",
+              "top": "400",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "b21e91af-c3e9-459c-a6a3-67e04cc27a5a"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "24d62258-b49d-4b68-97f5-12bc7014e2ec",
+              "name": "Start -> Configuration",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/73a89225-9a23-4d58-b47d-42e7374408a3",
+              "sourceStep": "/api/3/workflow_steps/806c8290-2d02-4583-b9bd-f0cead77be9a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b19e2670-9ea1-4b21-945c-f13bb24d18c3",
+              "name": "Configuration -> Get Modified File Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/95b30e64-24a2-4563-8d3e-15601577f289",
+              "sourceStep": "/api/3/workflow_steps/73a89225-9a23-4d58-b47d-42e7374408a3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "07f38350-f625-488f-bcd4-d48171aafc36",
+              "name": "Get Modified File Reputation -> Create Indicator",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b21e91af-c3e9-459c-a6a3-67e04cc27a5a",
+              "sourceStep": "/api/3/workflow_steps/95b30e64-24a2-4563-8d3e-15601577f289"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "18f1620c-de06-4314-9a37-4f95296af094",
+              "name": "Create Indicator -> Update Alert",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b59ea21e-d700-40d1-844c-73add83f7e90",
+              "sourceStep": "/api/3/workflow_steps/b21e91af-c3e9-459c-a6a3-67e04cc27a5a"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1590776476,
+          "uuid": "57733aa2-64be-4b9f-9ac0-99b92cbee642",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Lateral Movement Assessment and Remediation",
+          "aliasName": null,
+          "description": "Identifies compromised targets and isolates them",
+          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/0960d15b-f886-4737-ae53-7cfb61621afd",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "ba2e3694-7778-4656-8d4b-680463080263",
+                "resources": [
+                  "incidents"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records}}"
+                  }
+                },
+                "displayConditions": {
+                  "incidents": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": []
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": false,
+                "singleRecordExecution": true
+              },
+              "status": null,
+              "left": "300",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "0960d15b-f886-4737-ae53-7cfb61621afd"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Block Infected Machines",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet FortiGate",
+                "config": "2f403563-7c5d-427e-ad2f-bb8a4e28b0d3",
+                "params": {
+                  "vdom": "",
+                  "method": "Quarantine Based",
+                  "duration": 200,
+                  "ip_addresses": "{{vars.infected_machines}}",
+                  "time_to_live": "Custom Time"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Block Infetced machines <span style=\"color:red\">{{vars.infected_machines}}</span> on FortiGate\n",
+                  "records": ""
+                },
+                "version": "3.0.0",
+                "connector": "fortigate-firewall",
+                "operation": "block_ip",
+                "operationTitle": "Block IP Address",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "127",
+              "top": "710",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "703cff3e-513c-4eea-9ca4-f8faccc7a8f6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Parse SIEM response",
+              "description": null,
+              "arguments": {
+                "infected_machines": "{{(vars.steps.Get_Potentially_Infected_PCs.data | json_query('events[*].attributes.srcIpAddr'))|unique}}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "435",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "8a453fc9-7eed-4480-a593-57da3cdffdc4"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Potentially Infected PCs",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet FortiSIEM",
+                "config": "ac3ca87b-205f-43ab-9b66-91fe9ba13f98",
+                "params": {
+                  "value": 120,
+                  "rel_time": "Minutes",
+                  "reportName": "uriStem CONTAIN \"/html/index.php\"  AND  httpUserAgent CONTAIN \"Windows\"",
+                  "time_selection": "Relative Time"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Query FortiSIEM for potentially infected hosts\n",
+                  "records": ""
+                },
+                "version": "3.0.1",
+                "connector": "fortinet-fortisiem",
+                "operation": "run_report",
+                "operationTitle": "Run Report",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "6bb4732b-b637-4a34-b253-2fe60716bed6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Target File",
+              "description": null,
+              "arguments": {
+                "target_file": "{{(vars.input.records[0].description| regex_search(\"uriStem:\\s+([^?]*)\")).split(\": \")[1]}}"
+              },
+              "status": null,
+              "left": "300",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "11122d4c-de84-496c-b564-bc3a05779cd5"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Restore Original File",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "86fccd04-96e3-4435-8506-57137a158fbd",
+                "params": {
+                  "cmd": "wget https://raw.githubusercontent.com/ethicalhack3r/DVWA/master/index.php -O /var/www/html/index.php",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Restoring The Original Web Server File ",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "ignore_errors": true,
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "22bb85da-60ea-4ec7-a4ce-7f4f5ac93925"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get HashCode",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "86fccd04-96e3-4435-8506-57137a158fbd",
+                "params": {
+                  "cmd": "md5sum /var/www/html/index.php",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Compute the Hash code of the restored file:\n{{vars.result.message}}",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "ignore_errors": true,
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "475",
+              "top": "705",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "2ce0a8e9-abe9-4349-a1f5-43508554745a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set HashCode",
+              "description": null,
+              "arguments": {
+                "restored_hashcode": "{{vars.steps.Get_HashCode.data| regex_search(\"([^\\s]*)\")}}"
+              },
+              "status": null,
+              "left": "475",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "60a309c9-d421-4c7b-bbfb-a56fc4debe76"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Related Alerts",
+              "description": null,
+              "arguments": {
+                "alert_data": "{{ (vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI }}"
+              },
+              "status": null,
+              "left": "475",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "c599818d-0dd0-4612-bb65-eac32afa8093"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Original HashCode",
+              "description": null,
+              "arguments": {
+                "file_hashcode": "{{(vars.alert_data.alerts| json_query('[*].fileNames')).0}}"
+              },
+              "status": null,
+              "left": "475",
+              "top": "435",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Has the file been restored",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/e29e05ab-8200-465c-a039-b407f26120a2",
+                    "condition": "{{ vars.file_hashcode == vars.restored_hashcode }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/eb81efe1-1628-46d3-a7ed-09a62e117fe2"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "475",
+              "top": "975",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "92debffc-38e3-47a4-889e-d43c4927953d"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Create Manual Remediation task",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "**TASK:**\n{%if vars.file_hashcode == vars.restored_hashcode%}\n> The modified Web Server File with hashcode: \n {{vars.file_hashcode}} has been restored\n{% else %}\n> The modified Web Server File with hashcode: \n {{vars.file_hashcode}} could not be restored, you will have to restore it manually.\n{%endif%}\n> The Vulnerability used by the attacker to compromise the web server is still present, you are required to identify it and patch the web server accordignly",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Incident Manual Remediations",
+                  "type": {
+                    "id": 122,
+                    "@id": "/api/3/picklists/826ad76d-e418-4928-9bc9-ea552ebcc5f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Incident Response",
+                    "listName": "/api/3/picklist_names/b837e375-76af-4ba5-b6a1-bd1c3cd27292",
+                    "itemValue": "Incident Response",
+                    "orderIndex": 6
+                  },
+                  "priority": {
+                    "id": 139,
+                    "@id": "/api/3/picklists/90088ebe-0a7d-4aa6-9c9c-93b937a4e4f8",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e36c29",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/bea9a490-50d1-4597-8ad9-24422e10676e",
+                    "itemValue": "High",
+                    "orderIndex": 2
+                  },
+                  "__replace": "",
+                  "incidents": "{{vars.input.records[0]['@id']}}",
+                  "description": "{%if vars.file_hashcode == vars.restored_hashcode%}\n> The modified Web Server File with hashcode: \n {{vars.file_hashcode}} has been restored\n{% else %}\n> The modified Web Server File with hashcode: \n {{vars.file_hashcode}} could not be restored, you will have to restore it manually.\n{%endif%}\n> The Vulnerability used by the attacker to compromise the web server is still present, you are required to identify it and patch the web server accordignly",
+                  "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/tasks",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "300",
+              "top": "1110",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "eb81efe1-1628-46d3-a7ed-09a62e117fe2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Incident",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "Updating Incident...",
+                  "records": ""
+                },
+                "resource": {
+                  "description": "{{vars.input.records[0].description}}\n\n> Incident has been Remediated and the compromised file restored.\nAll infected machines below are about to be qurantined by the Firewall shortly\n{{vars.infected_machines}}\n\nYou can stop the playbook and prevent that if required, you have about 1 min"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "650",
+              "top": "1110",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "e29e05ab-8200-465c-a039-b407f26120a2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Wait for a while",
+              "description": null,
+              "arguments": {
+                "delay": {
+                  "days": 0,
+                  "hours": 0,
+                  "weeks": 0,
+                  "minutes": 0,
+                  "seconds": 60
+                }
+              },
+              "status": null,
+              "left": "126",
+              "top": "572",
+              "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
+              "uuid": "73838f45-4c18-42c3-b988-6c9a0411dfdb"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "18bac03c-e87a-4b9e-b60a-8fb9b46ad27d",
+              "name": "Get Potentially Infected PCs -> Parse SIEM response",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8a453fc9-7eed-4480-a593-57da3cdffdc4",
+              "sourceStep": "/api/3/workflow_steps/6bb4732b-b637-4a34-b253-2fe60716bed6"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b191bc37-af66-49ba-9368-e7a70707a699",
+              "name": "Start -> Get Target File",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/11122d4c-de84-496c-b564-bc3a05779cd5",
+              "sourceStep": "/api/3/workflow_steps/0960d15b-f886-4737-ae53-7cfb61621afd"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "32844738-d273-46f6-b620-2495867169a0",
+              "name": "Restore Original File -> Get HashCode",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2ce0a8e9-abe9-4349-a1f5-43508554745a",
+              "sourceStep": "/api/3/workflow_steps/22bb85da-60ea-4ec7-a4ce-7f4f5ac93925"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "6a16d47c-124c-43c2-99b2-dbf327844e22",
+              "name": "Get HashCode -> Set HashCode",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/60a309c9-d421-4c7b-bbfb-a56fc4debe76",
+              "sourceStep": "/api/3/workflow_steps/2ce0a8e9-abe9-4349-a1f5-43508554745a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c4ab9847-3818-4c08-a546-963db229f6ec",
+              "name": "Get Related Alerts -> Get Original HashCode",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f",
+              "sourceStep": "/api/3/workflow_steps/c599818d-0dd0-4612-bb65-eac32afa8093"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ffacaddb-76f0-4b3a-bf0e-0f9e7de7e21a",
+              "name": "Get Original HashCode -> Restore Original File",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/22bb85da-60ea-4ec7-a4ce-7f4f5ac93925",
+              "sourceStep": "/api/3/workflow_steps/ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "36a6e57e-6b00-4a48-870a-68152dad13ca",
+              "name": "Set HashCode -> Compare HashCodes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d",
+              "sourceStep": "/api/3/workflow_steps/60a309c9-d421-4c7b-bbfb-a56fc4debe76"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4fc2a3bb-ed4a-4e0d-adf6-aec1996b2a00",
+              "name": "Compare HashCodes -> Create Manual Remediation task",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/eb81efe1-1628-46d3-a7ed-09a62e117fe2",
+              "sourceStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "96ca5c55-985c-481f-840e-80080c456991",
+              "name": "Has the file been restored -> Update Incident",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/e29e05ab-8200-465c-a039-b407f26120a2",
+              "sourceStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "94fa2b15-2e0e-4e36-8fa1-c7ebe011632d",
+              "name": "Get Target File -> Get Related Alerts",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/c599818d-0dd0-4612-bb65-eac32afa8093",
+              "sourceStep": "/api/3/workflow_steps/11122d4c-de84-496c-b564-bc3a05779cd5"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "482fea62-03ed-49ce-8ded-564a2d200e93",
+              "name": "Get Target File -> Get Potentially Infected PCs",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6bb4732b-b637-4a34-b253-2fe60716bed6",
+              "sourceStep": "/api/3/workflow_steps/11122d4c-de84-496c-b564-bc3a05779cd5"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3dc1b577-94ee-4d07-bc70-316e672e3b5d",
+              "name": "Parse SIEM response -> Wait for a while",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/73838f45-4c18-42c3-b988-6c9a0411dfdb",
+              "sourceStep": "/api/3/workflow_steps/8a453fc9-7eed-4480-a593-57da3cdffdc4"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3abd9623-3df4-41a6-aa45-5570a0af0106",
+              "name": "Wait for a while -> Block Infected Machines",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/703cff3e-513c-4eea-9ca4-f8faccc7a8f6",
+              "sourceStep": "/api/3/workflow_steps/73838f45-4c18-42c3-b988-6c9a0411dfdb"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "57e43ff5-be70-4233-8514-3c84c506ecd4",
+              "name": "Update Incident -> Create Manual Remediation task",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/eb81efe1-1628-46d3-a7ed-09a62e117fe2",
+              "sourceStep": "/api/3/workflow_steps/e29e05ab-8200-465c-a039-b407f26120a2"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1590777560,
+          "uuid": "71cdcdbc-f8f4-4485-a8e2-a3b68787a25c",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
           "name": "Compromised_WebServer_Investigation",
           "aliasName": null,
           "description": "Investigate Web Server Remote Exploit",
@@ -37,9 +836,7 @@
                     "records": [
                       "{{vars.input.records[0]}}"
                     ]
-                  },
-                  "source_ip": "{{vars.input.records[0].sourcedata.incident_data.attributes.srcIpAddr}}",
-                  "destination_ip": "{{vars.input.records[0].sourcedata.incident_data.attributes.destIpAddr}}"
+                  }
                 },
                 "fieldbasedtrigger": {
                   "sort": [],
@@ -271,6 +1068,8 @@
               "name": "Configuration",
               "description": null,
               "arguments": {
+                "source_ip": "{{vars.input.records[0].sourcedata.incident_data.attributes.srcIpAddr}}",
+                "destination_ip": "{{vars.input.records[0].sourcedata.incident_data.attributes.destIpAddr}}",
                 "incident_attack_id": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentDetail| regex_search(\"ipsSignatureId:\\d+\")).split(\":\")[1]}}",
                 "alerts_severity_map": "{'MINIMAL': {{'Severity'| picklist('Minimal') }}, 'LOW': {{'Severity'| picklist('Low') }}, 'MEDIUM': {{'Severity'| picklist('Medium') }}, 'HIGH': {{'Severity'| picklist('High') }}, 'CRITICAL': {{'Severity'| picklist('Critical') }}}",
                 "incident_first_seen": "{{vars.input.records[0].sourcedata.incident_data.attributes.incidentFirstSeen}}",
@@ -291,7 +1090,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Setting the Alert details:\n<p>Alert&nbsp;Description:&nbsp;{{vars.incident_source_data.attributes.incidentTitle}}</p>\n</p>{%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}</p>\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Click Here for the Attack Details on Fortiguard.com</a>\n",
+                  "content": "Setting the Alert details:\n<p>Alert&nbsp;Description:&nbsp;{{vars.incident_source_data.attributes.incidentTitle}}</p>\n</p>{%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}</p>\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'> <span style=\"color:red\">Click Here</span>for the Attack Details on Fortiguard.com</a>\n",
                   "records": ""
                 },
                 "resource": {
@@ -345,7 +1144,7 @@
                   },
                   "indicators": "{{vars.steps.Create_Indicator['@id']}}",
                   "sourceType": "SIEM",
-                  "description": "#### Description:\n> {{vars.incident_source_data.attributes.incidentTitle}}\n> {%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Click Here for the Attack Details on Fortiguard.com</a>\n#### Source location\n> {{vars.steps.Get_Attacker_IP_Information.data['asn_country_code']}}-{{vars.steps.Get_Attacker_IP_Information.data['asn_description']}}\n#### Targeted File:\n> uriStem:{{vars.input.records[0].sourcedata.associated_events.event_details[0][0].attributes.uriStem}}\n#### Virus Total Reputation:\n> # **{{vars.steps.Get_Attacker_IP_Reputation_VT.data.aggregate}}**\n",
+                  "description": "#### Description:\n> {{vars.incident_source_data.attributes.incidentTitle}}\n> {%if vars.incident_source_data.attributes.srcIpAddr%}Source IP:{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}<br />{%if vars.incident_source_data.attributes.destIpAddr%}Destination IP:&nbsp;{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}\n<a href='https://fortiguard.com/encyclopedia/ips/{{vars.incident_attack_id}}/{{vars.incident_attack_name}}'>Click Here for the Attack Details on Fortiguard.com</a>\n#### Source location\n> {{vars.steps.Get_Attacker_IP_Information.data['asn_country_code']}}-{{vars.steps.Get_Attacker_IP_Information.data['asn_description']}}\n#### Targeted File:\n> uriStem:{{vars.input.records[0].sourcedata.associated_events.event_details[0][0].attributes.uriStem}}\n#### Virus Total Reputation:\n> # **<span style=\"color:red\">{{vars.steps.Get_Attacker_IP_Reputation_VT.data.aggregate}}</span>**\n",
                   "destinationIp": "{%if vars.incident_source_data.attributes.destIpAddr%}{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}",
                   "sourceProcess": "httpd",
                   "killChainPhase": {
@@ -560,7 +1359,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Sending a complain message to the Attacker ISP at {{vars.steps.Get_Attacker_IP_Information.data.objects[0].contact.address[0].value}}",
+                  "content": "Sending a complain message to the Attacker ISP at {{vars.whois_artifacts.Email[0]}}",
                   "records": ""
                 },
                 "version": "2.3.3",
@@ -571,7 +1370,7 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "986",
+              "left": "1327",
               "top": "20",
               "stepType": "/api/3/workflow_step_types/4c0019b2-055c-44d0-968c-678a0c2d762e",
               "uuid": "b4e66339-f021-40d0-b310-66b33eb2f77c"
@@ -900,6 +1699,48 @@
               "top": "668",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "772ec0a5-b0f4-4532-a9eb-8503e6a21842"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Email Approved",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/b4e66339-f021-40d0-b310-66b33eb2f77c",
+                    "condition": "{{ vars.steps.Email_Notification_to_ISP.approved }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/e6d0ab3b-eea2-4182-8f69-d27ed7c3e817"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "1327",
+              "top": "140",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "2caa30da-83e7-4f05-9777-6b73aaf94da3"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Do Not Send the Email",
+              "description": null,
+              "arguments": {
+                "params": [],
+                "version": "3.0.2",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1327",
+              "top": "260",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "uuid": "e6d0ab3b-eea2-4182-8f69-d27ed7c3e817"
             }
           ],
           "routes": [
@@ -947,15 +1788,6 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/7c0b1a3a-167b-489a-9451-7f4a736618ea",
               "sourceStep": "/api/3/workflow_steps/aac8d116-7f69-422b-b606-69064a754e88"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "0a7d68fb-5167-4589-92d9-53fb45f705d1",
-              "name": "Email Notification to ISP -> Send Email to ISP",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/b4e66339-f021-40d0-b310-66b33eb2f77c",
-              "sourceStep": "/api/3/workflow_steps/f48e815d-9e1a-4556-8d8f-2decc9fdaf5f"
             },
             {
               "@type": "WorkflowRoute",
@@ -1082,704 +1914,38 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/bf35a32b-37cf-458e-bb85-5a18aa36abc3",
               "sourceStep": "/api/3/workflow_steps/fa4626e0-9b29-4783-b4d6-c83947fb4219"
-            }
-          ],
-          "versions": null,
-          "lastModifyDate": 1590750268,
-          "uuid": "df538bef-a008-4137-91f3-0505bcb6d1f6",
-          "recordTags": [],
-          "isPrivate": false,
-          "owners": []
-        },
-        {
-          "@type": "Workflow",
-          "triggerLimit": null,
-          "name": "File_Integrity_Investigation",
-          "aliasName": null,
-          "description": "Investigate file content change",
-          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
-          "tag": null,
-          "isActive": true,
-          "singleRecordExecution": false,
-          "remoteExecutableFlag": false,
-          "parameters": [],
-          "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/806c8290-2d02-4583-b9bd-f0cead77be9a",
-          "steps": [
-            {
-              "@type": "WorkflowStep",
-              "name": "Start",
-              "description": null,
-              "arguments": {
-                "resource": "alerts",
-                "resources": [
-                  "alerts"
-                ],
-                "step_variables": {
-                  "input": {
-                    "records": [
-                      "{{vars.input.records[0]}}"
-                    ]
-                  }
-                },
-                "fieldbasedtrigger": {
-                  "sort": [],
-                  "limit": 30,
-                  "logic": "AND",
-                  "filters": [
-                    {
-                      "type": "primitive",
-                      "field": "source",
-                      "value": "FSMSIM-CWS-2",
-                      "operator": "eq",
-                      "_operator": "eq"
-                    }
-                  ]
-                }
-              },
-              "status": null,
-              "left": "126",
-              "top": "30",
-              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
-              "uuid": "806c8290-2d02-4583-b9bd-f0cead77be9a"
             },
-            {
-              "@type": "WorkflowStep",
-              "name": "Configuration",
-              "description": null,
-              "arguments": {
-                "incident_file_name": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentDetail | regex_search(\"fileName:([^,]*)\")).split(':')[1]}}",
-                "alerts_severity_map": "{'MINIMAL': {{'Severity'| picklist('Minimal') }}, 'LOW': {{'Severity'| picklist('Low') }}, 'MEDIUM': {{'Severity'| picklist('Medium') }}, 'HIGH': {{'Severity'| picklist('High') }}, 'CRITICAL': {{'Severity'| picklist('Critical') }}}",
-                "incident_source_data": "{{vars.input.records[0].sourcedata.incident_data}}",
-                "incident_src_hashcode": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentDetail | regex_search(\"hashCode:([^,]*)\")).split(':')[1]}}",
-                "incident_modification_hashcode": "{{(vars.input.records[0].sourcedata.incident_data.attributes.incidentTarget | regex_search(\"targetHashCode:([^,]*)\")).split(':')[1]}}"
-              },
-              "status": null,
-              "left": "126",
-              "top": "160",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "73a89225-9a23-4d58-b47d-42e7374408a3"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Update Alert",
-              "description": null,
-              "arguments": {
-                "resource": {
-                  "name": "{{vars.incident_source_data.attributes.eventName}}-{{vars.incident_source_data.attributes.incidentId}}",
-                  "type": {
-                    "id": 124,
-                    "@id": "/api/3/picklists/574a6ee2-7265-4701-815e-cff83b053bce",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Other / Unknown",
-                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
-                    "itemValue": "Other / Unknown",
-                    "orderIndex": 13
-                  },
-                  "dueBy": "{{globalVars.Current_Data}}",
-                  "state": {
-                    "id": 220,
-                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "New",
-                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
-                    "itemValue": "New",
-                    "orderIndex": 0
-                  },
-                  "domain": "fortielab.com",
-                  "status": {
-                    "id": 118,
-                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Open",
-                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
-                    "itemValue": "Open",
-                    "orderIndex": 1
-                  },
-                  "ackDate": "{{globalVars.Current_Date}}",
-                  "fileHash": "{{vars.incident_modification_hashcode}}",
-                  "fileName": "{{vars.incident_file_name | basename}}",
-                  "severity": {
-                    "id": 177,
-                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#D2AC1A",
-                    "display": "Medium",
-                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
-                    "itemValue": "Medium",
-                    "orderIndex": 2
-                  },
-                  "sourceIp": "{%if vars.incident_source_data.attributes.srcIpAddr%}{{vars.incident_source_data.attributes.srcIpAddr}}{%endif%}",
-                  "userName": "{{vars.incident_source_data.attributes.user}}",
-                  "fileNames": "{{vars.incident_src_hashcode}}",
-                  "sourceType": "SIEM",
-                  "sourcedata": "{{vars.incident_source_data|toJSON}}",
-                  "description": "#### Description:\n> {{vars.incident_source_data.attributes.incidentTitle}}\n> Original File Hash: **{{vars.incident_src_hashcode}}**\n> New File Hash: **{{vars.incident_modification_hashcode}}**\n> New File Reputation (VT): {{vars.steps.Get_Modified_File_Reputation.data.aggregate}}\n> Host Name: **{{vars.incident_source_data.attributes.hostName}}**\n> Username: **{{vars.incident_source_data.attributes.user}}**",
-                  "computerName": "{{vars.incident_source_data.attributes.hostName}}",
-                  "destinationIp": "{%if vars.incident_source_data.attributes.destIpAddr%}{{vars.incident_source_data.attributes.destIpAddr}}{%endif%}",
-                  "sourceProcess": "httpd",
-                  "killChainPhase": {
-                    "id": 376,
-                    "@id": "/api/3/picklists/1713c4c8-7e66-4bb9-bf46-096a9e2bc071",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Exploitation",
-                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
-                    "itemValue": "Exploitation",
-                    "orderIndex": 4
-                  }
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "{{vars.input.records[0]['@id']}}",
-                "collectionType": "/api/3/alerts",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "127",
-              "top": "511",
-              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "b59ea21e-d700-40d1-844c-73add83f7e90"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get Modified File Reputation",
-              "description": null,
-              "arguments": {
-                "name": "VirusTotal",
-                "config": "471aeb8c-8a8f-4a91-aa73-aee8012b31f8",
-                "params": {
-                  "file_hash": "{{vars.incident_modification_hashcode}}"
-                },
-                "version": "1.0.1",
-                "connector": "virustotal",
-                "operation": "file_reputation",
-                "operationTitle": "Get File Reputation",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "127",
-              "top": "280",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "95b30e64-24a2-4563-8d3e-15601577f289"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Create Indicator",
-              "description": null,
-              "arguments": {
-                "resource": {
-                  "value": "{{vars.incident_modification_hashcode}}",
-                  "__replace": "",
-                  "reputation": {
-                    "id": 109,
-                    "@id": "/api/3/picklists/7074e547-7785-4979-be32-c6d0c863e4bd",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#c42323",
-                    "display": "Malicious",
-                    "listName": "/api/3/picklist_names/e75ed3c3-9f23-4a43-832b-0daf236209ba",
-                    "itemValue": "Malicious",
-                    "orderIndex": 1
-                  },
-                  "description": "New file dropped",
-                  "filehashMD5": "{{vars.incident_modification_hashcode}}",
-                  "indicatorStatus": {
-                    "id": 366,
-                    "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Blocked",
-                    "listName": "/api/3/picklist_names/e6639d57-94a9-432f-a46f-b2b530402077",
-                    "itemValue": "Blocked",
-                    "orderIndex": 0
-                  },
-                  "typeofindicator": {
-                    "id": 74,
-                    "@id": "/api/3/picklists/0ca054f2-d923-4992-a4a7-c516e6df281e",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "FileHash-MD5",
-                    "listName": "/api/3/picklist_names/50ee5bfa-e18f-49ba-8af9-dcca25b0f9c0",
-                    "itemValue": "FileHash-MD5",
-                    "orderIndex": 4
-                  }
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "/api/3/indicators",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "127",
-              "top": "400",
-              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
-              "uuid": "b21e91af-c3e9-459c-a6a3-67e04cc27a5a"
-            }
-          ],
-          "routes": [
             {
               "@type": "WorkflowRoute",
-              "uuid": "24d62258-b49d-4b68-97f5-12bc7014e2ec",
-              "name": "Start -> Configuration",
+              "uuid": "ea0885e0-7bbe-4b97-8ce5-bdb199bb05eb",
+              "name": "Email Notification to ISP -> Email Approved",
               "label": null,
               "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/73a89225-9a23-4d58-b47d-42e7374408a3",
-              "sourceStep": "/api/3/workflow_steps/806c8290-2d02-4583-b9bd-f0cead77be9a"
+              "targetStep": "/api/3/workflow_steps/2caa30da-83e7-4f05-9777-6b73aaf94da3",
+              "sourceStep": "/api/3/workflow_steps/f48e815d-9e1a-4556-8d8f-2decc9fdaf5f"
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "b19e2670-9ea1-4b21-945c-f13bb24d18c3",
-              "name": "Configuration -> Get Modified File Reputation",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/95b30e64-24a2-4563-8d3e-15601577f289",
-              "sourceStep": "/api/3/workflow_steps/73a89225-9a23-4d58-b47d-42e7374408a3"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "07f38350-f625-488f-bcd4-d48171aafc36",
-              "name": "Get Modified File Reputation -> Create Indicator",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/b21e91af-c3e9-459c-a6a3-67e04cc27a5a",
-              "sourceStep": "/api/3/workflow_steps/95b30e64-24a2-4563-8d3e-15601577f289"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "18f1620c-de06-4314-9a37-4f95296af094",
-              "name": "Create Indicator -> Update Alert",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/b59ea21e-d700-40d1-844c-73add83f7e90",
-              "sourceStep": "/api/3/workflow_steps/b21e91af-c3e9-459c-a6a3-67e04cc27a5a"
-            }
-          ],
-          "versions": null,
-          "lastModifyDate": 1590756800,
-          "uuid": "57733aa2-64be-4b9f-9ac0-99b92cbee642",
-          "recordTags": [],
-          "isPrivate": false,
-          "owners": []
-        },
-        {
-          "@type": "Workflow",
-          "triggerLimit": null,
-          "name": "Lateral Movement Assessment and Remediation",
-          "aliasName": null,
-          "description": "Identifies compromised targets and isolates them",
-          "collection": "/api/3/workflow_collections/fc4bddca-9896-432e-b2c2-e9dc4f0d1bb2",
-          "tag": null,
-          "isActive": true,
-          "singleRecordExecution": false,
-          "remoteExecutableFlag": false,
-          "parameters": [],
-          "synchronous": false,
-          "triggerStep": "/api/3/workflow_steps/0960d15b-f886-4737-ae53-7cfb61621afd",
-          "steps": [
-            {
-              "@type": "WorkflowStep",
-              "name": "Start",
-              "description": null,
-              "arguments": {
-                "route": "ba2e3694-7778-4656-8d4b-680463080263",
-                "resources": [
-                  "incidents"
-                ],
-                "inputVariables": [],
-                "step_variables": {
-                  "input": {
-                    "records": "{{vars.input.records}}"
-                  }
-                },
-                "displayConditions": {
-                  "incidents": {
-                    "sort": [],
-                    "limit": 30,
-                    "logic": "AND",
-                    "filters": []
-                  }
-                },
-                "executeButtonText": "Execute",
-                "noRecordExecution": false,
-                "singleRecordExecution": true
-              },
-              "status": null,
-              "left": "125",
-              "top": "30",
-              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
-              "uuid": "0960d15b-f886-4737-ae53-7cfb61621afd"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Block Infected Machines",
-              "description": null,
-              "arguments": {
-                "name": "Fortinet FortiGate",
-                "config": "2f403563-7c5d-427e-ad2f-bb8a4e28b0d3",
-                "params": {
-                  "vdom": "",
-                  "method": "Quarantine Based",
-                  "duration": 200,
-                  "ip_addresses": "{{vars.infected_machines}}",
-                  "time_to_live": "Custom Time"
-                },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Block Infetced machines {{vars.infected_machines}}",
-                  "records": ""
-                },
-                "version": "3.0.0",
-                "connector": "fortigate-firewall",
-                "operation": "block_ip",
-                "operationTitle": "Block IP Address",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "125",
-              "top": "570",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "703cff3e-513c-4eea-9ca4-f8faccc7a8f6"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Parse SIEM response",
-              "description": null,
-              "arguments": {
-                "infected_machines": "{{(vars.steps.Get_Potentially_Infected_PCs.data | json_query('events[*].attributes.srcIpAddr'))|unique}}"
-              },
-              "status": null,
-              "left": "125",
-              "top": "435",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "8a453fc9-7eed-4480-a593-57da3cdffdc4"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get Potentially Infected PCs",
-              "description": null,
-              "arguments": {
-                "name": "Fortinet FortiSIEM",
-                "config": "ac3ca87b-205f-43ab-9b66-91fe9ba13f98",
-                "params": {
-                  "value": 3,
-                  "rel_time": "Hours",
-                  "reportName": "uriStem CONTAIN \"{{vars.target_file}}\"",
-                  "time_selection": "Relative Time"
-                },
-                "version": "3.0.1",
-                "connector": "fortinet-fortisiem",
-                "operation": "run_report",
-                "operationTitle": "Run Report",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "125",
-              "top": "300",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "6bb4732b-b637-4a34-b253-2fe60716bed6"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get Target File",
-              "description": null,
-              "arguments": {
-                "target_file": "{{(vars.input.records[0].description| regex_search(\"uriStem:\\s+([^?]*)\")).split(\": \")[1]}}"
-              },
-              "status": null,
-              "left": "125",
-              "top": "165",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "11122d4c-de84-496c-b564-bc3a05779cd5"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Restore Original File",
-              "description": null,
-              "arguments": {
-                "name": "SSH",
-                "config": "86fccd04-96e3-4435-8506-57137a158fbd",
-                "params": {
-                  "cmd": "wget https://raw.githubusercontent.com/ethicalhack3r/DVWA/master/index.php -O /var/www/html/index.php",
-                  "allowed_exit": "-1,0",
-                  "is_super_user": false
-                },
-                "version": "2.1.1",
-                "connector": "ssh",
-                "operation": "run_remote_command",
-                "operationTitle": "Execute remote command",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "474",
-              "top": "800",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "22bb85da-60ea-4ec7-a4ce-7f4f5ac93925"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get HashCode",
-              "description": null,
-              "arguments": {
-                "name": "SSH",
-                "config": "86fccd04-96e3-4435-8506-57137a158fbd",
-                "params": {
-                  "cmd": "md5sum /var/www/html/index.php",
-                  "allowed_exit": "-1,0",
-                  "is_super_user": false
-                },
-                "version": "2.1.1",
-                "connector": "ssh",
-                "operation": "run_remote_command",
-                "operationTitle": "Execute remote command",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "474",
-              "top": "689",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "2ce0a8e9-abe9-4349-a1f5-43508554745a"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Set HashCode",
-              "description": null,
-              "arguments": {
-                "restored_hashcode": "{{vars.steps.Get_HashCode.data| regex_search(\"([^\\s]*)\")}}"
-              },
-              "status": null,
-              "left": "474",
-              "top": "573",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "60a309c9-d421-4c7b-bbfb-a56fc4debe76"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get Related Alerts",
-              "description": null,
-              "arguments": {
-                "alert_data": "{{ (vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI }}"
-              },
-              "status": null,
-              "left": "126",
-              "top": "688",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "c599818d-0dd0-4612-bb65-eac32afa8093"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Get Original HashCode",
-              "description": null,
-              "arguments": {
-                "file_hashcode": "{{(vars.alert_data.alerts| json_query('[*].fileNames')).0}}"
-              },
-              "status": null,
-              "left": "126",
-              "top": "800",
-              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
-              "uuid": "ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Has the file been restored",
-              "description": null,
-              "arguments": {
-                "conditions": [
-                  {
-                    "option": "yes",
-                    "step_iri": "/api/3/workflow_steps/e29e05ab-8200-465c-a039-b407f26120a2",
-                    "condition": "{{ vars.file_hashcode == vars.restored_hashcode }}"
-                  },
-                  {
-                    "option": "no",
-                    "default": true,
-                    "step_iri": "/api/3/workflow_steps/eb81efe1-1628-46d3-a7ed-09a62e117fe2"
-                  }
-                ]
-              },
-              "status": null,
-              "left": "474",
-              "top": "440",
-              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
-              "uuid": "92debffc-38e3-47a4-889e-d43c4927953d"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Create Manual Remediation task",
-              "description": null,
-              "arguments": {
-                "resource": {
-                  "name": "Manually remediate incident",
-                  "__replace": ""
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "/api/3/tasks",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "788",
-              "top": "440",
-              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
-              "uuid": "eb81efe1-1628-46d3-a7ed-09a62e117fe2"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Update Incident",
-              "description": null,
-              "arguments": {
-                "resource": {
-                  "description": "{{vars.input.records[0].description}}\n> Incident has been Remediated and the compromised file restored.\nAll infected machines below have been qurantined by the Firewall\n{{vars.infected_machines}}"
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "{{vars.input.records[0]['@id']}}",
-                "collectionType": "/api/3/incidents",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "474",
-              "top": "309",
-              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "e29e05ab-8200-465c-a039-b407f26120a2"
-            }
-          ],
-          "routes": [
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "18bac03c-e87a-4b9e-b60a-8fb9b46ad27d",
-              "name": "Get Potentially Infected PCs -> Parse SIEM response",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/8a453fc9-7eed-4480-a593-57da3cdffdc4",
-              "sourceStep": "/api/3/workflow_steps/6bb4732b-b637-4a34-b253-2fe60716bed6"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "12b1084d-d359-47da-b9ec-65ab0538ff72",
-              "name": "Parse SIEM response -> Block Infected Machines",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/703cff3e-513c-4eea-9ca4-f8faccc7a8f6",
-              "sourceStep": "/api/3/workflow_steps/8a453fc9-7eed-4480-a593-57da3cdffdc4"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "b191bc37-af66-49ba-9368-e7a70707a699",
-              "name": "Start -> Get Target File",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/11122d4c-de84-496c-b564-bc3a05779cd5",
-              "sourceStep": "/api/3/workflow_steps/0960d15b-f886-4737-ae53-7cfb61621afd"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "9038dd76-bb2e-4db1-9cc8-32c9db375396",
-              "name": "Get Target File -> Get Potentially Infected PCs",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/6bb4732b-b637-4a34-b253-2fe60716bed6",
-              "sourceStep": "/api/3/workflow_steps/11122d4c-de84-496c-b564-bc3a05779cd5"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "32844738-d273-46f6-b620-2495867169a0",
-              "name": "Restore Original File -> Get HashCode",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/2ce0a8e9-abe9-4349-a1f5-43508554745a",
-              "sourceStep": "/api/3/workflow_steps/22bb85da-60ea-4ec7-a4ce-7f4f5ac93925"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "6a16d47c-124c-43c2-99b2-dbf327844e22",
-              "name": "Get HashCode -> Set HashCode",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/60a309c9-d421-4c7b-bbfb-a56fc4debe76",
-              "sourceStep": "/api/3/workflow_steps/2ce0a8e9-abe9-4349-a1f5-43508554745a"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "55971b4d-5bf8-4393-9d94-05d15abebf6f",
-              "name": "Block Infected Machines -> Get Related Alerts",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/c599818d-0dd0-4612-bb65-eac32afa8093",
-              "sourceStep": "/api/3/workflow_steps/703cff3e-513c-4eea-9ca4-f8faccc7a8f6"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "c4ab9847-3818-4c08-a546-963db229f6ec",
-              "name": "Get Related Alerts -> Get Original HashCode",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f",
-              "sourceStep": "/api/3/workflow_steps/c599818d-0dd0-4612-bb65-eac32afa8093"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "ffacaddb-76f0-4b3a-bf0e-0f9e7de7e21a",
-              "name": "Get Original HashCode -> Restore Original File",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/22bb85da-60ea-4ec7-a4ce-7f4f5ac93925",
-              "sourceStep": "/api/3/workflow_steps/ee39b91f-3ff4-4045-8c3f-35bcec3e3f8f"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "36a6e57e-6b00-4a48-870a-68152dad13ca",
-              "name": "Set HashCode -> Compare HashCodes",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d",
-              "sourceStep": "/api/3/workflow_steps/60a309c9-d421-4c7b-bbfb-a56fc4debe76"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "4fc2a3bb-ed4a-4e0d-adf6-aec1996b2a00",
-              "name": "Compare HashCodes -> Create Manual Remediation task",
-              "label": "no",
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/eb81efe1-1628-46d3-a7ed-09a62e117fe2",
-              "sourceStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "96ca5c55-985c-481f-840e-80080c456991",
-              "name": "Has the file been restored -> Update Incident",
+              "uuid": "2348d876-2ba6-4dee-a920-3fcda96ecf76",
+              "name": "Email Approved -> Send Email to ISP",
               "label": "yes",
               "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/e29e05ab-8200-465c-a039-b407f26120a2",
-              "sourceStep": "/api/3/workflow_steps/92debffc-38e3-47a4-889e-d43c4927953d"
+              "targetStep": "/api/3/workflow_steps/b4e66339-f021-40d0-b310-66b33eb2f77c",
+              "sourceStep": "/api/3/workflow_steps/2caa30da-83e7-4f05-9777-6b73aaf94da3"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ba3c54f7-5661-4e5f-95ac-75c2e77affe9",
+              "name": "Email Approved -> Do Not Send the Email",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/e6d0ab3b-eea2-4182-8f69-d27ed7c3e817",
+              "sourceStep": "/api/3/workflow_steps/2caa30da-83e7-4f05-9777-6b73aaf94da3"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1590763879,
-          "uuid": "71cdcdbc-f8f4-4485-a8e2-a3b68787a25c",
+          "lastModifyDate": 1590776340,
+          "uuid": "df538bef-a008-4137-91f3-0505bcb6d1f6",
           "recordTags": [],
           "isPrivate": false,
           "owners": []
