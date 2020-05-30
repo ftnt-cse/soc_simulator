@@ -45,7 +45,7 @@ $scenario = $_POST["scenario_id"];
 
 //COMMAND TO EXECUTE
 
-$command = "python3 ../soc_simulator.py -s $targetServer -u $targetUser -p $targetPass -f scenarios/$scenario -j $step";
+$command = "sudo python3 ../soc_simulator.py -f scenarios/$scenario -j $step";
 
 // CHECK $mode AND EXECUTE COMMAND LOCALLY OR BY SSH
 
