@@ -6,7 +6,7 @@
 
 body {
  font-family: monospace;
- color: limegreen;
+ color: cornflowerblue;
   font-size: 16px;
 }
 
@@ -31,21 +31,33 @@ body {
     $sshPort = $currentSettings["GUI_sshPort"];
     $sshUser = $currentSettings["GUI_sshUser"];
     $sshPass = $currentSettings["GUI_sshPass"];
-    $targetUser = $currentSettings["username"];
-    $targetPass = $currentSettings["password"];
-    $targetServer = $currentSettings["server"];
 
 //GET STEP NUMBER FROM INDEX.PHP RUN STEP BUTTON
 
 $step = $_POST["step"];
-$scenario = $_POST["scenario_id"];
+$scenario = $_POST['scenario_id'];
 
 // echo "Mode : " . $mode . "<br>";
-// echo "$targetUser<br>$targetPass<br>$targetServer<br>$scenario<br>$step";
 
 //COMMAND TO EXECUTE
 
+echo $scenario . "<br>";
+
+// USE THIS COMMAND TO EXECUTE THE SIMULATOR
 $command = "sudo python3 ../soc_simulator.py -f scenarios/$scenario -j $step";
+
+// USE THIS COMMAND FOR GUI TROUBLE SHOOTING
+// $command = "uptime";
+
+// CHECK ERROR FILE LOCATION WRITABLE OTHERWISE SEND TO /DEV/NULL
+
+if(fopen("../simulator_error.log", "w")) {
+  $errorFile = "../simulator_error.log";
+//  fclose("../simulator_error.log");
+} else {
+  echo "Can't open error file location.<br>Redirect error to /dev/null.";
+  $errorFile = "/dev/null";
+}
 
 // CHECK $mode AND EXECUTE COMMAND LOCALLY OR BY SSH
 
@@ -54,7 +66,7 @@ if($mode == "local") {
 $descr = array(
   0 => array("pipe", "r"),
   1 => array("pipe", "w"),
-  2 => array("file", "/dev/null", "w")
+  2 => array("file", $errorFile, "w")
 );
 
 $pipes = array();
@@ -68,7 +80,7 @@ $process = proc_open($command, $descr, $pipes);
 
 if (is_resource($process)) {
   while ($f = fgets($pipes[1])) {
-  echo "<p><b>Local mode</b><br>" . $f . "</p>";
+  echo "<p>" . $f . "</p>";
   }
   fclose($pipes[1]);
   proc_close($process);

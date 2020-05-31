@@ -75,7 +75,7 @@ foreach ($currentScenario[$step]['data'][0] as $key => $i) {
           <td><?php echo $i2; ?></td>
           <td><input type="text" size="50" id="<?php echo $key2; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>" value="<?php echo $i2; ?>"</td>
         </tr>
-
+    
 <?php
       } else {
         echo "<tr><td colspan=\"3\">$key2</td></tr>";		// ADD A TITLE ROW FOR SUB ARRAY
@@ -100,16 +100,69 @@ foreach ($currentScenario[$step]['data'][0] as $key => $i) {
                   <td><input type="text" size="50" id="<?php echo $key4; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>" value="<?php echo $i4; ?>"</td>
                 </tr>
 <?php
-          } else {
-              echo "<tr><td colspan=\"3\"><b>ERROR MAXIMUM ARRAY DEPTH REACHED!!</b></td></tr>";    
-            }
-          }
-        }
-      }
-    }
-  }
-}
-}
+              } else {
+                echo "<tr><td colspan=\"3\">$key4</td></tr>";		// ADD A TITLE ROW OF PREVIOUS KEY VALUE FOR SUB ARRAY
+                foreach ($currentScenario[$step]['data'][0][$key][$key2][$key3][$key4] as $key5 => $i5) {
+                  if(!is_array($i5)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+                  <tr>
+                    <td><label for="<?php echo $key5; ?>"><?php echo $key5; ?></label></td>
+                    <td><?php echo $i5; ?></td>
+                    <td><input type="text" size="50" id="<?php echo $key5; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>::<?php echo $key5; ?>" value="<?php echo $i5; ?>"</td>
+                  </tr>
+<?php
+                  } else {
+                     echo "<tr><td colspan=\"3\">$key5</td></tr>";		// ADD A TITLE ROW OF PREVIOUS KEY VALUE FOR SUB ARRAY
+                    foreach ($currentScenario[$step]['data'][0][$key][$key2][$key3][$key4][$key5] as $key6 => $i6) {
+                      if(!is_array($i6)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+                       <tr>
+                        <td><label for="<?php echo $key6; ?>"><?php echo $key6; ?></label></td>
+                        <td><?php echo $i6; ?></td>
+                        <td><input type="text" size="50" id="<?php echo $key6; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>::<?php echo $key5; ?>::<?php echo $key6; ?>" value="<?php echo $i6; ?>"</td>
+                       </tr>
+<?php
+                     } else {
+                       echo "<tr><td colspan=\"3\">$key5</td></tr>";		// ADD A TITLE ROW OF PREVIOUS KEY VALUE FOR SUB ARRAY
+                       foreach ($currentScenario[$step]['data'][0][$key][$key2][$key3][$key4][$key5] as $key6 => $i6) {
+                         if(!is_array($i6)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+                           <tr>
+                             <td><label for="<?php echo $key6; ?>"><?php echo $key6; ?></label></td>
+                             <td><?php echo $i6; ?></td>
+                             <td><input type="text" size="50" id="<?php echo $key6; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>::<?php echo $key5; ?>::<?php echo $key6; ?>" value="<?php echo $i6; ?>"</td>
+                           </tr>
+<?php
+                         } else {
+                           echo "<tr><td colspan=\"3\">$key6</td></tr>";		// ADD A TITLE ROW OF PREVIOUS KEY VALUE FOR SUB ARRAY
+                           foreach ($currentScenario[$step]['data'][0][$key][$key2][$key3][$key4][$key5][$key6] as $key7 => $i7) {
+                             if(!is_array($i7)) {		// CHECK ISNT ANOTHER SUB ARRAY
+?>
+                               <tr>
+                                 <td><label for="<?php echo $key7; ?>"><?php echo $key7; ?></label></td>
+                                 <td><?php echo $i7; ?></td>
+                                 <td><input type="text" size="50" id="<?php echo $key7; ?>" name="1_<?php echo $key; ?>::<?php echo $key2; ?>::<?php echo $key3; ?>::<?php echo $key4; ?>::<?php echo $key5; ?>::<?php echo $key6; ?>::<?php echo $key7; ?>" value="<?php echo $i7; ?>"</td>
+                               </tr>
+<?php
+                             } else {
+
+                               echo "<tr><td colspan=\"3\"><b>ERROR MAXIMUM ARRAY DEPTH REACHED!!</b></td></tr>";    
+                             }
+                           }  
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+} 
+} 
 ?>
 
 </tbody>

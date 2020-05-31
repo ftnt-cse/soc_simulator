@@ -68,10 +68,21 @@ foreach ($_POST as $key => $i) {
       if (array_key_exists($keys[3], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]]))) {
         $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $i;
       }
-    }    
-  } 
-} 
-
+    } elseif(count($keys) == 5) {
+      if (array_key_exists($keys[4], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]] = $i;
+      }
+    } elseif(count($keys) == 6) {
+      if (array_key_exists($keys[5], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]][$keys[5]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]][$keys[5]] = $i;
+      }
+    } elseif(count($keys) == 7) {
+       if (array_key_exists($keys[6], $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]][$keys[5]]) && !(is_array($currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]][$keys[5]][$keys[6]]))) {
+        $currentScenario[$step]['data'][0][$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]][$keys[5]][$keys[6]] = $i;
+       }
+    }
+ }
+}
 
   // WRITE $CURRENTSCENARIO TO FILE
   // LIMIT TO 2000000 BYTES TO PREVENT ABUSE
