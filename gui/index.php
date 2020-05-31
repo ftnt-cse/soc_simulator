@@ -133,7 +133,7 @@ echo '<link href="lightTheme.css" rel="stylesheet">';
   ?>
 
   <br><br>
-  <p><i>(c) 2020 Fortinet<br>Mahdi Naili, Ben Britton</i></p>
+  <p><i>(c) Fortinet CSE Team 2020<br></i></p>
 
 </div>
 

@@ -2,6 +2,8 @@
 
 -- Work in Progress --
 
+DISCLAIMER: without any warranty or liability for accuracy and completeness, no legal commitment is made or implied by the content of this repository
+
 ## Introduction:
 A tool meant to be used during demos to simulate a SOAR/SIEM environement by sending a series of alerts with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR/FSM capabilities.
 it is written in python so it can run on any machine with python installed including FortiSOAR/FSM. It simulates an Asset network connected to the internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
@@ -71,19 +73,26 @@ It contains the scenario meta data and dependencies, this file is first read and
 |category | audience type: analysts, C level...etc|
 |publisher | scenario owner|
 |infographic | link to the infographic file|
+|connectors_dependencies| a list of required connectors for the scenario, exp:["whois-rdap","virustotal"]|
+|fsm_events_dependencies|a list of events to be sent to a SIEM before the scenario starts, check syntax below|
+
 
 Example:
 ```json
 {
-    "name": "Malware Lateral Movement Scenario",
+    "name": "Compromised Web Server Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
-    "connectors_dependencies":["virustotal"],
+    "connectors_dependencies":["whois-rdap","virustotal","fortigate-firewall","fortinet-fortisiem","ssh"],
+    "fsm_events_dependencies":[
+        {"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""},
+        {"source_ip":"10.0.50.150","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.150 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""}
+    ],
     "version": "1.0.0",
-    "description": "an infected machine connects to a CnC server, followed by another (false positive), then a third one",
+    "description": "A Web Server is Compromised, its index.htm overridden with a malicious URL redirect",
     "category": "soc_analyst",
     "publisher": "CSE-Team",
-    "infographic": "https://github.com/ftnt-cse/soc_simulator/raw/master/FSOAR_scenarios/Case_Management_and_Visibility/infocgraphics.gif"
+    "infographic": "https://github.com/ftnt-cse/soc_simulator/raw/master/scenarios/FSOAR/Comprmised_Web_Server/infographics.gif"
 }
 ```
 
@@ -206,3 +215,7 @@ The list of available dynamic values (Variables):
 ### SOCSIM_Daemon:
 If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration paramter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
 If soc_simulator is run as root, events are sent directly.
+
+
+### License
+GPL3.0
