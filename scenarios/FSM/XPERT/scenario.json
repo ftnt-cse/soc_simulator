@@ -30,3 +30,4 @@ Centos: 10.0.50.20
 
 targetHashCode = new hash
 hashCode = orginal
+{{(vars.incidentDetail| regex_search("fileName:([^,]*)")).split(":")[1]}}

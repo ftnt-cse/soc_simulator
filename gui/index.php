@@ -78,11 +78,18 @@ echo '<link href="lightTheme.css" rel="stylesheet">';
 <div class="sideMenu">
    <?php
 
-    if (isset($_POST['settings']) or !isset($_POST['scenario_folder'])) {		// LEAVE SIDE MENU BLANK IF IN SETTINGS TAB
-    ?> 
-    
-    <?php  
-    } else { 		// IF NOT IN SETTINGS THEN BUILD MENU
+    if (!isset($_POST['scenario_folder'])) {		// LEAVE SIDE MENU BLANK IF NO SELECTION 
+      if (isset($_POST['settings'])) {		// BUILD SETTINGS MENU IF SELECTED
+      ?>
+           <form action="settings.php" method="post" target="main_pane">
+            <input type="submit" name="submit" class="button" value="System Settings">
+          </form>
+           <form action="scenario_update.php" method="post" target="main_pane">
+            <input type="submit" name="submit" class="button" value="Update">
+          </form>
+      <?php
+      }
+    } else { 		// OTHERWISE BUILD SCENARIO MENU
       
       ?>      
       
