@@ -8,8 +8,8 @@ DISCLAIMER: without any warranty or liability for accuracy and completeness, no 
 A tool meant to be used during demos to simulate a SOAR/SIEM environement by sending a series of alerts with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR/FSM capabilities.
 it is written in python so it can run on any machine with python installed including FortiSOAR/FSM. It simulates an Asset network connected to the internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
 -FortiSIEM
--Qradar
--MS Exchange
+-FortiAnalyzer
+-MTA
 -Others to come
 
 The Environement requires a FortiGate to be used as a response enforcement point.
