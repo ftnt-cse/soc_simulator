@@ -5,42 +5,51 @@
 DISCLAIMER: without any warranty or liability for accuracy and completeness, no legal commitment is made or implied by the content of this repository
 
 ## Introduction:
-A tool meant to be used during demos to simulate a SOAR/SIEM environement by sending a series of alerts with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR/FSM capabilities.
-it is written in python so it can run on any machine with python installed including FortiSOAR/FSM. It simulates an Asset network connected to the internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
+A tool meant to be used during demos to simulate a SOAR/SIEM environment by sending a series of alerts with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR/FSM capabilities.
+it is written in python so it can run on any machine with python installed including FortiSOAR/FSM. It simulates an Asset network connected to the Internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
 -FortiSIEM
 -FortiAnalyzer
 -MTA
 -Others to come
 
-The Environement requires a FortiGate to be used as a response enforcement point.
+The Environment requires a FortiGate to be used as a response enforcement point.
 ## How to use:
 ```
-usage: ProgramName [-h] [-s SERVER] [-u USERNAME] [-p PASSWORD] [-j STEP] -f
-                   SCENARIO_FOLDER [-t TENANT]
+usage: ProgramName [-h] -f SCENARIO_FOLDER [-j STEP] [-t TENANT]
 
 optional arguments:
-  -h, --help            		Show this help message and exit
-  -s SERVER, --server 			IP or hostname of the target product (ex: FortiSOAR IP)
-  -u USERNAME, --username 		Tagret product USERNAME
-  -p PASSWORD, --password 		Target product PASSWORD
-  -j STEP, --step STEP  		Run a specific step of the scenario and exit (Optional)
-  -f SCENARIO_FOLDER, --scenario-folder SCENARIO_FOLDER 
-                        Scenario folder exp: FSOAR_scenarios/Malware_Lateral_Movement
-  -t TENANT, --tenant tenant 	Tenant name in case of a multi-tenant instance (Optional)
+  -h, --help            show this help message and exit
+  -f SCENARIO_FOLDER, --scenario-folder SCENARIO_FOLDER
+                        Scenario folder exp:
+                        ./scenarios/FortiSOAR/Comprmised_Web_Server/
+  -j STEP, --step STEP  Run a specific step of the scenario and exit
+  -t TENANT, --tenant TENANT
+                        Tenant IRI
+
+SOC Simulator: use config.json to configure FortiSIEM and FortiSOAR IPs and credentials depending on your environment
 ```
-Any of the above parameters can be stored in a config.json file to avoid having to supply it as an cli argument. to use it, edit config.json_sample and rename it to config.json.
+All parameters except: tenant, step and Scenario_folder are stored in a config.json file to avoid having to supply it as an cli argument. it's mandatory to edit config.json_sample and rename it to config.json before you start using the simulator.
 
 Example:
 ```json
 {
-	"server":"10.2.2.1",
-	"username":"csadmin",
-	"password":"password",
+	"FORTISOAR_IP":"10.20.20.1",
+	"fortisoar_username":"csadmin",
+	"fortisoar_password":"changeme",
+    "FORTISIEM_IP":"10.20.20.18",
+    "fortisiem_username":"admin",
+    "fortisiem_password":"admin*1",
+	"sudo_password":"",
 	"random":"yes",
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
-	"TR_CUSTOMER_LAN":"10.200.3.0/24"
+	"TR_CUSTOMER_LAN":"10.200.3.0/24",
+    "GUI_mode": "local",
+    "GUI_sshHost": "10.20.20.11",
+    "GUI_sshPort": "20200",
+    "GUI_sshUser": "admin",
+    "GUI_sshPass": "admin*1"
 }
 ```
 TR_* are environment constant attributes to be used in the scenarios, see scenario.json section below
@@ -49,15 +58,15 @@ TR_* are environment constant attributes to be used in the scenarios, see scenar
 
 - Main script: The main cli
 - Modules Directory: Contain various functions libraries
-- Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario. it is a list of dictionary objects.
+- Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario around a specific product (FortiSOAR/FortiSIEM). it is a list of dictionary objects.
 - SOCSIM_Daemon: implementing functions which require root privileges such as sending spoofed syslogs to FortiSIEM
 
-### Templates:
+### FortiSOAR Templates:
 Each scenario template is a folder containing:
-Scenario_Name.pptx 	: A powerpoint describing the scenario
+Scenario_Name.pptx 	: A power-point describing the scenario
 info.json 			: Scenario meta data
 infocgraphics.gif 	: Scenario diagram
-playbooks.json 		: The FortiSOAR plabook collection containing the required playbooks for the scenario, this collection will be pushed to FortiSOAR at run time.
+playbooks.json 		: The FortiSOAR playbook collection containing the required playbooks for the scenario, this collection will be pushed to FortiSOAR at run time.
 scenario.json 		: The list of Alerts to be send with their timing/transition configuration
 
 #### info.json
@@ -98,7 +107,7 @@ Example:
 
 
 #### playbooks.json
-Typically the playbook collection is created while developing the scenario on FortiSOAR, once completed it has to be exported as playbooks.json so the simulator can upload it to the FortiSOAR unstance where it runs. To make sure the playbooks within this collection are only triggered for the scenario alerts the 'source' value of the scneario.json template file has to be used as a filter all playbooks.json collection playbooks. 
+Typically the playbook collection is created while developing the scenario on FortiSOAR, once completed it has to be exported as playbooks.json so the simulator can upload it to the FortiSOAR instance where it runs. To make sure the playbooks within this collection are only triggered for the scenario alerts the 'source' value of the scneario.json template file has to be used as a filter all playbooks.json collection playbooks. 
 
 #### scenario.json
 A sample template structure:
@@ -179,8 +188,8 @@ A sample template structure:
 ]
 ```
 - __"sleep":__ can take the values : 
-- 0 => the alert will be sent immediatly 
-- a negative integet => The user will be prompted to press any key to send the alert and continue to the next one
+- 0 => the alert will be sent immediately 
+- a negative integer => The user will be prompted to press any key to send the alert and continue to the next one
 - a positive integer => would indicate the number of seconds to wait before sending the current alert
 
  Template file contains the static text as sent from the alert source device and a set of variables delimited with {{}}.
@@ -212,8 +221,35 @@ The list of available dynamic values (Variables):
 |"TR_T-6"|get_time_minus_six |get timestamp of about six hours ago)
 |"TR_USERNAME"|get_username|a random username|
 
+### FortiSIEM Templates:
+Each scenario template is a folder containing:
+Scenario_Name.pptx 	: A power-point describing the scenario
+info.json 			: Scenario meta data
+infocgraphics.gif 	: Scenario diagram
+scenario.json 		: The list of events to be sent to FortiSIEM
+#### scenario.json
+A sample template structure:
+```json
+[
+  {
+    "sleep": 0,
+    "source_ip": "10.10.11.204",
+    "destination_ip": "",
+    "payload": "<185>date=2020-05-16 time=16:24:41 devname=\"FortiGate-Core\" devid=\"FGVM02TM19000000\" logid=\"0419016384\" type=\"utm\" subtype=\"ips\" eventtype=\"signature\" level=\"alert\" vd=\"root\" eventtime=1589639081585852711 tz=\"+0200\" severity=\"high\" srcip={{TR_MALICIOUS_IP}} srccountry=\"Reserved\" dstip={{TR_ASSET_IP}} srcintf=\"port5\" srcintfrole=\"wan\" dstintf=\"port2\" dstintfrole=\"dmz\" sessionid=1148457 action=\"detected\" proto=6 service=\"HTTP\" policyid=4 attack=\"PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution\" srcport=52848 dstport=80 hostname=\"{{TR_ASSET_IP}}\" url=\"/dvwa/moadmin/moadmin.php?collection=secpulse&action=listRows&find=array();phpinfo();exit;\" direction=\"outgoing\" attackid=40243 profile=\"protect_http_server\" ref=\"http://www.fortinet.com/ids/VID40243\" incidentserialno=7828925 msg=\"web_app: PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution,\" crscore=30 craction=8192 crlevel=\"high\""
+  },
+  {
+    "sleep": 0,
+    "source_ip": "10.10.11.204",
+    "destination_ip": "",
+    "payload": "{{TR_ASSET_IP}}1 - - [12/May/2020:15:58:07 +0200] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 1049 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36\""
+  }
+]
+```
+When destination_ip is empty, the event will be sent to the configured FORTISIEM_IP in the global congig.json
+sleep, determines how many seconds to wait before sending the next event.
+
 ### SOCSIM_Daemon:
-If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration paramter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
+If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration parameter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
 If soc_simulator is run as root, events are sent directly.
 
 

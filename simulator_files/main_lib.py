@@ -10,6 +10,15 @@ MAINCONFIG_FILE="config.json"
 PLAYBOOKS_FILE='playbooks.json'
 SCENARIO_FILES=['info.json','infographics.gif',PLAYBOOKS_FILE,'scenario.json']
 
+#TODO
+def remote_repo_sync():
+# old_git_version=git --git-dir
+# status=`git -C $gitDir pull`
+# if status != "Already up-to-date.":
+# 	git -C $gitDir fetch origin
+# 	git -C $gitDir reset --hard origin/master
+	return None
+
 def is_valid_ip(ip):
 	ip = ip.split('.')
 	if len(ip) != 4:
@@ -122,6 +131,15 @@ def send_fsm_event(event):
 		exit()
 
 
+def cook_fsm_events(scenario_json):
+	try:	
+		template_file = json.dumps(scenario_json)
+		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
+		for tag in tag_list:
+			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))	
 
+	except:
+		print(bcolors.FAIL+"Couldn't process FortiSIEM template file"+bcolors.ENDC)
+		exit()
 
-
+	return json.loads(template_file)
