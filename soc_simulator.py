@@ -44,6 +44,11 @@ def main():
 		if scenario_data['info.json']['connectors_dependencies']:
 			check_connectors_prerequisites(config['FORTISOAR_IP'],headers,scenario_data['info.json']['connectors_dependencies'])
 
+		if scenario_data['info.json']['fsr_user_dependencies']:
+			for user in scenario_data['info.json']['fsr_user_dependencies']:
+				fsr_create_user(config['FORTISOAR_IP'],headers,user)
+
+
 		if getpass.getuser() == 'root':
 			print('running as root')
 			if scenario_data['info.json']['fsm_events_dependencies']:

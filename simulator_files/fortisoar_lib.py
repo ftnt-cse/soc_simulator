@@ -205,6 +205,77 @@ def upload_playbooks(server,headers,playbooks_definition):
 		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
 
+def fsr_create_user(server,headers,username):
+	if not username:
+		return False
+	delete_user_json={
+						"ids":[]
+					 }	
+	search_user_json={
+					  "sort": [
+					    {
+					      "field": "modifyDate",
+					      "direction": "DESC"
+					    }
+					  ],
+					  "limit": 30,
+					  "logic": "AND",
+					  "filters": [
+					    {
+					      "field": "userName",
+					      "operator": "like",
+					      "_operator": "like",
+					      "value": "%"+username+"%",
+					      "type": "primitive"
+					    }
+					  ],
+					  "__selectFields": [
+					     "userName"
+					  ]
+					}
+	create_user_json={
+					"domain": "fortielab.com",
+					"securityId": 1,
+					"userName": username,
+					"recordTags": [
+					"/api/3/tags/offender"
+					]
+					}
+	if 'good' in username:
+		create_user_json['recordTags']=[]
+		create_user_json['securityId']=0
+	elif 'bad' in username:
+		create_user_json['securityId']=10
+
+	try:
+		response = requests.post(url='https://'+server+'/api/query/users?$limit=10',
+						headers=headers,json=search_user_json,verify=False)
+
+		if len(response.json()["hydra:member"]) > 0:
+			delete_user_json['ids'].append(response.json()["hydra:member"][0]['@id'].split("/")[4])
+			response = requests.delete(url='https://'+server+'/api/3/delete/users',
+				headers=headers,json=delete_user_json,verify=False)
+
+			if response.status_code != 200:
+				print(bcolors.FAIL+"Could not delete: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+				exit()
+
+		response = requests.post(url='https://'+server+'/api/3/users',
+			headers=headers,json=create_user_json,verify=False)
+
+		if response.status_code != 201:
+			print(bcolors.FAIL+"Could not create user: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+			exit()
+
+		else:
+			print(bcolors.MSG+"User: "+username+' created'+bcolors.ENDC)
+
+	except requests.ConnectionError:
+		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		exit()
+	except requests.ConnectTimeout:
+		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		exit()
 
 def fsr_send_alert(server,headers,body,single_step=False,tenant=None):
 

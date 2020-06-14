@@ -36,20 +36,20 @@ Example:
 	"FORTISOAR_IP":"10.20.20.1",
 	"fortisoar_username":"csadmin",
 	"fortisoar_password":"changeme",
-    "FORTISIEM_IP":"10.20.20.18",
-    "fortisiem_username":"admin",
-    "fortisiem_password":"admin*1",
+	"FORTISIEM_IP":"10.20.20.18",
+	"fortisiem_username":"admin",
+	"fortisiem_password":"admin*1",
 	"sudo_password":"",
 	"random":"yes",
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
 	"TR_CUSTOMER_LAN":"10.200.3.0/24",
-    "GUI_mode": "local",
-    "GUI_sshHost": "10.20.20.11",
-    "GUI_sshPort": "20200",
-    "GUI_sshUser": "admin",
-    "GUI_sshPass": "admin*1"
+	"GUI_mode": "local",
+	"GUI_sshHost": "10.20.20.11",
+	"GUI_sshPort": "20200",
+	"GUI_sshUser": "admin",
+	"GUI_sshPass": "admin*1"
 }
 ```
 TR_* are environment constant attributes to be used in the scenarios, see scenario.json section below
@@ -84,6 +84,7 @@ It contains the scenario meta data and dependencies, this file is first read and
 |infographic | link to the infographic file|
 |connectors_dependencies| a list of required connectors for the scenario, exp:["whois-rdap","virustotal"]|
 |fsm_events_dependencies|a list of events to be sent to a SIEM before the scenario starts, check syntax below|
+|fsr_user_dependencies|a list of users FortiSOAR will use during the playbooks execution|
 
 
 Example:
@@ -92,6 +93,7 @@ Example:
     "name": "Compromised Web Server Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
+    "fsr_user_dependencies":["m.goodspeed","f.waldo"],    
     "connectors_dependencies":["whois-rdap","virustotal","fortigate-firewall","fortinet-fortisiem","ssh"],
     "fsm_events_dependencies":[
         {"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""},
@@ -245,8 +247,8 @@ A sample template structure:
   }
 ]
 ```
-When destination_ip is empty, the event will be sent to the configured FORTISIEM_IP in the global congig.json
-sleep, determines how many seconds to wait before sending the next event.
+- When destination_ip is empty, the event will be sent to the configured FORTISIEM_IP in the global congig.json
+- Sleep, determines how many seconds to wait before sending the next event.
 
 ### SOCSIM_Daemon:
 If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration parameter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
