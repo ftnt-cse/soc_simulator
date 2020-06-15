@@ -41,24 +41,24 @@ def main():
 		if args.tenant:
 			tenant_iri=lookup_tenant_iri(config['FORTISOAR_IP'],headers,args.tenant)['@id']
 		
-		if scenario_data['info.json']['connectors_dependencies']:
+		if 'connectors_dependencies' in scenario_data['info.json']:
 			check_connectors_prerequisites(config['FORTISOAR_IP'],headers,scenario_data['info.json']['connectors_dependencies'])
 
-		if scenario_data['info.json']['fsr_user_dependencies']:
+		if 'fsr_user_dependencies' in scenario_data['info.json']:
 			for user in scenario_data['info.json']['fsr_user_dependencies']:
 				fsr_create_user(config['FORTISOAR_IP'],headers,user)
 
 
 		if getpass.getuser() == 'root':
 			print('running as root')
-			if scenario_data['info.json']['fsm_events_dependencies']:
+			if 'fsm_events_dependencies' in scenario_data['info.json']:
 				for event in scenario_data['info.json']['fsm_events_dependencies']:
 					print('sending event to',event['destination_ip'])
 					send_fsm_event(event)
 					time.sleep(1)
 
 		else:
-			if scenario_data['info.json']['fsm_events_dependencies'] and config['sudo_password']:
+			if 'fsm_events_dependencies' in scenario_data['info.json'] and len(config['sudo_password']) > 3:
 				for event in scenario_data['info.json']['fsm_events_dependencies']:
 					print('sending event to',event['destination_ip'])
 					unprivileged_send_fsm_event(event,config['sudo_password'])

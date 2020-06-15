@@ -5,7 +5,7 @@
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
-import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time, sys, getpass
+import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time, sys, getpass, datetime
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -24,6 +24,8 @@ class bcolors:
 	INST = '\033[95m'
 	ENDC = '\033[0m'
 
+def get_formatted_current_time():
+	return datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S %Z")
 
 def get_username():
 	usernames=["Morgoth","Lúthien","Glorfindel","Beren","Túrin_turambar","Eärendil","Ancalagon","Manwë","Thingol","Húrin","Melian","Glaurung","Mandos","Maglor","Elendil","Círdan","Finarfin","Ulmo","Morwen","Beleg","Niënor_níniel","Finduilas","Orodreth","Carcharoth","Eöl","Ossë","Yavanna","Anárion","Lalaith","Emeldir","Dorlas","Aerin","Rían"]
@@ -202,6 +204,7 @@ def get_malicious_domains(malicious_domains_file=malicious_domains):
 	return(random.choice(lines))
 
 function_dictionary={
+"TR_FORMATTED_CURRENT_TIME":get_formatted_current_time,
 "TR_FG_MGMT_IP":get_fg_mgmt_ip,
 "TR_FG_DEV_NAME":get_fg_dev_name,
 "TR_ASSET_IP":get_asset_ip,

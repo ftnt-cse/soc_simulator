@@ -3,20 +3,20 @@
 	"data": [
 	  {
 		"sleep": 0,
-		"name": "Suspicious eMail",
-		"source": "FSMSIM-PHISHING-1",
-		"demo_message": "Malicious Email sent",
+		"name": "NGFW: Alert",
+		"source": "FSMSIM-MAIL-ALARM-1",
+		"demo_message": "Alarm parsed and new Alert Created",
 		"sourcedata": {
 		  "body": {
-			"html": "<html>MIS Team, Please investigate the forwarded email below, it looks suspicious. Thank you <br>Adam Smith<br>Financial Analyst<br>+9754235452<br><hr>From: CTO Office <cto_office@{{TR_MALICIOUS_DOMAIN}}> <br>To: Adam Smith <asmith@fortielab.com> <br>Sent: {{TR_FORMATTED_CURRENT_TIME}}<br>Subject:immediate action required<br>A Critical vulnerability has been found in our internal ERP client application<br>, a patch has been made available in our internal website <a href={{TR_MALICIOUS_URL}}>Windows Patch</a><br>.It is mandatory for all employes to download it and install it immediately.<br>Office of the CTO</html>",
+			"html": "contract_id Project0<br>country_dst Ouadia<br>customer_name HULU<br>device_class Firewall<br>device_group Progetto<br>device_ip 10.2.13.32<br>device_type NGFW-fw1<br>did hybridlog-mkt<br>direction 0<br>esa_time 1592155953<br>event_desc OpenVPN<br>event_source_id 31.3.13.9:50005:411167038699<br>event_time 1591190346<br>event_type Anonymizer<br>event_source_ip 10.32.2.22<br>",
 			"json": null,
 			"text": ""
 		  },
 		  "headers": {
 			"to": "sysadmin <sysadmin@fortielab.com>",
 			"date": "{{TR_FORMATTED_CURRENT_TIME}}+0000",
-			"from": "adam smith <asmith@fortielab.com>",
-			"subject": "Fw: immediate action required",
+			"from": "NGFW <ngfw@fortielab.com>",
+			"subject": "NGFW: Incident Notification: Anonymizer",
 			"received": "from Exch19.fortielab.com ([::1]) by Exch19.fortielab.com ([::1]) with mapi id 15.02.0529.005; {{TR_FORMATTED_CURRENT_TIME}}",
 			"message-id": "<3d608901d41a4b9cac6c28aa2f7{{TR_RANDOM_INTEGER}}@fortielab.com>",
 			"references": "\\t<trinity-bd6386d6-bd3b-450a-b891-568a58bb9451-1589777406906@3c-app-mailcom-bs14>",

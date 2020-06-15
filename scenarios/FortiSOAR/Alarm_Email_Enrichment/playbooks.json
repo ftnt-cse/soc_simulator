@@ -1,0 +1,402 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "00 - SIM Email Alarm Enrichment",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSM-SIM-EMAIL-ALARM-1",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/3c467d01-729a-4568-8ee8-b8dac6c488fa",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/c5acd0f2-1e40-4687-89e0-da3102c69cb7",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "FSMSIM-MAIL-ALARM-1",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "125",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "c5acd0f2-1e40-4687-89e0-da3102c69cb7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "3917451b-573e-4b80-b16b-834234dac4d8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Preprocessing1",
+              "description": null,
+              "arguments": {
+                "v_body": "{{vars.source_data.body}}",
+                "alertiri": "{{vars.input.records[0]['@id']}}",
+                "v_headers": "{{vars.source_data.headers}}",
+                "v_attachments": "{{vars.source_data.attachments}}",
+                "v_folder_path": "{{vars.source_data.folder_path}}",
+                "v_attachment_files": "{{vars.source_data.attachment_files}}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "ba22a5c7-69a0-452b-ac3f-823ac65a1972"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Preprocessing2",
+              "description": null,
+              "arguments": {
+                "html_body": "{{vars.v_body.html}}",
+                "source_ip": "",
+                "email_date": "{{vars.v_headers.date}}",
+                "message_id": "{{vars.v_headers['message-id']}}",
+                "user_agent": "{{vars.v_headers['user-agent']}}",
+                "return_path": "{{vars.v_headers['return-path']}}",
+                "email_sender": "{{vars.v_headers.from}}",
+                "email_subject": "{{vars.v_headers.subject}}",
+                "body_artifacts": "{{vars.v_body.html | extract_artifacts}}",
+                "email_recipient": "{{vars.v_headers.to}}",
+                "target_username": "{{vars.v_headers.to.split('<')[1].split('@')[0]}}",
+                "headers_artifacts": "{{vars.v_headers | extract_artifacts}}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "435",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "8bde9f8e-cb1e-475b-a88b-9b412c8be18c"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"color: #00ff00;\"><strong>Legitimate</strong></span> email, closing the alert as False Positive</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "Email:{{vars.email_subject}}",
+                  "type": {
+                    "id": 124,
+                    "@id": "/api/3/picklists/574a6ee2-7265-4701-815e-cff83b053bce",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Other / Unknown",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Other / Unknown",
+                    "orderIndex": 13
+                  },
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "emailTo": "{{vars.email_recipient}}",
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  },
+                  "sourceId": "{{vars.message_id}}",
+                  "sourceIp": "{{vars.event_source_ip}}",
+                  "userName": "{{vars.steps.Set_Event_Username.input.username}}",
+                  "emailBody": "{{vars.html_body}}",
+                  "emailFrom": "{{vars.email_sender}}",
+                  "epochTime": "{{vars.email_date}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "returnPath": "{{vars.return_path}}",
+                  "sourceType": "{{vars.device_type}}",
+                  "sourcedata": "{{vars.source_data|toJSON}}",
+                  "description": "Email: {{vars.email_subject}}\nFrom: {% if vars.original_email_sender%}{{vars.original_email_sender}}{%else%}{{vars.email_sender}}{%endif%}\nTo: {% if vars.original_email_recipient%}{{vars.original_email_recipient}}{%else%}{{vars.email_recipient}}{%endif%} \nEvent description: {{vars.event_desc}}\nDevice IP: {{vars.device_ip}}\nDirection: {{vars.direction}}\nEsa time: {{arrow.get(vars.esa_time).to(\"UTC\").format(\"YYYY-MM-DD HH:mm:ss ZZ\")}}\nContract id: {{vars.contract_id}}\nDevice Type: {{vars.device_type}}\nDevice Class: {{vars.device_class}}\nSource IP: {{vars.event_source_ip}}",
+                  "targetAsset": "{{vars.email_recipient}}",
+                  "assigneddate": "{{vars.email_date}}",
+                  "computerName": "{{vars.did}}",
+                  "emailHeaders": "{{vars.v_headers|toJSON}}",
+                  "emailSubject": "{{vars.email_subject}}",
+                  "destinationIp": "{{vars.event_source_id.split(':')[0]}}",
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "destinationPort": "{{vars.event_source_id.split(':')[1]}}",
+                  "senderEmailAddress": "{{vars.email_sender}}",
+                  "recipientEmailAddress": "{{vars.email_recipient}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.alertiri}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "42c0a92e-5aaf-47e1-8235-744e1c31ed21"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Extract_Alarm_attributes",
+              "description": null,
+              "arguments": {
+                "did": "{{(vars.v_body.html|regex_search(\"did\\s+([^<]*)\")).split(' ')[1]}}",
+                "esa_time": "{{(vars.v_body.html|regex_search(\"esa_time\\s+([^<]*)\")).split(' ')[1]}}",
+                "device_ip": "{{(vars.v_body.html|regex_search(\"device_ip\\s+([^<]*)\")).split(' ')[1]}}",
+                "direction": "{{(vars.v_body.html|regex_search(\"direction\\s+([^<]*)\")).split(' ')[1]}}",
+                "event_desc": "{{(vars.v_body.html|regex_search(\"event_desc\\s+([^<]*)\")).split(' ')[1]}}",
+                "event_time": "{{(vars.v_body.html|regex_search(\"event_time\\s+([^<]*)\")).split(' ')[1]}}",
+                "event_type": "{{(vars.v_body.html|regex_search(\"event_type\\s+([^<]*)\")).split(' ')[1]}}",
+                "contract_id": "{{(vars.v_body.html|regex_search(\"contract_id\\s+([^<]*)\")).split(' ')[1]}}",
+                "country_dst": "{{(vars.v_body.html|regex_search(\"country_dst\\s+([^<]*)\")).split(' ')[1]}}",
+                "device_type": "{{(vars.v_body.html|regex_search(\"device_type\\s+([^<]*)\")).split(' ')[1]}}",
+                "device_class": "{{(vars.v_body.html|regex_search(\"device_class\\s+([^<]*)\")).split(' ')[1]}}",
+                "device_group": "{{(vars.v_body.html|regex_search(\"device_group\\s+([^<]*)\")).split(' ')[1]}}",
+                "customer_name": "{{(vars.v_body.html|regex_search(\"customer_name\\s+([^<]*)\")).split(' ')[1]}}",
+                "event_source_id": "{{(vars.v_body.html|regex_search(\"event_source_id\\s+([^<]*)\")).split(' ')[1]}}",
+                "event_source_ip": "{{(vars.v_body.html|regex_search(\"event_source_ip\\s+([^<]*)\")).split(' ')[1]}}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "650ec48d-2ddb-4cef-9cc0-be4ca7d9b870"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Block Source IP on FortiGate",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet FortiGate",
+                "config": "33e3d45c-faba-47aa-94a0-e1bcdfd0ca79",
+                "params": {
+                  "vdom": "",
+                  "method": "Quarantine Based",
+                  "duration": 230,
+                  "ip_addresses": "{{vars.event_source_ip}}",
+                  "time_to_live": "Custom Time"
+                },
+                "version": "3.0.0",
+                "connector": "fortigate-firewall",
+                "operation": "block_ip",
+                "operationTitle": "Block IP Address",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "975",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "4ecb23e4-cd9f-4a41-9565-d29704477c9d"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Event Username",
+              "description": null,
+              "arguments": {
+                "type": "InputBased",
+                "input": {
+                  "schema": {
+                    "title": "Set Event Username",
+                    "description": "Enter the related username",
+                    "inputVariables": [
+                      {
+                        "name": "username",
+                        "type": "string",
+                        "label": "Username",
+                        "tooltip": "",
+                        "dataType": "text",
+                        "formType": "text",
+                        "required": true,
+                        "_expanded": true,
+                        "moduleField": "userName",
+                        "useRecordFieldDefault": false
+                      }
+                    ]
+                  }
+                },
+                "record": "{{ vars.input.records[0][\"@id\"] }}",
+                "owner_detail": {
+                  "isAssigned": false
+                },
+                "step_variables": [],
+                "response_mapping": {
+                  "options": [
+                    {
+                      "option": "Save",
+                      "step_iri": "/api/3/workflow_steps/42c0a92e-5aaf-47e1-8235-744e1c31ed21"
+                    }
+                  ],
+                  "duplicateOption": false
+                }
+              },
+              "status": null,
+              "left": "125",
+              "top": "705",
+              "stepType": "/api/3/workflow_step_types/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
+              "uuid": "2ba5efc6-baa1-4db5-8bdb-fef57ab2b07d"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "57eaea10-ac24-48c8-9404-9ed2020c681b",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/3917451b-573e-4b80-b16b-834234dac4d8",
+              "sourceStep": "/api/3/workflow_steps/c5acd0f2-1e40-4687-89e0-da3102c69cb7"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b8505995-d94d-4862-aeef-3460d8082619",
+              "name": "Set Source Data -> Copy  of Set Variables",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ba22a5c7-69a0-452b-ac3f-823ac65a1972",
+              "sourceStep": "/api/3/workflow_steps/3917451b-573e-4b80-b16b-834234dac4d8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "dc874519-1f7f-4190-9a14-aee4d8629118",
+              "name": "Set Variables -> Field Mapper",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8bde9f8e-cb1e-475b-a88b-9b412c8be18c",
+              "sourceStep": "/api/3/workflow_steps/ba22a5c7-69a0-452b-ac3f-823ac65a1972"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "053376b2-c4f8-41a7-8254-2654c89e7097",
+              "name": "Preprocessing2 -> Extract_Alarm_attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/650ec48d-2ddb-4cef-9cc0-be4ca7d9b870",
+              "sourceStep": "/api/3/workflow_steps/8bde9f8e-cb1e-475b-a88b-9b412c8be18c"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "d19f3797-8bc0-4d43-911e-10dd92acbcd7",
+              "name": "Update Alert -> Block Source IP on FortiGate",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/4ecb23e4-cd9f-4a41-9565-d29704477c9d",
+              "sourceStep": "/api/3/workflow_steps/42c0a92e-5aaf-47e1-8235-744e1c31ed21"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7d6640b7-62ca-43fb-b2c3-d6b5a131079e",
+              "name": "Extract_Alarm_attributes -> Set Event Username",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2ba5efc6-baa1-4db5-8bdb-fef57ab2b07d",
+              "sourceStep": "/api/3/workflow_steps/650ec48d-2ddb-4cef-9cc0-be4ca7d9b870"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "51f00f03-e2a4-42ec-8dde-4bc93a1d4db8",
+              "name": "Set Event Username -> Update Alert",
+              "label": "Save",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/42c0a92e-5aaf-47e1-8235-744e1c31ed21",
+              "sourceStep": "/api/3/workflow_steps/2ba5efc6-baa1-4db5-8bdb-fef57ab2b07d"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1592156874,
+          "uuid": "a8319843-b28b-41de-ab24-3deb9d10dc7a",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ],
+      "uuid": "3c467d01-729a-4568-8ee8-b8dac6c488fa",
+      "recordTags": []
+    }
+  ],
+  "exported_tags": []
+}

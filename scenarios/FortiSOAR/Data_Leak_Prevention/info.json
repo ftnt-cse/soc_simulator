@@ -6,7 +6,7 @@
     "fsm_events_dependencies":[
         {"source_ip":"10.10.11.204","destination_ip":"10.222.248.71","payload":"<189>date=2020-05-31 time=09:29:23 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0001000014\" type=\"traffic\" subtype=\"local\" level=\"notice\" vd=\"root\" eventtime=1590910164130346510 tz=\"+0200\" srcip=10.0.50.204 srcport=52102 srcintf=\"port1\" srcintfrole=\"undefined\" dstip=101.187.97.173 dstport=161 dstintf=\"root\" dstintfrole=\"undefined\" sessionid=1241079 proto=17 action=\"accept\" policyid=0 policytype=\"local-in-policy\" service=\"SNMP\" dstcountry=\"Reserved\" srccountry=\"Reserved\" trandisp=\"noop\" app=\"SNMP\" duration=181 sentbyte=74 rcvdbyte=157 sentpkt=1 rcvdpkt=2 appcat=\"unscanned\" mastersrcmac=\"52:54:00:25:d9:81\" srcmac=\"52:54:00:25:d9:81\" srcserver=0"}
     ],
-    "fsr_user_dependencies":["m.goodspeed","f.baddler","a.belgooda"],
+    "fsr_user_dependencies":["l.kolbad","m.goodspeed","f.baddler","a.belgooda"],
     "version": "1.0.0",
     "description": "A user uploads sensitive files to an FTP server",
     "category": "soc_analyst",

@@ -55,8 +55,8 @@
                 }
               },
               "status": null,
-              "left": "473",
-              "top": "29",
+              "left": "120",
+              "top": "20",
               "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
               "uuid": "ed598d7a-c8ba-4cfb-8e09-f7664a6861b8"
             },
@@ -68,8 +68,8 @@
                 "source_data": "{{vars.input.records[0].sourcedata}}"
               },
               "status": null,
-              "left": "473",
-              "top": "140",
+              "left": "280",
+              "top": "110",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "66e41eed-27ef-4ac6-82ce-f36a2d77c53a"
             },
@@ -143,8 +143,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "473",
-              "top": "360",
+              "left": "606",
+              "top": "286",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "5a81e3fd-0583-4644-b1e1-2e01304bc4dd"
             },
@@ -217,8 +217,8 @@
                 "v_Parent_Process_Command_Line": ""
               },
               "status": null,
-              "left": "473",
-              "top": "252",
+              "left": "440",
+              "top": "200",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "eeb9bd2b-bc32-48a8-8811-0d148611f40e"
             },
@@ -229,26 +229,26 @@
               "arguments": {
                 "conditions": [
                   {
-                    "option": "yes",
-                    "step_iri": "/api/3/workflow_steps/5666d244-ed8f-4461-a3ab-b897015ae1f7",
-                    "condition": "{{ 'encrypted' in vars.v_dlp_filtertype }}"
-                  },
-                  {
                     "option": "no",
                     "default": true,
                     "step_iri": "/api/3/workflow_steps/175d863c-6d96-4c0d-8ac8-cf74cb02c91c"
+                  },
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/93b52d15-670c-43c2-9ea8-e2b878722546",
+                    "condition": "{{ 'encrypted' in vars.v_dlp_filtertype }}"
                   }
                 ]
               },
               "status": null,
-              "left": "473",
-              "top": "480",
+              "left": "606",
+              "top": "520",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "3f2475b1-838c-4e73-9a4e-59ef3eb8e683"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Fetch User Offense History",
+              "name": "Fetch User Profile",
               "description": null,
               "arguments": {
                 "query": {
@@ -275,32 +275,32 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "826",
-              "top": "480",
+              "left": "606",
+              "top": "400",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "5666d244-ed8f-4461-a3ab-b897015ae1f7"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Appropriate content",
+              "name": "Is Content Appropriate",
               "description": null,
               "arguments": {
                 "conditions": [
                   {
                     "option": "yes",
-                    "step_iri": "/api/3/workflow_steps/952b1d6a-bd40-472f-b7ea-a63e7a229e2c",
-                    "condition": "{{ 'torrent' in vars.v_File_Name }}"
+                    "step_iri": "/api/3/workflow_steps/200f7264-fd13-480d-b03f-3a915143d835",
+                    "condition": "{{ 'torrent' not in vars.v_File_Name }}"
                   },
                   {
                     "option": "no",
                     "default": true,
-                    "step_iri": "/api/3/workflow_steps/200f7264-fd13-480d-b03f-3a915143d835"
+                    "step_iri": "/api/3/workflow_steps/952b1d6a-bd40-472f-b7ea-a63e7a229e2c"
                   }
                 ]
               },
               "status": null,
-              "left": "473",
-              "top": "607",
+              "left": "400",
+              "top": "640",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "175d863c-6d96-4c0d-8ac8-cf74cb02c91c"
             },
@@ -337,8 +337,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "120",
-              "top": "607",
+              "left": "80",
+              "top": "740",
               "stepType": "/api/3/workflow_step_types/4c0019b2-055c-44d0-968c-678a0c2d762e",
               "uuid": "952b1d6a-bd40-472f-b7ea-a63e7a229e2c"
             },
@@ -351,7 +351,7 @@
                   {
                     "option": "yes",
                     "step_iri": "/api/3/workflow_steps/175d863c-6d96-4c0d-8ac8-cf74cb02c91c",
-                    "condition": "{{ 'offender' in vars.steps.Fetch_User_Offense_History[0].recordTags or (vars.steps.Fetch_User_Offense_History[0].securityId|int) > 1 }}"
+                    "condition": "{{ 'offender' in vars.steps.Fetch_User_Profile[0].recordTags or (vars.steps.Fetch_User_Profile[0].securityId|int) > 1 }}"
                   },
                   {
                     "option": "no",
@@ -361,8 +361,8 @@
                 ]
               },
               "status": null,
-              "left": "826",
-              "top": "607",
+              "left": "812",
+              "top": "630",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "93b52d15-670c-43c2-9ea8-e2b878722546"
             },
@@ -376,7 +376,7 @@
                 },
                 "_showJson": false,
                 "operation": "Overwrite",
-                "collection": "{{vars.steps.Fetch_User_Offense_History[0]['@id']}}",
+                "collection": "{{vars.steps.Fetch_User_Profile[0]['@id']}}",
                 "collectionType": "/api/3/users",
                 "fieldOperation": {
                   "recordTags": "Overwrite"
@@ -384,8 +384,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1180",
-              "top": "607",
+              "left": "1120",
+              "top": "729",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "14f2a6b1-3d13-4987-8fc0-9a7ea4a5902b"
             },
@@ -408,8 +408,8 @@
                 ]
               },
               "status": null,
-              "left": "473",
-              "top": "732",
+              "left": "606",
+              "top": "787",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "200f7264-fd13-480d-b03f-3a915143d835"
             },
@@ -418,12 +418,24 @@
               "name": "Input Protective Markings",
               "description": null,
               "arguments": {
-                "type": "DecisionBased",
+                "type": "InputBased",
                 "input": {
                   "schema": {
                     "title": "Set Protective Markings",
                     "description": "Enter the Protective Markings for file {{vars.v_File_Name}}",
-                    "inputVariables": []
+                    "inputVariables": [
+                      {
+                        "name": "protectiveMarkings",
+                        "type": "string",
+                        "label": "Protective Markings",
+                        "tooltip": "",
+                        "dataType": "text",
+                        "formType": "text",
+                        "required": false,
+                        "_expanded": true,
+                        "useRecordFieldDefault": false
+                      }
+                    ]
                   }
                 },
                 "record": "{{ vars.input.records[0][\"@id\"] }}",
@@ -436,7 +448,7 @@
                     {
                       "option": "Save",
                       "primary": true,
-                      "step_iri": "/api/3/workflow_steps/a0687a1d-4ab8-40e0-bd97-fe039f4a33ac"
+                      "step_iri": "/api/3/workflow_steps/a5e5f569-e943-4c29-8125-91c10c4e09ee"
                     },
                     {
                       "option": "Cancel",
@@ -447,8 +459,8 @@
                 }
               },
               "status": null,
-              "left": "830",
-              "top": "732",
+              "left": "920",
+              "top": "860",
               "stepType": "/api/3/workflow_step_types/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
               "uuid": "11649f8c-c8e2-4f96-9378-59736edd8452"
             },
@@ -472,32 +484,32 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1180",
-              "top": "731",
+              "left": "1120",
+              "top": "940",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "5597bcd7-0cb7-4654-9847-ee4f6eec002c"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Are Markings Inappropriate",
+              "name": "Are Markings Appropriate",
               "description": null,
               "arguments": {
                 "conditions": [
                   {
                     "option": "yes",
-                    "step_iri": "/api/3/workflow_steps/eb386f99-f373-402b-8565-a7b8eb81d866",
-                    "condition": "{{ 'top_secret' in vars.v_dlp_dlpextra }}"
+                    "step_iri": "/api/3/workflow_steps/1a44196d-df97-4aeb-a4f6-0eb4808bbf9f",
+                    "condition": "{{ 'top_secret' not in vars.v_dlp_dlpextra }}"
                   },
                   {
                     "option": "no",
                     "default": true,
-                    "step_iri": "/api/3/workflow_steps/1a44196d-df97-4aeb-a4f6-0eb4808bbf9f"
+                    "step_iri": "/api/3/workflow_steps/eb386f99-f373-402b-8565-a7b8eb81d866"
                   }
                 ]
               },
               "status": null,
-              "left": "473",
-              "top": "860",
+              "left": "280",
+              "top": "940",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "a0687a1d-4ab8-40e0-bd97-fe039f4a33ac"
             },
@@ -521,8 +533,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "129",
-              "top": "860",
+              "left": "86",
+              "top": "1040",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "eb386f99-f373-402b-8565-a7b8eb81d866"
             },
@@ -531,10 +543,14 @@
               "name": "Add User to Tracker DB",
               "description": null,
               "arguments": {
-                "resource": [],
+                "resource": {
+                  "recordTags": [
+                    "/api/3/tags/offender"
+                  ]
+                },
                 "_showJson": false,
                 "operation": "Overwrite",
-                "collection": "{{vars.steps.Fetch_User_Offense_History[0]['@id']}}",
+                "collection": "{{vars.steps.Fetch_User_Profile[0]['@id']}}",
                 "collectionType": "/api/3/users",
                 "fieldOperation": {
                   "recordTags": "Overwrite"
@@ -542,8 +558,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "473",
-              "top": "1106",
+              "left": "790",
+              "top": "1200",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "1b22b8aa-4ad8-41d4-bc10-56208cf7ab32"
             },
@@ -552,11 +568,22 @@
               "name": "User in Tracker DB",
               "description": null,
               "arguments": {
-                "conditions": []
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/5bf9458c-34ce-4322-a44b-5d7c9c58d310",
+                    "condition": "{{ 'offender' in vars.steps.Fetch_User_Profile[0].recordTags }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/1b22b8aa-4ad8-41d4-bc10-56208cf7ab32"
+                  }
+                ]
               },
               "status": null,
-              "left": "473",
-              "top": "980",
+              "left": "600",
+              "top": "1087",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "1a44196d-df97-4aeb-a4f6-0eb4808bbf9f"
             },
@@ -565,10 +592,12 @@
               "name": "Update Tracker DB",
               "description": null,
               "arguments": {
-                "resource": [],
+                "resource": {
+                  "securityId": "{{(vars.steps.Fetch_User_Profile[0].securityId|int) + 1}}"
+                },
                 "_showJson": false,
                 "operation": "Overwrite",
-                "collection": "{{vars.steps.Fetch_User_Offense_History[0]['@id']}}",
+                "collection": "{{vars.steps.Fetch_User_Profile[0]['@id']}}",
                 "collectionType": "/api/3/users",
                 "fieldOperation": {
                   "recordTags": "Overwrite"
@@ -576,8 +605,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "130",
-              "top": "980",
+              "left": "440",
+              "top": "1200",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "5bf9458c-34ce-4322-a44b-5d7c9c58d310"
             },
@@ -600,8 +629,8 @@
                 ]
               },
               "status": null,
-              "left": "1490",
-              "top": "607",
+              "left": "1440",
+              "top": "729",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "6740715d-7411-4077-ac32-53b51a139b35"
             },
@@ -619,8 +648,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1490",
-              "top": "480",
+              "left": "1760",
+              "top": "813",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "95b62cbb-5db6-45a1-9d8c-5334f817ae69"
             },
@@ -650,8 +679,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1490",
-              "top": "733",
+              "left": "1760",
+              "top": "640",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "c0b31ca8-e552-4776-8960-a0bb2d5fa45b"
             },
@@ -660,11 +689,11 @@
               "name": "Set Protective Markings",
               "description": null,
               "arguments": {
-                "v_dlp_dlpextra": "top_secret"
+                "v_dlp_dlpextra": "{{vars.steps.Input_Protective_Markings.input.protectiveMarkings}}"
               },
               "status": null,
-              "left": "830",
-              "top": "860",
+              "left": "600",
+              "top": "940",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "a5e5f569-e943-4c29-8125-91c10c4e09ee"
             }
@@ -699,24 +728,6 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "2488e386-3e67-46e5-9fef-b8f3488ad032",
-              "name": "Update Alert Attributes -> Is File Encrypted",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/3f2475b1-838c-4e73-9a4e-59ef3eb8e683",
-              "sourceStep": "/api/3/workflow_steps/5a81e3fd-0583-4644-b1e1-2e01304bc4dd"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "511d4770-794b-45ea-b5eb-4e00d85e1886",
-              "name": "Is File Encrypted -> Lookup User Category",
-              "label": "yes",
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/5666d244-ed8f-4461-a3ab-b897015ae1f7",
-              "sourceStep": "/api/3/workflow_steps/3f2475b1-838c-4e73-9a4e-59ef3eb8e683"
-            },
-            {
-              "@type": "WorkflowRoute",
               "uuid": "8c77e6f7-fcda-4e8e-898c-6d1df9df406e",
               "name": "Is File Encrypted -> Appropriate content",
               "label": "no",
@@ -728,19 +739,10 @@
               "@type": "WorkflowRoute",
               "uuid": "5b38a2b4-9fbb-482b-926f-f776363a7146",
               "name": "Appropriate content -> Notify HR",
-              "label": "yes",
+              "label": "no",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/952b1d6a-bd40-472f-b7ea-a63e7a229e2c",
               "sourceStep": "/api/3/workflow_steps/175d863c-6d96-4c0d-8ac8-cf74cb02c91c"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "ac377d80-2114-484b-95d8-f2a13bb274f7",
-              "name": "Lookup User -> Known offender or threshold exceeded",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/93b52d15-670c-43c2-9ea8-e2b878722546",
-              "sourceStep": "/api/3/workflow_steps/5666d244-ed8f-4461-a3ab-b897015ae1f7"
             },
             {
               "@type": "WorkflowRoute",
@@ -764,7 +766,7 @@
               "@type": "WorkflowRoute",
               "uuid": "ea08c645-210c-43e4-94c7-564b8bfb7569",
               "name": "Appropriate content -> Has Protective Markings",
-              "label": "no",
+              "label": "yes",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/200f7264-fd13-480d-b03f-3a915143d835",
               "sourceStep": "/api/3/workflow_steps/175d863c-6d96-4c0d-8ac8-cf74cb02c91c"
@@ -800,7 +802,7 @@
               "@type": "WorkflowRoute",
               "uuid": "589d99b7-0863-4bcc-926e-6c52d0cf1376",
               "name": "Are Markings Appropriate -> Block Offender IP",
-              "label": "yes",
+              "label": "no",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/eb386f99-f373-402b-8565-a7b8eb81d866",
               "sourceStep": "/api/3/workflow_steps/a0687a1d-4ab8-40e0-bd97-fe039f4a33ac"
@@ -809,7 +811,7 @@
               "@type": "WorkflowRoute",
               "uuid": "d7fcfde6-4a52-4445-ba4c-369eb7f8a280",
               "name": "Are Markings Appropriate -> User in Tracker DB",
-              "label": "no",
+              "label": "yes",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/1a44196d-df97-4aeb-a4f6-0eb4808bbf9f",
               "sourceStep": "/api/3/workflow_steps/a0687a1d-4ab8-40e0-bd97-fe039f4a33ac"
@@ -818,7 +820,7 @@
               "@type": "WorkflowRoute",
               "uuid": "c28ef991-989a-4ddd-850e-164fe5ecd6e1",
               "name": "User in Tracker DB -> Add User to Tracker DB",
-              "label": null,
+              "label": "no",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/1b22b8aa-4ad8-41d4-bc10-56208cf7ab32",
               "sourceStep": "/api/3/workflow_steps/1a44196d-df97-4aeb-a4f6-0eb4808bbf9f"
@@ -827,7 +829,7 @@
               "@type": "WorkflowRoute",
               "uuid": "942feb12-34b6-4ab2-add2-8ed68a7db4a1",
               "name": "User in Tracker DB -> Update Tracker DB",
-              "label": null,
+              "label": "yes",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/5bf9458c-34ce-4322-a44b-5d7c9c58d310",
               "sourceStep": "/api/3/workflow_steps/1a44196d-df97-4aeb-a4f6-0eb4808bbf9f"
@@ -863,7 +865,7 @@
               "@type": "WorkflowRoute",
               "uuid": "0d31ff52-eca0-4b93-95ad-436bf5bbcb02",
               "name": "Input Protective Markings -> Set Protective Markings",
-              "label": null,
+              "label": "Save",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/a5e5f569-e943-4c29-8125-91c10c4e09ee",
               "sourceStep": "/api/3/workflow_steps/11649f8c-c8e2-4f96-9378-59736edd8452"
@@ -876,10 +878,37 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/a0687a1d-4ab8-40e0-bd97-fe039f4a33ac",
               "sourceStep": "/api/3/workflow_steps/a5e5f569-e943-4c29-8125-91c10c4e09ee"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "32726f71-7908-4fe3-9f95-7f5d22f7f82f",
+              "name": "Update Alert Attributes -> Fetch User Offense History",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/5666d244-ed8f-4461-a3ab-b897015ae1f7",
+              "sourceStep": "/api/3/workflow_steps/5a81e3fd-0583-4644-b1e1-2e01304bc4dd"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2ac9ef04-6b00-41f9-9dbc-bad2a75a4778",
+              "name": "Fetch User Profile -> Is File Encrypted",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/3f2475b1-838c-4e73-9a4e-59ef3eb8e683",
+              "sourceStep": "/api/3/workflow_steps/5666d244-ed8f-4461-a3ab-b897015ae1f7"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ef4a0a52-6f39-4485-ad06-e1c098600909",
+              "name": "Is File Encrypted -> Known offender or threshold exceeded",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/93b52d15-670c-43c2-9ea8-e2b878722546",
+              "sourceStep": "/api/3/workflow_steps/3f2475b1-838c-4e73-9a4e-59ef3eb8e683"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1591994348,
+          "lastModifyDate": 1592130633,
           "uuid": "28b750df-7726-4bc4-a6bc-d468914e79e5",
           "recordTags": [],
           "isPrivate": false,
