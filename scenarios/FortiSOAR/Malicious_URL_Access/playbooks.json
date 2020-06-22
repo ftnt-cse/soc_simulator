@@ -1,0 +1,1551 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@context": "/api/3/contexts/WorkflowCollection",
+      "@type": "WorkflowCollection",
+      "name": "0000 - Playbooks",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "id": 92,
+      "createDate": 1592509715,
+      "modifyDate": 1592509715,
+      "recordTags": [],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Demo - FortiGate notifies about user access to URLs",
+          "aliasName": null,
+          "description": "Demonstration of automated blocking of URLs",
+          "collection": "/api/3/workflow_collections/12cf29e6-c4ff-4012-918b-da32ad756c89",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/309d143a-08df-47d9-8298-dbc2525d14b2",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%FSM-SIM-WEB-1%",
+                      "operator": "like",
+                      "_operator": "like"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "129",
+              "top": "27",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "309d143a-08df-47d9-8298-dbc2525d14b2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "129",
+              "top": "160",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "2cdca166-5628-4242-8037-a07c75e51f85"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert Attributes",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Initialize Alert Fields</span>",
+                  "records": ""
+                },
+                "resource": {
+                  "url": "{{vars.v_URL}}",
+                  "name": "{{vars.v_Description}} - {{vars.v_Source_ID}}",
+                  "type": {
+                    "id": 120,
+                    "@id": "/api/3/picklists/0cbc2c31-c360-4770-b1e7-3653a8c24ead",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Malware",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Malware",
+                    "orderIndex": 7
+                  },
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "domain": "{%if vars.v_Domain%}{{vars.v_Domain}}{%endif%}",
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "reporter": "{{vars.v_Reporter}}",
+                  "severity": "{{vars.v_severity}}",
+                  "sourceId": "{{vars.v_Source_ID}}",
+                  "sourceIp": "{{vars.v_Source_IP}}",
+                  "userName": "{{vars.v_Username}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "sourceType": "{{vars.v_Source_Type}}",
+                  "sourcedata": "{{vars.source_data|toJSON}}",
+                  "description": "{{vars.v_Description}}\nIncident Category: {{vars.v_Source_Type}}\n{%if vars.v_Source_IP%}Source IP:{{vars.v_Source_IP}}{%endif%}\n{%if vars.v_Destination_IP%}Destination IP:&nbsp;{{vars.v_Destination_IP}}{%endif%}\n{%if vars.v_Reporter %} Reporting Device: {{vars.v_Reporter}}{%endif%}{%if vars.v_Username %} Username: {{vars.v_Username}}{%endif%}",
+                  "respDueDate": "{{globalVars.Tomorrow_Date}}",
+                  "assigneddate": "{{globalVars.Current_Data}}",
+                  "destinationIp": "{{vars.v_Destination_IP}}",
+                  "killChainPhase": {
+                    "id": 373,
+                    "@id": "/api/3/picklists/8dfaa4f1-cd5b-43dc-bc3f-8821261fcb69",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Actions on Objectives",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Actions on Objectives",
+                    "orderIndex": 7
+                  },
+                  "alertDetectionDate": "{{globalVars.Current_Date}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "129",
+              "top": "430",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "de473d16-ddc0-4ffc-83c7-e26b7fc03ba8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Fields Mapping",
+              "description": null,
+              "arguments": {
+                "v_URL": "{{vars.source_data.associated_events.0.attributes.uriStem}}",
+                "v_Email": "",
+                "v_Domain": "",
+                "v_Metrics": "",
+                "v_Service": "",
+                "v_Ack_Date": "",
+                "v_Reporter": "{%if vars.source_data.incident_data.attributes.incidentRptDevName%}{{vars.source_data.incident_data.attributes.incidentRptDevName}}\n{% elif vars.source_data.incident_data.attributes.reptDevIpAddr %}\n{{vars.source_data.incident_data.attributes.reptDevIpAddr}}\n{%endif%}",
+                "v_Type_Map": "{'Availability/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Domain Controller': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Environmental': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/HVAC': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Hardware': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/License': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Mail Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/UPS': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Video Conferencing': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/WAN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Windows Cluster Service': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Availability/Windows File System Replication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Change/Audit': {{\"AlertType\" | picklist(\"Compliance\")}},'Change/Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},'Change/UserAccount': {{\"AlertType\" | picklist(\"Compliance\")}},'Other/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Other/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/CPU': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/IPSLA': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Interface': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Mail Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Memory': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage I/O': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Storage Space': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/Virtualization': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Performance/VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Airline': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Audit': {{\"AlertType\" | picklist(\"Compliance\")}},'Security/Authentication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Behavioral Anomaly': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/BotNet': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Collection': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Command and Control': {{\"AlertType\" | picklist(\"Beaconing\")}},'Security/Compromised Host': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Credential Access': {{\"AlertType\" | picklist(\"Lost / Stolen\")}},'Security/DDoS': {{\"AlertType\" | picklist(\"Denial of Service\")}},'Security/Defense Evasion': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Discovery': {{\"AlertType\" | picklist(\"Reconnaissance\")}},'Security/DoS': {{\"AlertType\" | picklist(\"Denial of Service\")}},'Security/Execution': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Exfiltration': {{\"AlertType\" | picklist(\"Data Exfiltration\")}},'Security/Exploit': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Impact': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Initial Access': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Lateral Movement': {{\"AlertType\" | picklist(\"Lateral Movement\")}},'Security/Malware': {{\"AlertType\" | picklist(\"Malware\")}},'Security/Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Persistence': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},'Security/Privilege Escalation': {{\"AlertType\" | picklist(\"\")}},'Security/Ransomware': {{\"AlertType\" | picklist(\"Ransomware\")}},'Security/Reconnaissance': {{\"AlertType\" | picklist(\"Reconnaissance\")}},'Security/SQL Injection': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},'Security/Website defacement': {{\"AlertType\" | picklist(\"Other / Unknown\")}}}",
+                "v_URL_Only": "{{vars.source_data.associated_events.0.attributes.uriStem| urlsplit('hostname')}}{{vars.source_data.associated_events.0.attributes.uriStem| urlsplit('path')|regex_replace('^(.*)/$', '\\\\1')}}",
+                "v_Username": "{{vars.source_data.incident_data.attributes.user}}",
+                "v_severity": "{% if vars.source_data.incident_data.attributes.eventSeverityCat == \"LOW\" %}{{\"Severity\" | picklist(\"Low\", \"@id\")}}{% elif vars.source_data.incident_data.attributes.eventSeverityCat == \"MEDIUM\" %}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{% elif vars.source_data.incident_data.attributes.eventSeverityCat == \"HIGH\" %}{{\"Severity\" | picklist(\"High\", \"@id\")}}{%endif%}",
+                "v_File_Hash": "",
+                "v_File_Name": "{{vars.source_data.associated_events.0.attributes.fileName}}",
+                "v_File_Path": "",
+                "v_Source_ID": "{{vars.source_data.incident_data.nid}}",
+                "v_Source_IP": "{{vars.source_data.associated_events.0.attributes.srcIpAddr}}",
+                "v_eventName": "{{vars.source_data.associated_events.0.attributes.eventName}}",
+                "v_Device_UID": "",
+                "v_Email_Body": "",
+                "v_Email_From": "",
+                "v_Epoch_Time": "",
+                "v_Event_Time": "{{vars.source_data.incident_data.attributes.phRecvTime}}",
+                "v_File_Names": "",
+                "v_Process_ID": "",
+                "v_Description": "{{vars.source_data.incident_data.attributes.incidentTitle}}",
+                "v_Return_Path": "",
+                "v_Source_Port": "",
+                "v_Source_Tool": "",
+                "v_Source_Type": "{{vars.source_data.incident_data.attributes.eventType}}",
+                "v_incidentSrc": "",
+                "v_Command_Line": "",
+                "v_Latest_Login": "",
+                "v_Process_GUID": "",
+                "v_Process_Name": "",
+                "v_Process_Tree": "",
+                "v_Registry_Key": "",
+                "v_Response_SLA": "",
+                "v_Target_Asset": "",
+                "v_dlp_dlpextra": "{%if 'dlpextra' in  vars.source_data.associated_events.0.attributes.rawEventMsg%}{{(vars.source_data.associated_events.0.attributes.rawEventMsg|regex_search(\"dlpextra=([^\\s]*)\")).split('\"')[1]}}{%endif%}",
+                "v_Computer_Name": "{%if vars.incidentCategory =='Change/UserAccount'%}{{vars.origDevName}}{%endif%}",
+                "v_Email_Headers": "",
+                "v_Email_Subject": "",
+                "v_Sender_Domain": "",
+                "v_Destination_IP": "{{vars.source_data.associated_events.0.attributes.destIpAddr}}",
+                "v_Scheduled_Task": "",
+                "v_Source_Process": "",
+                "v_Target_Process": "",
+                "v_incidentTarget": "{%if vars.incidentTarget%}{{vars.incidentTarget | extract_artifacts}}{%endif%}",
+                "v_Attachment_Names": "",
+                "v_Destination_Port": "{{vars.source_data.associated_events.0.attributes.destIpPort}}",
+                "v_Bytes_Transferred": "",
+                "v_Escalation_Reason": "",
+                "v_Parent_Process_ID": "",
+                "v_Registry_Key_Value": "",
+                "v_Block_List_Location": "/home/fortinet/fortisoar_integration/blocked-urls.txt",
+                "v_Email_Recipients_To": "",
+                "v_Parent_Process_Name": "",
+                "v_Reporter_Email_Body": "",
+                "v_Decoded_Command_Line": "",
+                "v_Sender_Email_Address": "",
+                "v_Recipient_Email_Address": "",
+                "v_Parent_Process_Command_Line": ""
+              },
+              "status": null,
+              "left": "129",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "7349167a-bc0b-4e0c-b842-260a28487912"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Lookup",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet Web Filter Lookup",
+                "config": "3e169715-483a-4aaf-8de1-cb3ca9478a47",
+                "params": {
+                  "sample_url": "{{vars.v_URL}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">FortiGuard URL Lookup</span>\n\n\nThe URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> is categorised by FortiGuard in the category: <span style=\";color:red;font-weight:bold\">{{vars.result.data.category}}</span>.",
+                  "records": ""
+                },
+                "version": "1.0.0",
+                "connector": "fortinet-web-filter-lookup",
+                "operation": "url_review",
+                "ignore_errors": false,
+                "operationTitle": "Check Category of Domain or URL",
+                "step_variables": {
+                  "v_Category": "{{vars.result.data.category}}",
+                  "v_FGD_Output_Data": "{{vars.result}}"
+                }
+              },
+              "status": null,
+              "left": "129",
+              "top": "566",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "891c148d-f35a-499a-aa81-c6e2aeedf7af"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Is URL Known",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "URL not rated",
+                    "step_iri": "/api/3/workflow_steps/b72e2357-4d84-4ae7-a8dd-5a242a01eb56",
+                    "condition": "{{ vars.v_Category is eq(\"Not Rated\") }}"
+                  },
+                  {
+                    "option": "URL already categorised",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/50e04db0-5511-45a7-9253-459e9c690ff7"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "129",
+              "top": "706",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "360caf56-a3f8-4fab-b942-90c0b22cce32"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get List of Blocked URLs",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
+                "params": {
+                  "cmd": "cat {{vars.v_Block_List_Location}}",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Obtaining FortiGate's Current Block List</span>",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "operationTitle": "Execute remote command",
+                "step_variables": {
+                  "v_Blocked_URLs": "{{vars.result.data.split(\"\\r\\n\")}}"
+                }
+              },
+              "status": null,
+              "left": "540",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "b72e2357-4d84-4ae7-a8dd-5a242a01eb56"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "IS URL in Blocked URL List",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "URL already in block list",
+                    "step_iri": "/api/3/workflow_steps/8dbf8bcb-8a22-4af9-922a-f95b7bb3bf1f",
+                    "condition": "{{ vars.v_URL_Only in vars.v_Blocked_URLs }}"
+                  },
+                  {
+                    "option": "URL not in block list",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/8d65e2f2-0708-4db8-8525-4e88ef191fc8"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "540",
+              "top": "190",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "dab9fc66-7b0c-45f2-bc1e-0daa6b800e6e"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "URL is Already in List",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already in the FortiGate's block list and so no further action was necessary.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 120,
+                    "@id": "/api/3/picklists/0cbc2c31-c360-4770-b1e7-3653a8c24ead",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Malware",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Malware",
+                    "orderIndex": 7
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 12,
+                    "@id": "/api/3/picklists/0d609b08-45e0-469f-8910-41145c0b7c03",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#157DD9",
+                    "display": "Minimal",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Minimal",
+                    "orderIndex": 0
+                  },
+                  "closureNotes": "At the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already in the FortiGate's block list and so no further action was necessary.\n\nThe alert was closed automatically.",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 249,
+                    "@id": "/api/3/picklists/672aef13-a684-422e-be6c-15e10ec49915",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Duplicate",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "Duplicate",
+                    "orderIndex": 1
+                  },
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "852",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "8dbf8bcb-8a22-4af9-922a-f95b7bb3bf1f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "URL Already Categorised",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "URL: <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already categorised by FortiGuard as <span style=\"background-color:red;color:white;font-weight:bold\">{{vars.v_Category}}</span> and so no further action was necessary.\n\nAutomatically closing the alert.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 12,
+                    "@id": "/api/3/picklists/0d609b08-45e0-469f-8910-41145c0b7c03",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#157DD9",
+                    "display": "Minimal",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Minimal",
+                    "orderIndex": 0
+                  },
+                  "closureNotes": "At the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already categorised by FortiGuard as <span style=\"background-color:red;color:white;font-weight:bold\">{{vars.v_Category}}</span> and so no further action was necessary.\n\nThe alert was automatically closed.",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 249,
+                    "@id": "/api/3/picklists/672aef13-a684-422e-be6c-15e10ec49915",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Duplicate",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "Duplicate",
+                    "orderIndex": 1
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "131",
+              "top": "840",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "50e04db0-5511-45a7-9253-459e9c690ff7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Add URL to Blocked List",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
+                "params": {
+                  "cmd": "echo \"{{vars.v_URL_Only}}\" >> {{vars.v_Block_List_Location}}",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate Block List</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's block list.",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1430",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get URL Rating from VirusTotal",
+              "description": null,
+              "arguments": {
+                "name": "VirusTotal",
+                "config": "8600f9cc-b2b7-4626-8e6e-f7adba40c1d6",
+                "params": {
+                  "url": "{{vars.v_URL}}"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">VirusTotal URL Lookup</span>\n\nOut of <span style=\"color:red;font-weight:bold\"> {{vars.result.data.total}}</span> engines currently utilised by VirusTotal, <span style=\"color:black;font-weight:bold\">{{vars.result.data.positives}}</span> identified the URL as potentially malicious.\n\nThe aggregate score was <span style=\"color:red;font-weight:bold\"> {{vars.result.data.aggregate}}</span> out of 100.",
+                  "records": ""
+                },
+                "version": "1.0.1",
+                "connector": "virustotal",
+                "operation": "scan_url",
+                "operationTitle": "Submit URL for scanning",
+                "step_variables": {
+                  "v_VT_Positives": "{{vars.result.data.positives}}",
+                  "v_VT_Total_Result": "{{vars.result.data.total}}",
+                  "v_VT_Aggregate_Score": "{{vars.result.data.aggregate}}"
+                }
+              },
+              "status": null,
+              "left": "540",
+              "top": "506",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "8d65e2f2-0708-4db8-8525-4e88ef191fc8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Decide Severity of URL",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "Rating: 0",
+                    "step_iri": "/api/3/workflow_steps/219e419d-d558-4cf8-b5b0-c63fc14d5f27",
+                    "condition": "{{ vars.v_VT_Aggregate_Score is gt(-1) and vars.v_VT_Aggregate_Score is le(0) }}"
+                  },
+                  {
+                    "option": "Rating: 1 to 25",
+                    "step_iri": "/api/3/workflow_steps/5e6fe2f5-27a3-421e-b27e-e9d2e693f83f",
+                    "condition": "{{ vars.v_VT_Aggregate_Score is gt(0) and vars.v_VT_Aggregate_Score is le(25) }}"
+                  },
+                  {
+                    "option": "Rating: 26 to 50",
+                    "step_iri": "/api/3/workflow_steps/7d17383a-d485-405f-abb7-cbd3fbea5ef2",
+                    "condition": "{{ vars.v_VT_Aggregate_Score is gt(25) and vars.v_VT_Aggregate_Score is le(50) }}"
+                  },
+                  {
+                    "option": "Rating: 51 to 75",
+                    "step_iri": "/api/3/workflow_steps/fcf8e27e-235b-4695-8d25-a52db1858460",
+                    "condition": "{{ vars.v_VT_Aggregate_Score is gt(50) and vars.v_VT_Aggregate_Score is le(75) }}"
+                  },
+                  {
+                    "option": "Rating: 76 to 100",
+                    "step_iri": "/api/3/workflow_steps/fbfe7079-55f5-4bdd-9b84-c1ca257e9905",
+                    "condition": "{{ vars.v_VT_Aggregate_Score is gt(75) and vars.v_VT_Aggregate_Score is le(100) }}"
+                  },
+                  {
+                    "option": "Error with VirusTotal",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/c9c89bd5-c972-4161-a767-30608bbba4c7"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "540",
+              "top": "646",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Zero Aggregate Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Assigning Severity Level</span>\n\nAlert has been assigned a <span style=\"background-color:#157DD9;color:#FFF;font-weight:bold\">Minimal</span> rating due to the URL having an aggregate score of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 12,
+                    "@id": "/api/3/picklists/0d609b08-45e0-469f-8910-41145c0b7c03",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#157DD9",
+                    "display": "Minimal",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Minimal",
+                    "orderIndex": 0
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "900",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "219e419d-d558-4cf8-b5b0-c63fc14d5f27"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Low Aggregate Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Assigning Severity Level</span>\n\nAlert has been assigned a <span style=\"background-color:#28B35C;color:#FFF;font-weight:bold\">Low</span> severity rating due to the URL having an aggregate score of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 83,
+                    "@id": "/api/3/picklists/58d0753f-f7e4-403b-953c-b0f521eab759",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#28B35C",
+                    "display": "Low",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Low",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "960",
+              "top": "200",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "5e6fe2f5-27a3-421e-b27e-e9d2e693f83f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Medium Aggregate Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Assigning Severity Level</span>\n\nAlert has been assigned a <span style=\"background-color:#D2AC1A;color:#000;font-weight:bold\">Medium</span> severity rating due to the URL having an aggregate score of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1020",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "7d17383a-d485-405f-abb7-cbd3fbea5ef2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "High Severity Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Assigning Severity Level</span>\n\nAlert has been assigned a <span style=\"background-color:#DE7A13;color:#FFF;font-weight:bold\">High</span> severity rating due to the URL having an aggregate score of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 56,
+                    "@id": "/api/3/picklists/40187287-89fc-4e9c-b717-e9443d57eedb",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1087",
+              "top": "360",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "fcf8e27e-235b-4695-8d25-a52db1858460"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Critical Severity Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Assigning Severity Level</span>\n\nAlert has been assigned a <span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Critical</span> severity rating due to the URL having an aggregate score of <span style=\"background-color:yellow;color:black;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 119,
+                    "@id": "/api/3/picklists/7efa2220-39bb-44e4-961f-ac368776e3b0",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e31b1d",
+                    "display": "Critical",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Critical",
+                    "orderIndex": 4
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1132",
+              "top": "446",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "fbfe7079-55f5-4bdd-9b84-c1ca257e9905"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Close Alert as URL Now Blocked",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nAt the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was uncategorised by FortiGuard but had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>. \n\nDue to this the alert's severity was automatically set to <span style=\"color:red;font-weight:bold\">{{vars.input.records[0].severity.itemValue}}</span>and will now be closed.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "closureNotes": "At the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was uncategorised by FortiGuard but had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.\n\nDue to this the alert's severity was automatically set to <span style=\"color:red;font-weight:bold\">{{vars.input.records[0].severity.itemValue}}</span> and then closed.",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 251,
+                    "@id": "/api/3/picklists/8590c81e-3307-4645-97f5-c3e1bec4e05a",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Tasks Completed",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "Tasks Completed",
+                    "orderIndex": 0
+                  },
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1760",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "cf1ff50a-fd31-4dea-9378-6eaa68f48574"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Prompt Whether to Block URL",
+              "description": null,
+              "arguments": {
+                "type": "DecisionBased",
+                "input": {
+                  "schema": {
+                    "title": "Should the URL be blocked?",
+                    "description": "URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> is not currently blocked by the FortiGate. It currently has an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> have detected as malicious.\n\nDo you wish for the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> to be added to the FortiGate's block list?",
+                    "inputVariables": []
+                  }
+                },
+                "record": "{{ vars.input.records[0][\"@id\"] }}",
+                "owner_detail": {
+                  "isAssigned": false
+                },
+                "step_variables": [],
+                "response_mapping": {
+                  "options": [
+                    {
+                      "option": "Yes",
+                      "primary": true,
+                      "step_iri": "/api/3/workflow_steps/fe43c9d0-eceb-479d-a58a-511f36be2899"
+                    },
+                    {
+                      "option": "No",
+                      "step_iri": "/api/3/workflow_steps/118b2a85-e1b8-4a78-87f4-8cb983198700"
+                    }
+                  ],
+                  "duplicateOption": false
+                }
+              },
+              "status": null,
+              "left": "1420",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
+              "uuid": "0b20077a-2516-495a-a65f-62b3cc1e278f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "URL Was Not Blocked",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was not added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 83,
+                    "@id": "/api/3/picklists/58d0753f-f7e4-403b-953c-b0f521eab759",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#28B35C",
+                    "display": "Low",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Low",
+                    "orderIndex": 1
+                  },
+                  "closureNotes": "At the time of closure the URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.\n\nThe URL was not added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 250,
+                    "@id": "/api/3/picklists/2b0112f6-4746-4dab-ada6-a8cd1e675572",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "False Positive",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "False Positive",
+                    "orderIndex": 2
+                  },
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1420",
+              "top": "160",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "118b2a85-e1b8-4a78-87f4-8cb983198700"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "User Requested URL Block",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
+                "params": {
+                  "cmd": "echo \"{{vars.v_URL_Only}}\" >> {{vars.v_Block_List_Location}}",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate Block List</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's block list.",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1760",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "fe43c9d0-eceb-479d-a58a-511f36be2899"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Close Alert as URL Blocked Manually",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nURL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 177,
+                    "@id": "/api/3/picklists/b3c20a3a-ecfd-4adc-a225-0205968e6793",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#D2AC1A",
+                    "display": "Medium",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Medium",
+                    "orderIndex": 2
+                  },
+                  "respDueDate": "{{globalVars.Tomorrow_Date}}",
+                  "closureNotes": "At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\"> {{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.\n\nThe URL was added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 251,
+                    "@id": "/api/3/picklists/8590c81e-3307-4645-97f5-c3e1bec4e05a",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Tasks Completed",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "Tasks Completed",
+                    "orderIndex": 0
+                  },
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1760",
+              "top": "151",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "fc39617c-2e32-4bd9-ace6-2293a34bf998"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Error",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:red;color:white;font-weight:bold\">There was an error with the response from VirusTotal. This alert requires manual intervention.</span>",
+                  "records": ""
+                },
+                "resource": {
+                  "severity": {
+                    "id": 56,
+                    "@id": "/api/3/picklists/40187287-89fc-4e9c-b717-e9443d57eedb",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#DE7A13",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "High",
+                    "orderIndex": 3
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "540",
+              "top": "760",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "c9c89bd5-c972-4161-a767-30608bbba4c7"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8270c7c4-24a4-4c61-a3bb-6814168e3e7e",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2cdca166-5628-4242-8037-a07c75e51f85",
+              "sourceStep": "/api/3/workflow_steps/309d143a-08df-47d9-8298-dbc2525d14b2"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "01176ceb-1e0c-4b9a-a9f0-5625e8adc94b",
+              "name": "Set Source Data -> Fields Mapping",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7349167a-bc0b-4e0c-b842-260a28487912",
+              "sourceStep": "/api/3/workflow_steps/2cdca166-5628-4242-8037-a07c75e51f85"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "79c5b5d3-e1ab-4479-b311-8f0049c77adc",
+              "name": "Fields Mapping -> Update Alert Attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/de473d16-ddc0-4ffc-83c7-e26b7fc03ba8",
+              "sourceStep": "/api/3/workflow_steps/7349167a-bc0b-4e0c-b842-260a28487912"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "34eb3a76-03a1-42f4-ab6f-f13752ef986a",
+              "name": "Get Lookup -> Is URL Known",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/360caf56-a3f8-4fab-b942-90c0b22cce32",
+              "sourceStep": "/api/3/workflow_steps/891c148d-f35a-499a-aa81-c6e2aeedf7af"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "6f8dcace-bcaa-4958-b703-b46a79eec80f",
+              "name": "Update Alert Attributes -> Get Lookup",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/891c148d-f35a-499a-aa81-c6e2aeedf7af",
+              "sourceStep": "/api/3/workflow_steps/de473d16-ddc0-4ffc-83c7-e26b7fc03ba8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "639cfb2c-e067-4427-87b9-17cf0f0f416f",
+              "name": "Is URL Known -> Get List of Blocked URLs",
+              "label": "URL not rated",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b72e2357-4d84-4ae7-a8dd-5a242a01eb56",
+              "sourceStep": "/api/3/workflow_steps/360caf56-a3f8-4fab-b942-90c0b22cce32"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2a0ede5f-682c-4174-ab5e-093efc545134",
+              "name": "Get List of Blocked URLs -> IS URL in Blocked URL List",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/dab9fc66-7b0c-45f2-bc1e-0daa6b800e6e",
+              "sourceStep": "/api/3/workflow_steps/b72e2357-4d84-4ae7-a8dd-5a242a01eb56"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "347f0109-7b02-46c9-a4a9-b91268cb406f",
+              "name": "IS URL in Blocked URL List -> URL is Already in List",
+              "label": "URL already in block list",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8dbf8bcb-8a22-4af9-922a-f95b7bb3bf1f",
+              "sourceStep": "/api/3/workflow_steps/dab9fc66-7b0c-45f2-bc1e-0daa6b800e6e"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2e9f7a03-dfcf-4499-9ee3-0e752dce37fb",
+              "name": "Is URL Known -> URL Already Categorised",
+              "label": "URL already categorised",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/50e04db0-5511-45a7-9253-459e9c690ff7",
+              "sourceStep": "/api/3/workflow_steps/360caf56-a3f8-4fab-b942-90c0b22cce32"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "52540e9c-0171-45ae-b819-5aee81145200",
+              "name": "Get URL Rating from VirusTotal -> Decide Severity of URL",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce",
+              "sourceStep": "/api/3/workflow_steps/8d65e2f2-0708-4db8-8525-4e88ef191fc8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "95eab4c8-b6a2-49f7-ab20-9a690ec3ed19",
+              "name": "Decide Severity of URL -> Zero Aggregate Rating",
+              "label": "Rating: 0",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/219e419d-d558-4cf8-b5b0-c63fc14d5f27",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "a1194523-80c4-481c-a9e2-5d6b4856aa53",
+              "name": "Decide Severity of URL -> Low Aggregate Rating",
+              "label": "Rating: 1 to 25",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/5e6fe2f5-27a3-421e-b27e-e9d2e693f83f",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e5b79f2b-a418-412e-93ff-1eaf9c5e4dcf",
+              "name": "Decide Severity of URL -> Medium Aggregate Rating",
+              "label": "Rating: 26 to 50",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7d17383a-d485-405f-abb7-cbd3fbea5ef2",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "a78447aa-aa88-4e8e-889b-4dc025796cdd",
+              "name": "Decide Severity of URL -> High Severity Rating",
+              "label": "Rating: 51 to 75",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fcf8e27e-235b-4695-8d25-a52db1858460",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "110d3210-e274-4ad9-baac-27d45c088b23",
+              "name": "Decide Severity of URL -> Critical Severity Rating",
+              "label": "Rating: 76 to 100",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fbfe7079-55f5-4bdd-9b84-c1ca257e9905",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "9023bd1c-ede5-4628-94b2-a85e9fdce539",
+              "name": "Critical Severity Rating -> Add URL to Blocked List",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39",
+              "sourceStep": "/api/3/workflow_steps/fbfe7079-55f5-4bdd-9b84-c1ca257e9905"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "43f79c3a-9e5d-4122-b63f-06c357c9554a",
+              "name": "High Severity Rating -> Add URL to Blocked List",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39",
+              "sourceStep": "/api/3/workflow_steps/fcf8e27e-235b-4695-8d25-a52db1858460"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "7ede7ad6-f418-40d1-b3cd-202f6d69e103",
+              "name": "Medium Aggregate Rating -> Add URL to Blocked List",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39",
+              "sourceStep": "/api/3/workflow_steps/7d17383a-d485-405f-abb7-cbd3fbea5ef2"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b52755f1-488c-4c03-b908-ccaed696cec6",
+              "name": "Low Aggregate Rating -> Add URL to Blocked List",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39",
+              "sourceStep": "/api/3/workflow_steps/5e6fe2f5-27a3-421e-b27e-e9d2e693f83f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ac641098-2006-46b0-a96b-71dd8835fea9",
+              "name": "Add URL to Blocked List -> Close Alert as URL Now Blocked",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/cf1ff50a-fd31-4dea-9378-6eaa68f48574",
+              "sourceStep": "/api/3/workflow_steps/2a8ff6eb-505a-42c6-8e04-6b6a2aef5c39"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "11d67216-b8f1-41c4-85b0-43900e611ad3",
+              "name": "Zero Aggregate Rating -> Prompt Whether to Block URL",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/0b20077a-2516-495a-a65f-62b3cc1e278f",
+              "sourceStep": "/api/3/workflow_steps/219e419d-d558-4cf8-b5b0-c63fc14d5f27"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e414e463-b8e9-40a8-ba80-d4d64bc26a58",
+              "name": "Prompt Whether to Block URL -> URL Was Not Blocked",
+              "label": "No",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/118b2a85-e1b8-4a78-87f4-8cb983198700",
+              "sourceStep": "/api/3/workflow_steps/0b20077a-2516-495a-a65f-62b3cc1e278f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "32e72c4d-2e8e-4429-8ec9-4de395f16400",
+              "name": "Prompt Whether to Block URL -> User Requested URL Block",
+              "label": "Yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fe43c9d0-eceb-479d-a58a-511f36be2899",
+              "sourceStep": "/api/3/workflow_steps/0b20077a-2516-495a-a65f-62b3cc1e278f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "25494c8d-8d39-4291-9d76-7352f592a1b8",
+              "name": "User Requested URL Block -> Close Alert as URL Blocked Manually",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fc39617c-2e32-4bd9-ace6-2293a34bf998",
+              "sourceStep": "/api/3/workflow_steps/fe43c9d0-eceb-479d-a58a-511f36be2899"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "996590ca-035f-483c-a6e8-68a5b5bb3143",
+              "name": "IS URL in Blocked URL List -> Get URL Rating from VirusTotal",
+              "label": "URL not in block list",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8d65e2f2-0708-4db8-8525-4e88ef191fc8",
+              "sourceStep": "/api/3/workflow_steps/dab9fc66-7b0c-45f2-bc1e-0daa6b800e6e"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "40297a29-ce0b-4a68-b0cd-6b99998cb2bc",
+              "name": "Decide Severity of URL -> Error",
+              "label": "Error with VirusTotal",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/c9c89bd5-c972-4161-a767-30608bbba4c7",
+              "sourceStep": "/api/3/workflow_steps/5023f7cd-6893-4902-b64e-d4b4f0286bce"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1592690950,
+          "uuid": "1f29a0bf-7a72-4add-8dc5-02c5ffd26967",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "name": "Tomorrow_Date",
+      "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Data",
+      "value": "{{vars.input.records[0]}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Date",
+      "value": "{{arrow.utcnow().timestamp}}",
+      "default_value": null
+    }
+  ],
+  "exported_tags": []
+}

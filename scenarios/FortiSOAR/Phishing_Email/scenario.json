@@ -8,12 +8,12 @@
 		"demo_message": "Malicious Email sent",
 		"sourcedata": {
 		  "body": {
-			"html": "<html>MIS Team, Please investigate the forwarded email below, it looks suspicious. Thank you <br>Adam Smith<br>Financial Analyst<br>+9754235452<br><hr>From: CTO Office <cto_office@{{TR_MALICIOUS_DOMAIN}}> <br>To: Adam Smith <asmith@fortielab.com> <br>Sent: {{TR_FORMATTED_CURRENT_TIME}}<br>Subject:immediate action required<br>A Critical vulnerability has been found in our internal ERP client application<br>, a patch has been made available in our internal website <a href={{TR_MALICIOUS_URL}}>Windows Patch</a><br>.It is mandatory for all employes to download it and install it immediately.<br>Office of the CTO</html>",
+			"html": "<html>MIS Team, Please investigate the forwarded email below, it looks suspicious. Thank you <br>Adam Smith<br>Financial Analyst<br>+9754235452<br><hr>From: CTO Office <cto_office@{{TR_MALICIOUS_DOMAIN}}> <br>Date: {{TR_FORMATTED_CURRENT_TIME}}<br>To: Adam Smith <asmith@fortielab.com>,\"e.awle@fortielab.com\" <e.awle@fortielab.com> <br>CC: \"dricardo@fortielab.com\" <dricardo@fortielab.com><br>Subject:immediate action required<br>A Critical vulnerability has been found in our internal ERP client application<br>, a patch has been made available in our internal website <a href={{TR_MALICIOUS_URL}}>Windows Patch</a><br>.It is mandatory for all employes to download it and install it immediately.<br>Office of the CTO</html>",
 			"json": null,
 			"text": ""
 		  },
 		  "headers": {
-			"to": "sysadmin <sysadmin@fortielab.com>",
+			"to": "\"sysadmin@fortielab.com\" <sysadmin@fortielab.com>",
 			"date": "{{TR_FORMATTED_CURRENT_TIME}}+0000",
 			"from": "adam smith <asmith@fortielab.com>",
 			"subject": "Fw: immediate action required",
