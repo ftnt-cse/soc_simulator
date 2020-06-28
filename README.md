@@ -223,6 +223,10 @@ The list of available dynamic values (Variables):
 |"TR_T-5"|get_time_minus_five|get timestamp of about five hours ago|
 |"TR_T-6"|get_time_minus_six |get timestamp of about six hours ago)
 |"TR_USERNAME"|get_username|a random username|
+|"TR_MALICIOUS_FILE"|get_malicious_file|Crafts a malicious zero day base64 encoded pdf|
+|"TR_MALICIOUS_FILE_MD5"|get_malicious_file_md5|if TR_MALICIOUS_FILE exists, returns its md5|
+|"TR_MALICIOUS_FILE_SHA1"|get_malicious_file_sha1|if TR_MALICIOUS_FILE exists, returns its sha1|
+|"TR_MALICIOUS_FILE_SHA256"|get_malicious_file_sha256|if TR_MALICIOUS_FILE exists, returns its sha256|
 
 ### FortiSIEM Templates:
 Each scenario template is a folder containing:

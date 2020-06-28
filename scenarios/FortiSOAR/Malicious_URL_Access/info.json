@@ -2,7 +2,7 @@
     "name": "Unknown and Malcious URL Access",
     "product":"fortisoar",
     "category":"soc_analyst",
-    "connectors_dependencies":["fortinet-web-filter-lookup","ssh","virustotal"],
+    "connectors_dependencies":["xforce","ssh","virustotal"],
     "fsm_events_dependencies":[],
     "fsr_user_dependencies":[],
     "version": "1.0.0",

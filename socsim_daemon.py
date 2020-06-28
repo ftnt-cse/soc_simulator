@@ -4,6 +4,7 @@
 
 from simulator_files.artifact_factory import *
 from simulator_files.main_lib import *
+from simulator_files.fortisiem_lib import *
 
 #import pdb;pdb.set_trace()
 
