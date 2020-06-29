@@ -124,7 +124,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
         "demo_message": "2) A Top Secret marked file is sent over the Internet",
@@ -247,7 +247,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
         "demo_message": "3) A Top Secret marked file is sent to partner",
@@ -370,7 +370,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
         "demo_message": "4) inappropriate file sent over the Internet",

@@ -129,7 +129,7 @@
   {
     "data": [
       {
-        "sleep": 20,
+        "sleep": 60,
         "name": "Suspicious eMail Inline",
         "source": "FSMSIM-PHISHING-1",
         "demo_message": "Alert: Malicious Email Attached Inline Sent",
