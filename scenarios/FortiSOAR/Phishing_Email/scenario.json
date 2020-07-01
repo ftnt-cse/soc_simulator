@@ -5,7 +5,7 @@
         "sleep": 0,
         "name": "Suspicious eMail Attached",
         "source": "FSMSIM-PHISHING-1",
-        "demo_message": "Alert: Malicious Email as Attachement Sent",
+        "demo_message": "1) Malicious Email as Attachement reported by Adam Smith\n2) Auto-reply: Email received (show email client)\n3) Body/Header Artifacts [file,url,domain...] extracted/rated (Show rating Playbook)\n4) Existing indicators linked\n5) Some indicators are malicious\n6) Block original sender on FortiMail (show FML)\n7) Block URLs on FortiGate (show fortigate and/or Blacklist webserver)\nSend Block notification to the reporter/all recipients\n8) Create a Task for EIS to handle the case and notify them",
         "sourcedata": {
           "body": {
             "html": "",
