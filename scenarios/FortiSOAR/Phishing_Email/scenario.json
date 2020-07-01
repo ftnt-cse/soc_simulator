@@ -69,7 +69,7 @@
                 "to": "adam smith <asmith@fortielab.com>, awle eruson <eawle@fortielab.com>",
                 "cc":"david ricardo <dricardo@fortielab.com>",
                 "date": "Thu, 25 Jun 2020 18:46:43 +0200",
-                "from": "adrian aln <cto_office@{{TR_MALICIOUS_DOMAIN}}",
+                "from": "adrian ilian <office_of_cto@{{TR_MALICIOUS_DOMAIN}}>",
                 "subject": "Immediate action required",
                 "received": [
                   "from Exch19.fortielab.com (10.200.3.67) by Exch19.fortielab.com (10.200.3.67) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.529.5 via Mailbox Transport; Thu, 25 Jun 2020 18:54:53 -0700",
@@ -129,7 +129,7 @@
   {
     "data": [
       {
-        "sleep": 60,
+        "sleep": -1,
         "name": "Suspicious eMail Inline",
         "source": "FSMSIM-PHISHING-1",
         "demo_message": "Alert: Malicious Email Attached Inline Sent",

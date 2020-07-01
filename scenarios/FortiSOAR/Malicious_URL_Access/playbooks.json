@@ -132,7 +132,6 @@
                   "sourcedata": "{{vars.source_data|toJSON}}",
                   "description": "{{vars.v_Description}}\nIncident Category: {{vars.v_Source_Type}}\n{%if vars.v_Source_IP%}Source IP:{{vars.v_Source_IP}}{%endif%}\n{%if vars.v_Destination_IP%}Destination IP:&nbsp;{{vars.v_Destination_IP}}{%endif%}\n{%if vars.v_Reporter %} Reporting Device: {{vars.v_Reporter}}{%endif%}{%if vars.v_Username %} Username: {{vars.v_Username}}{%endif%}",
                   "respDueDate": "{{globalVars.Tomorrow_Date}}",
-                  "assigneddate": "{{globalVars.Current_Data}}",
                   "destinationIp": "{{vars.v_Destination_IP}}",
                   "killChainPhase": {
                     "id": 377,
@@ -144,8 +143,7 @@
                     "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
                     "itemValue": "Delivery",
                     "orderIndex": 3
-                  },
-                  "alertDetectionDate": "{{globalVars.Current_Date}}"
+                  }
                 },
                 "_showJson": false,
                 "operation": "Overwrite",
@@ -158,7 +156,7 @@
               },
               "status": null,
               "left": "320",
-              "top": "473",
+              "top": "350",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "8c46da66-ac0e-4a59-bdfb-9cc0314ea980"
             },
@@ -239,38 +237,6 @@
             },
             {
               "@type": "WorkflowStep",
-              "name": "Get FortiGuard URL Category",
-              "description": null,
-              "arguments": {
-                "name": "Fortinet Web Filter Lookup",
-                "config": "3e169715-483a-4aaf-8de1-cb3ca9478a47",
-                "params": {
-                  "sample_url": "{{vars.v_URL}}"
-                },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">FortiGuard URL Lookup</span>\n\n\nThe URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> is categorised by FortiGuard in the category: <span style=\";color:red;font-weight:bold\">{{vars.result.data.category}}</span>.",
-                  "records": ""
-                },
-                "version": "1.0.0",
-                "connector": "fortinet-web-filter-lookup",
-                "operation": "url_review",
-                "ignore_errors": false,
-                "operationTitle": "Check Category of Domain or URL",
-                "step_variables": {
-                  "v_Category": "{{vars.result.data.category}}",
-                  "v_FGD_Output_Data": "{{vars.result}}"
-                }
-              },
-              "status": null,
-              "left": "1980",
-              "top": "33",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "f39f3b7b-3fe4-4ba0-9a32-7ad644a982d4"
-            },
-            {
-              "@type": "WorkflowStep",
               "name": "Is URL Known",
               "description": null,
               "arguments": {
@@ -320,8 +286,8 @@
                 }
               },
               "status": null,
-              "left": "8",
-              "top": "573",
+              "left": "28",
+              "top": "574",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "d3f108c8-0b52-4212-97a6-60d602fbf645"
             },
@@ -454,36 +420,6 @@
             },
             {
               "@type": "WorkflowStep",
-              "name": "Add URL to Blocked List",
-              "description": null,
-              "arguments": {
-                "name": "SSH",
-                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
-                "params": {
-                  "cmd": "echo \"{{vars.v_URL_Only}}\" >> {{vars.v_Block_List_Location}}",
-                  "allowed_exit": "-1,0",
-                  "is_super_user": false
-                },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate Block List</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's block list.",
-                  "records": ""
-                },
-                "version": "2.1.1",
-                "connector": "ssh",
-                "operation": "run_remote_command",
-                "operationTitle": "Execute remote command",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "1700",
-              "top": "34",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "5d93a60c-651c-4e15-a609-62ca3adeb3c2"
-            },
-            {
-              "@type": "WorkflowStep",
               "name": "Get URL Rating from VirusTotal",
               "description": null,
               "arguments": {
@@ -495,7 +431,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">VirusTotal URL Lookup</span></p>\n\n<p>Out of <span style=\"color:red;font-weight:bold\"> {{vars.result.data.total}}</span> engines currently utilised by VirusTotal, <span style=\"color:red;font-weight:bold\">{{vars.result.data.positives}}</span> identified the URL as potentially malicious.</p>\n\n<p>The aggregate score was <span style=\"color:red;font-weight:bold\"> {{vars.result.data.aggregate}}</span> out of 100</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">VirusTotal URL Lookup</span></p>\n\n<p>VirusTotal identified that {% if vars.result.data.positives == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.result.data.positives}} ]</span> of it's <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.result.data.total}} ]</span> identified the URL as potentially malicious.</p>\n<br>\n<p>The aggregate score was {% if vars.result.data.aggregate == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.result.data.aggregate}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">100</span>.</p>",
                   "records": ""
                 },
                 "version": "1.0.1",
@@ -508,7 +444,7 @@
                 }
               },
               "status": null,
-              "left": "794",
+              "left": "646",
               "top": "40",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "2a37459d-9293-4196-b1f9-f1928a318dc1"
@@ -521,19 +457,19 @@
                 "conditions": [
                   {
                     "option": "Yes",
-                    "step_iri": "/api/3/workflow_steps/41ab5959-3d25-4029-8e2e-78179f250dee",
+                    "step_iri": "/api/3/workflow_steps/8aacc8fa-ac83-4f75-857c-478c17f0f6f5",
                     "condition": "{{ vars.score_average > 0 }}"
                   },
                   {
                     "option": "No",
                     "default": true,
-                    "step_iri": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17"
+                    "step_iri": "/api/3/workflow_steps/87aa2fd2-ebb4-46e9-abde-212e1d6bcb48"
                   }
                 ]
               },
               "status": null,
-              "left": "1246",
-              "top": "340",
+              "left": "1100",
+              "top": "360",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "9dcb8d9d-9b12-4c11-86f5-456f5f063b51"
             },
@@ -545,381 +481,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nURL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not added to FortiGate block list. This was decided <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">automatically</span> due to the URL rating from VirusTotal and IBM XForce.",
-                  "records": ""
-                },
-                "resource": {
-                  "type": {
-                    "id": 254,
-                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Firewall Configuration Change",
-                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
-                    "itemValue": "Firewall Configuration Change",
-                    "orderIndex": 9
-                  },
-                  "state": {
-                    "id": 221,
-                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Detail Extracted",
-                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
-                    "itemValue": "Detail Extracted",
-                    "orderIndex": 1
-                  },
-                  "status": {
-                    "id": 246,
-                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Closed",
-                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
-                    "itemValue": "Closed",
-                    "orderIndex": 4
-                  },
-                  "ackDate": "{{globalVars.Current_Date}}",
-                  "respDate": "{{globalVars.Current_Date}}",
-                  "severity": "{% if 1 < vars.score_average < 3%}{{\"Severity\" | picklist(\"Minimal\", \"@id\")}}{% elif 4 < vars.score_average < 10%}{{\"Severity\" | picklist(\"Low\", \"@id\")}}{% elif 11 < vars.score_average < 15%}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{% elif 16 < vars.score_average < 30%}{{\"Severity\" | picklist(\"High\", \"@id\")}}{% elif 31 < vars.score_average < 80%}{{\"Severity\" | picklist(\"Critical\", \"@id\")}}{%endif%}",
-                  "closureNotes": "At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\"> {{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.\n\nIBM XForce gave this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.\n\nThe URL was added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">automatically</span> due to the URL rating from VirusTotal and IBM XForce. This automatically closed the alert.",
-                  "resolveddate": "{{globalVars.Current_Date}}",
-                  "closureReason": {
-                    "id": 251,
-                    "@id": "/api/3/picklists/8590c81e-3307-4645-97f5-c3e1bec4e05a",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Tasks Completed",
-                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
-                    "itemValue": "Tasks Completed",
-                    "orderIndex": 0
-                  },
-                  "killChainPhase": {
-                    "id": 377,
-                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Delivery",
-                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
-                    "itemValue": "Delivery",
-                    "orderIndex": 3
-                  },
-                  "escalatedtoincident": {
-                    "id": 31,
-                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#808080",
-                    "display": "No",
-                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
-                    "itemValue": "No",
-                    "orderIndex": 1
-                  }
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "{{vars.input.records[0]['@id']}}",
-                "collectionType": "/api/3/alerts",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "791",
-              "top": "540",
-              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "5454ff14-8487-4687-94ce-d8992ab1eec7"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Close Alert as URL Now Blocked",
-              "description": null,
-              "arguments": {
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span>\n\nAt the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was uncategorised by FortiGuard but had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>. \n\nDue to this the alert's severity was automatically set to <span style=\"color:red;font-weight:bold\">{{vars.input.records[0].severity.itemValue}}</span>and will now be closed.",
-                  "records": ""
-                },
-                "resource": {
-                  "type": {
-                    "id": 254,
-                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Firewall Configuration Change",
-                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
-                    "itemValue": "Firewall Configuration Change",
-                    "orderIndex": 9
-                  },
-                  "state": {
-                    "id": 221,
-                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Detail Extracted",
-                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
-                    "itemValue": "Detail Extracted",
-                    "orderIndex": 1
-                  },
-                  "status": {
-                    "id": 246,
-                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Closed",
-                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
-                    "itemValue": "Closed",
-                    "orderIndex": 4
-                  },
-                  "respDate": "{{globalVars.Current_Date}}",
-                  "closureNotes": "At the time of closure the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was uncategorised by FortiGuard but had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span>.\n\nDue to this the alert's severity was automatically set to <span style=\"color:red;font-weight:bold\">{{vars.input.records[0].severity.itemValue}}</span> and then closed.",
-                  "resolveddate": "{{globalVars.Current_Date}}",
-                  "closureReason": {
-                    "id": 251,
-                    "@id": "/api/3/picklists/8590c81e-3307-4645-97f5-c3e1bec4e05a",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Tasks Completed",
-                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
-                    "itemValue": "Tasks Completed",
-                    "orderIndex": 0
-                  },
-                  "killChainPhase": {
-                    "id": 377,
-                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Delivery",
-                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
-                    "itemValue": "Delivery",
-                    "orderIndex": 3
-                  },
-                  "escalatedtoincident": {
-                    "id": 31,
-                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#808080",
-                    "display": "No",
-                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
-                    "itemValue": "No",
-                    "orderIndex": 1
-                  }
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "{{vars.input.records[0]['@id']}}",
-                "collectionType": "/api/3/alerts",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "1700",
-              "top": "120",
-              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "6178b9b2-cd9d-4d92-be1f-3ebfa34a7a7f"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Prompt Whether to Block URL",
-              "description": null,
-              "arguments": {
-                "type": "DecisionBased",
-                "input": {
-                  "schema": {
-                    "title": "Should the URL be blocked?",
-                    "description": "<p>URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> is currently not categorised by the FortiGate. At this time VirusTotal has given this URL an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> have detected as malicious.</p>\n\n<p>IBM XForce has given this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.</p>\n\n<p>Should the URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> be added to the FortiGate's <span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Block List</span> or <span style=\"background-color:#1e6e23;color:#FFF;font-weight:bold\">Allow List</span>?</p>",
-                    "inputVariables": []
-                  }
-                },
-                "record": "{{ vars.input.records[0][\"@id\"] }}",
-                "owner_detail": {
-                  "isAssigned": false
-                },
-                "step_variables": [],
-                "response_mapping": {
-                  "options": [
-                    {
-                      "option": "Block List",
-                      "primary": true,
-                      "step_iri": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
-                    },
-                    {
-                      "option": "Allow List",
-                      "step_iri": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0"
-                    }
-                  ],
-                  "duplicateOption": false
-                }
-              },
-              "status": null,
-              "left": "1246",
-              "top": "511",
-              "stepType": "/api/3/workflow_step_types/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
-              "uuid": "6ce11c76-dd60-4566-83db-5b92c79fea17"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Close Alert as URL Allowed",
-              "description": null,
-              "arguments": {
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>The URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was added to FortiGate's allow list.</p>\n\n<p>This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.</p>",
-                  "records": ""
-                },
-                "resource": {
-                  "type": {
-                    "id": 254,
-                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Firewall Configuration Change",
-                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
-                    "itemValue": "Firewall Configuration Change",
-                    "orderIndex": 9
-                  },
-                  "state": {
-                    "id": 221,
-                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Detail Extracted",
-                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
-                    "itemValue": "Detail Extracted",
-                    "orderIndex": 1
-                  },
-                  "status": {
-                    "id": 246,
-                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Closed",
-                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
-                    "itemValue": "Closed",
-                    "orderIndex": 4
-                  },
-                  "ackDate": "{{globalVars.Current_Date}}",
-                  "respDate": "{{globalVars.Current_Date}}",
-                  "severity": {
-                    "id": 83,
-                    "@id": "/api/3/picklists/58d0753f-f7e4-403b-953c-b0f521eab759",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#28B35C",
-                    "display": "Low",
-                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
-                    "itemValue": "Low",
-                    "orderIndex": 1
-                  },
-                  "closureNotes": "<p>At the time of closure the URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.</p>\n\n<p>The URL was added to FortiGate's allow list.</p>\n\n<p>This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.</p>",
-                  "resolveddate": "{{globalVars.Current_Date}}",
-                  "closureReason": {
-                    "id": 250,
-                    "@id": "/api/3/picklists/2b0112f6-4746-4dab-ada6-a8cd1e675572",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "False Positive",
-                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
-                    "itemValue": "False Positive",
-                    "orderIndex": 2
-                  },
-                  "killChainPhase": {
-                    "id": 377,
-                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": null,
-                    "display": "Delivery",
-                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
-                    "itemValue": "Delivery",
-                    "orderIndex": 3
-                  },
-                  "escalatedtoincident": {
-                    "id": 31,
-                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
-                    "icon": null,
-                    "@type": "Picklist",
-                    "color": "#808080",
-                    "display": "No",
-                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
-                    "itemValue": "No",
-                    "orderIndex": 1
-                  }
-                },
-                "_showJson": false,
-                "operation": "Overwrite",
-                "collection": "{{vars.input.records[0]['@id']}}",
-                "collectionType": "/api/3/alerts",
-                "fieldOperation": {
-                  "recordTags": "Overwrite"
-                },
-                "step_variables": []
-              },
-              "status": null,
-              "left": "1426",
-              "top": "851",
-              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "f51eeefe-a953-463d-a8ed-927703186248"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "User Requested URL Block",
-              "description": null,
-              "arguments": {
-                "name": "SSH",
-                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
-                "params": {
-                  "cmd": "echo \"{{vars.v_URL_Only}}\" >> {{vars.v_Block_List_Location}}",
-                  "allowed_exit": "-1,0",
-                  "is_super_user": false
-                },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Block List</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's block list.",
-                  "records": ""
-                },
-                "version": "2.1.1",
-                "connector": "ssh",
-                "operation": "run_remote_command",
-                "operationTitle": "Execute remote command",
-                "step_variables": []
-              },
-              "status": null,
-              "left": "1046",
-              "top": "611",
-              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
-              "uuid": "044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
-            },
-            {
-              "@type": "WorkflowStep",
-              "name": "Close Alert as URL Blocked Manually",
-              "description": null,
-              "arguments": {
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was added to FortiGate block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>The malicious URL <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to FortiGate block list. This was decided <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\"> [ Automatically ]</span> due to the URL rating from VirusTotal and IBM XForce, and the alert was closed due to no further actions being required.</p>",
                   "records": ""
                 },
                 "resource": {
@@ -969,7 +531,8 @@
                     "itemValue": "Critical",
                     "orderIndex": 4
                   },
-                  "closureNotes": "<p>At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\"> {{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.</p>\n\n<p>The URL was added to FortiGate's block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.</p>",
+                  "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.v_VT_Aggregate_Score}} ]</span> out of 100, and <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[  {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score {% if vars.v_XForce_Score == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n\n<p>The URL was added to FortiGate block list. This was decided by <span style=\"background-color:#1E6E23;color:white;font-weight:bold\"> [ Automatically ]</span> due to the URL rating from VirusTotal and IBM XForce. This automatically closed the alert.</p>",
                   "resolveddate": "{{globalVars.Current_Date}}",
                   "closureReason": {
                     "id": 251,
@@ -982,6 +545,7 @@
                     "itemValue": "Tasks Completed",
                     "orderIndex": 0
                   },
+                  "respSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
                   "killChainPhase": {
                     "id": 377,
                     "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
@@ -1015,68 +579,301 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1046",
-              "top": "851",
+              "left": "900",
+              "top": "754",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
-              "uuid": "bbc14413-838f-4a25-bdd9-d5a8a1f4f3dc"
+              "uuid": "5454ff14-8487-4687-94ce-d8992ab1eec7"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Create Indicator",
+              "name": "Prompt Whether to Block URL",
               "description": null,
               "arguments": {
+                "type": "DecisionBased",
+                "input": {
+                  "schema": {
+                    "title": "Should the URL be blocked?",
+                    "description": "<p>URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> is currently not categorised by the FortiGate. At this time VirusTotal has given this URL an aggregate rating of {% if vars.v_VT_Aggregate_Score == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_VT_Aggregate_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 100 ]</span>, and {% if vars.v_VT_Positives == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> have detected the URL as malicious.</p>\n<br>\n<p>IBM XForce has given this a score {% if vars.v_XForce_Score == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n<br>\n<p>Should the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> be added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block List ]</span> or <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow List ]</span>?</p>",
+                    "inputVariables": []
+                  }
+                },
+                "record": "{{ vars.input.records[0][\"@id\"] }}",
+                "owner_detail": {
+                  "isAssigned": false
+                },
+                "step_variables": [],
+                "response_mapping": {
+                  "options": [
+                    {
+                      "option": "Block List",
+                      "primary": true,
+                      "step_iri": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
+                    },
+                    {
+                      "option": "Allow List",
+                      "step_iri": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0"
+                    }
+                  ],
+                  "duplicateOption": false
+                }
+              },
+              "status": null,
+              "left": "1260",
+              "top": "570",
+              "stepType": "/api/3/workflow_step_types/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
+              "uuid": "6ce11c76-dd60-4566-83db-5b92c79fea17"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Close Alert as URL Allowed",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>The URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to FortiGate's <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow ]</span> list.</p>\n<br>\n<p>This was decided by <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>.</p>\n<br>\n<p>The alert was then automatically closed.</p>",
+                  "records": ""
+                },
                 "resource": {
-                  "value": "{{vars.v_URL}}",
-                  "alerts": "{{vars.input.records[0]['@id']}}",
-                  "__replace": "",
-                  "reputation": {
-                    "id": 109,
-                    "@id": "/api/3/picklists/7074e547-7785-4979-be32-c6d0c863e4bd",
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
                     "icon": null,
                     "@type": "Picklist",
-                    "color": "#c42323",
-                    "display": "Malicious",
-                    "listName": "/api/3/picklist_names/e75ed3c3-9f23-4a43-832b-0daf236209ba",
-                    "itemValue": "Malicious",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
                     "orderIndex": 1
                   },
-                  "description": "VirusTotal Score: {{vars.steps.Get_URL_Rating_from_VirusTotal.data.aggregate}}\nFortiGuard Category: {{vars.steps.Get_FortiGuard_URL_Category.data.category}}",
-                  "indicatorStatus": {
-                    "id": 369,
-                    "@id": "/api/3/picklists/2f5cff61-fbff-4bb3-96be-302b78a9fb47",
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
                     "icon": null,
                     "@type": "Picklist",
                     "color": null,
-                    "display": "TBD",
-                    "listName": "/api/3/picklist_names/e6639d57-94a9-432f-a46f-b2b530402077",
-                    "itemValue": "TBD",
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 83,
+                    "@id": "/api/3/picklists/58d0753f-f7e4-403b-953c-b0f521eab759",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#28B35C",
+                    "display": "Low",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Low",
+                    "orderIndex": 1
+                  },
+                  "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.</p>\n\n<p>The URL was added to FortiGate's allow list.</p>\n\n<p>This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.</p>",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 250,
+                    "@id": "/api/3/picklists/2b0112f6-4746-4dab-ada6-a8cd1e675572",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "False Positive",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "False Positive",
+                    "orderIndex": 2
+                  },
+                  "respSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
                     "orderIndex": 3
                   },
-                  "typeofindicator": {
-                    "id": 80,
-                    "@id": "/api/3/picklists/353a37b4-3eeb-43ee-aac6-64806422cfec",
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
                     "icon": null,
                     "@type": "Picklist",
-                    "color": null,
-                    "display": "URL",
-                    "listName": "/api/3/picklist_names/50ee5bfa-e18f-49ba-8af9-dcca25b0f9c0",
-                    "itemValue": "URL",
-                    "orderIndex": 10
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
                   }
                 },
                 "_showJson": false,
                 "operation": "Overwrite",
-                "collection": "/api/3/indicators",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
                 "fieldOperation": {
                   "recordTags": "Overwrite"
                 },
                 "step_variables": []
               },
               "status": null,
-              "left": "1991",
-              "top": "126",
-              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
-              "uuid": "0a2f9ff1-617c-4a1d-8f30-9d8b9aee3cdb"
+              "left": "1620",
+              "top": "940",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "f51eeefe-a953-463d-a8ed-927703186248"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "User Requested URL Block",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "f2551884-049e-4dff-8418-1c39442e43e4",
+                "params": {
+                  "cmd": "echo \"{{vars.v_URL_Only}}\" >> {{vars.v_Block_List_Location}}",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Block List</span>\n\nURL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\"> [ {{vars.v_URL_Only}} ]</span> has now been added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list.",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1260",
+              "top": "700",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Close Alert as URL Blocked Manually",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list. This was decided by <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>.</p>\n<br>\n<p>The alert was then automatically closed.</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 254,
+                    "@id": "/api/3/picklists/8e6e8d5a-5c9e-42f8-852f-a41258d0454f",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Firewall Configuration Change",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Firewall Configuration Change",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "severity": {
+                    "id": 119,
+                    "@id": "/api/3/picklists/7efa2220-39bb-44e4-961f-ac368776e3b0",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e31b1d",
+                    "display": "Critical",
+                    "listName": "/api/3/picklist_names/4e80cba3-032f-48b4-ac03-17e3ec247aac",
+                    "itemValue": "Critical",
+                    "orderIndex": 4
+                  },
+                  "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.v_VT_Aggregate_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 100 ]</span>, and <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[  {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n\n<p>The URL was added to FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list. This was decided by <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>. This automatically closed the alert.</p>",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 251,
+                    "@id": "/api/3/picklists/8590c81e-3307-4645-97f5-c3e1bec4e05a",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Tasks Completed",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "Tasks Completed",
+                    "orderIndex": 0
+                  },
+                  "respSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "killChainPhase": {
+                    "id": 377,
+                    "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Delivery",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Delivery",
+                    "orderIndex": 3
+                  },
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1260",
+              "top": "940",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "bbc14413-838f-4a25-bdd9-d5a8a1f4f3dc"
             },
             {
               "@type": "WorkflowStep",
@@ -1101,14 +898,14 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find Indicator</span></p>\n\n<p>Checking if <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> already exists in either the FortiGate's Block List or Allow List.</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find Indicator</span></p>\n\n<p>Checking if URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> already exists as an indicator.</p>",
                   "records": ""
                 },
                 "step_variables": []
               },
               "status": null,
               "left": "320",
-              "top": "353",
+              "top": "460",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb"
             },
@@ -1136,7 +933,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\n{% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">URL already in Block list</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">URL already in Allow list</span>{%endif%} but did not exist as a URL indicator. \n\nCreating a new URL indciator for <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span>.",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span></p>\n\n<p>URL already exists in the {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">[ Block ]</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">[ Allow ]</span>{%endif%} list, but did not exist as a URL indicator.</p>\n\n<p>Creating a new URL indciator for <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span>.</p>",
                   "records": ""
                 },
                 "resource": {
@@ -1147,7 +944,7 @@
                   "__replace": "",
                   "firstSeen": "{{globalVars.Current_Date}}",
                   "reputation": "{% if vars.v_URL_Only in vars.v_Blocked_URLs %}{{\"IndicatorReputation\" | picklist(\"Malicious\", \"@id\")}}{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}{{\"IndicatorReputation\" | picklist(\"Good\", \"@id\")}}{%endif%}",
-                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">URL In local Blocklist</span></p>\n\n<p>{% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">URL already in Block list</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">URL already in Allow list</span>{%endif%}.</p>",
+                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">URL In local Blocklist</span></p>\n\n<p>URL already exists in the {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">[ Block ]</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">[ Allow ]</span>{%endif%} list, but did not exist as a URL indicator.</p>",
                   "indicatorStatus": "{% if vars.v_URL_Only in vars.v_Blocked_URLs %}{{\"IndicatorStatus\" | picklist(\"Blocked\", \"@id\")}}{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}{{\"IndicatorStatus\" | picklist(\"Whitelisted\", \"@id\")}}{%endif%}",
                   "typeofindicator": {
                     "id": 80,
@@ -1183,7 +980,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already located in the FortiGate's {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Block List</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">Allow list</span>{%endif%}. The <span style=\"color:red;font-weight:bold\">{% if vars.steps.Find_Indicator | length == 0 %}new{% else %}existing{%endif%}</span> URL indicator was attached to the alert.</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic closure of alert</span></p>\n\n<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was already located in the FortiGate's {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow ]</span>{%endif%} list.</p>\n<br>\n<p>The {% if vars.steps.Find_Indicator | length == 0 %}new{% else %}existing{%endif%} URL indicator was attached to the alert.</p>\n\n\n\n\n\n\n",
                   "records": ""
                 },
                 "resource": {
@@ -1220,9 +1017,11 @@
                     "itemValue": "Closed",
                     "orderIndex": 4
                   },
+                  "ackDate": "{{globalVars.Current_Date}}",
                   "respDate": "{{globalVars.Current_Date}}",
                   "severity": "{% if vars.v_URL_Only in vars.v_Allowed_URLs %}{{\"Severity\" | picklist(\"Minimal\", \"@id\")}}{% else %}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{%endif%}",
                   "indicators": "{%if vars.steps.Find_Indicator | length != 0 %}{{vars.steps.Find_Indicator[0]['@id']}}{%endif%}",
+                  "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
                   "closureNotes": "<p>At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already located in the FortiGate's {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Block List</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">Allow list</span>{%endif%}.</p>",
                   "resolveddate": "{{globalVars.Current_Date}}",
                   "closureReason": {
@@ -1236,6 +1035,7 @@
                     "itemValue": "Duplicate",
                     "orderIndex": 1
                   },
+                  "respSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
                   "killChainPhase": {
                     "id": 377,
                     "@id": "/api/3/picklists/d889ee08-9ddd-404b-a166-6e8c33414f5e",
@@ -1316,12 +1116,6 @@
                 "params": {
                   "url": "{{vars.v_URL}}"
                 },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">IBM XForce URL Lookup</span></p>\n\n<p>The score for the URL from IBM XForce was <span style=\"color:red;font-weight:bold\">{%if not vars.v_XForce_Score|int%}0{%else%}\n{{vars.v_XForce_Score}}{%endif%}</span>.</p>",
-                  "records": ""
-                },
                 "version": "1.0.1",
                 "connector": "xforce",
                 "operation": "get_url_report",
@@ -1334,8 +1128,8 @@
                 }
               },
               "status": null,
-              "left": "791",
-              "top": "227",
+              "left": "646",
+              "top": "246",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "3a1efbc9-56c5-43ae-830d-e0858e7731ec"
             },
@@ -1354,7 +1148,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Allow List</span></p>\n\n<p>The URL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's Allow list.</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Allow List</span></p>\n\n<p>The URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL_Only}} ]</span> has now been added to the FortiGate's <span style=\"background-color:#1E6E23;color:white;font-weight:bold\"> [ Allow ]</span> list.</p>",
                   "records": ""
                 },
                 "version": "2.1.1",
@@ -1364,8 +1158,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1426",
-              "top": "611",
+              "left": "1620",
+              "top": "700",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "d5c93483-5983-47c2-9fd8-f94ef9d232f0"
             },
@@ -1378,7 +1172,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\nA new URL indicator has been created for <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> with a reputation of <span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Malicious</span>.",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span></p>\n\n<p>A new URL indicator has been created for <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> with a reputation of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Malicious ]</span>.</p>",
                   "records": ""
                 },
                 "resource": {
@@ -1399,7 +1193,7 @@
                     "itemValue": "Malicious",
                     "orderIndex": 1
                   },
-                  "description": "<span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Block List</span>\n\nThe URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was added to the FortiGate's block list. This was decided <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">automatically</span> due to the URL ratings from VirusTotal and IBM XForce.",
+                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Block List</span></p>\n\n<p>The URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list. This was decided <span style=\"background-color:#1E6E23;color:white;font-weight:bold\">[ automatically ]</span> due to the URL ratings from VirusTotal and IBM XForce.</p>",
                   "indicatorStatus": {
                     "id": 366,
                     "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
@@ -1432,8 +1226,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "791",
-              "top": "440",
+              "left": "900",
+              "top": "654",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "e3dd0e4f-59e9-4a13-858b-d8ff5fad8143"
             },
@@ -1446,7 +1240,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\nA new URL indicator has been created for <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> with a reputation of <span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Malicious</span>.",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\nA new URL indicator has been created for <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> with a reputation of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Malicious ]</span>.",
                   "records": ""
                 },
                 "resource": {
@@ -1467,7 +1261,7 @@
                     "itemValue": "Malicious",
                     "orderIndex": 1
                   },
-                  "description": "<span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Block List</span>\n\nThe URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was added to the FortiGate's block list. This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.",
+                  "description": "<span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Block List</span>\n\nThe URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list. This was decided by <span style=\"background-color:#1E6E23;color:white;font-weight:bold\"> [ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>.",
                   "indicatorStatus": {
                     "id": 366,
                     "@id": "/api/3/picklists/fa29fe48-f01e-476f-bb33-c910f5795b57",
@@ -1500,8 +1294,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1046",
-              "top": "731",
+              "left": "1260",
+              "top": "820",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "31ec48a5-f38a-459c-96ec-c912821887cf"
             },
@@ -1514,7 +1308,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\nA new URL indicator has been created for <span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> with a reputation of <span style=\"background-color:#1e6e23;color:#FFF;font-weight:bold\">Good</span>.",
+                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Creating New URL Indicator</span>\n\nA new URL indicator has been created for <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> with a reputation of <span style=\"background-color:#1E6E23;color:white;font-weight:bold\">[ Good ]</span>.",
                   "records": ""
                 },
                 "resource": {
@@ -1533,7 +1327,7 @@
                     "itemValue": "No Reputation Available",
                     "orderIndex": 4
                   },
-                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Allow List</span></p>\n\n<p>The URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was added to the FortiGate's block list.</p>\n\n<p>This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>.</p>",
+                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">URL In Allow List</span></p>\n\n<p>The URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was added to the FortiGate's <span style=\"background-color:#1E6E23;color:white;font-weight:bold\">[ Allow ]</span> list.</p>\n\n<p>This was decided by <span style=\"background-color:#1E6E23;color:white;font-weight:bold\">[ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>.</p>",
                   "indicatorStatus": {
                     "id": 368,
                     "@id": "/api/3/picklists/4218cb58-4de5-4eff-ad08-185d36ef9bab",
@@ -1566,8 +1360,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1426",
-              "top": "731",
+              "left": "1620",
+              "top": "820",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "4ec68cfa-67a4-4b06-8fda-30f4c97047d0"
             },
@@ -1576,11 +1370,11 @@
               "name": "Get XForce URL Reputation",
               "description": null,
               "arguments": {
-                "v_XForce_Score": "{%if not vars.v_XForce_Score|int%}0{%else%}\n{{vars.v_XForce_Score}}{%endif%}"
+                "v_XForce_Score_Aggregate": "{%if (not vars.v_XForce_Score|int)%}0{%else%}\n{{(vars.v_XForce_Score * 10)}}{%endif%}"
               },
               "status": null,
-              "left": "1091",
-              "top": "227",
+              "left": "646",
+              "top": "349",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "89b380f6-24ca-4654-bd08-2c9ddaf3b524"
             },
@@ -1589,11 +1383,11 @@
               "name": "Compute Average Score",
               "description": null,
               "arguments": {
-                "score_average": "{{(vars.v_XForce_Score + vars.v_VT_Aggregate_Score)/2}}"
+                "score_average": "{{(vars.v_XForce_Score_Aggregate + vars.v_VT_Aggregate_Score)/2}}"
               },
               "status": null,
-              "left": "1246",
-              "top": "131",
+              "left": "1100",
+              "top": "140",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "a66ad14c-5f35-4a04-bb9d-8a9675c29ea9"
             },
@@ -1605,7 +1399,7 @@
                 "v_VT_Aggregate_Score": "{{vars.steps.Get_URL_Rating_from_VirusTotal.data.aggregate}}"
               },
               "status": null,
-              "left": "1080",
+              "left": "940",
               "top": "40",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "97a41571-919c-46e4-a79e-e8e1720c543c"
@@ -1625,7 +1419,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Block List</span>\n\nURL <span style=\"color:red;font-weight:bold\">{{vars.v_URL_Only}}</span> has now been added to the FortiGate's block list.",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Adding URL to FortiGate's Block List</span></p>\n\n<p>The malicious URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL_Only}} ]</span> has now been added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block ]</span> list.</p>",
                   "records": ""
                 },
                 "version": "2.1.1",
@@ -1635,10 +1429,127 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "791",
-              "top": "340",
+              "left": "900",
+              "top": "554",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "41ab5959-3d25-4029-8e2e-78179f250dee"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Manual Decision Required",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Manual Decision Required</span></p>\n\n<p>Due to the rating of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 0 ]</span> from both VirusTotal and IBM XForce, a manual decision is required whether the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> should be added to the FortiGate's <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block List ]</span> or <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow List ]</span>.</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 120,
+                    "@id": "/api/3/picklists/0cbc2c31-c360-4770-b1e7-3653a8c24ead",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Malware",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Malware",
+                    "orderIndex": 7
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/comments",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1260",
+              "top": "460",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "87aa2fd2-ebb4-46e9-abde-212e1d6bcb48"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Automatic Blocking Of URL",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automated Block Deciscion</span></p>\n\n<p>Due to the combined rating of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.score_average}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 100 ]</span> from VirusTotal and IBM XForce, it was automatically determined that this URL is <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Malicious ]</span> and it should be blocked.</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 120,
+                    "@id": "/api/3/picklists/0cbc2c31-c360-4770-b1e7-3653a8c24ead",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Malware",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Malware",
+                    "orderIndex": 7
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/comments",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "900",
+              "top": "460",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "8aacc8fa-ac83-4f75-857c-478c17f0f6f5"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Report XForce URL Reputation",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">IBM XForce URL Lookup</span></p>\n\n<p>The score for the URL from IBM XForce was {%if (not vars.v_XForce_Score|int)%}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 0 ]{%else%}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\"> [ {{vars.v_XForce_Score}} ]{%endif%}</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 120,
+                    "@id": "/api/3/picklists/0cbc2c31-c360-4770-b1e7-3653a8c24ead",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Malware",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Malware",
+                    "orderIndex": 7
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "940",
+              "top": "247",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "83821d59-6680-4b65-853a-503e1d633dd5"
             }
           ],
           "routes": [
@@ -1668,33 +1579,6 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/bfea228f-949f-4f99-bfe7-658977e86e2b",
               "sourceStep": "/api/3/workflow_steps/107e3a9b-e576-49ad-b4a4-f30cf91803dc"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "d41c7f17-3cc2-4ea4-895b-375668ccffc6",
-              "name": "Add URL to Blocked List -> Close Alert as URL Now Blocked",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/6178b9b2-cd9d-4d92-be1f-3ebfa34a7a7f",
-              "sourceStep": "/api/3/workflow_steps/5d93a60c-651c-4e15-a609-62ca3adeb3c2"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "ebab7c65-24ed-4031-bbe1-2cca5f146acb",
-              "name": "Prompt Whether to Block URL -> User Requested URL Block",
-              "label": "Block List",
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7",
-              "sourceStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "3f6cae1e-adcd-4303-8209-be9cb6ee68c4",
-              "name": "Update Alert Attributes -> Get List of Blocked URLs",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/d3f108c8-0b52-4212-97a6-60d602fbf645",
-              "sourceStep": "/api/3/workflow_steps/8c46da66-ac0e-4a59-bdfb-9cc0314ea980"
             },
             {
               "@type": "WorkflowRoute",
@@ -1734,15 +1618,6 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "763af28c-0c35-4d6b-8a25-f20251165e41",
-              "name": "Update Alert Attributes -> Get Local URLs Whitelist",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/d4896833-9e95-4e6a-835c-55187c452ccc",
-              "sourceStep": "/api/3/workflow_steps/8c46da66-ac0e-4a59-bdfb-9cc0314ea980"
-            },
-            {
-              "@type": "WorkflowRoute",
               "uuid": "eaecc536-c8ae-4a13-b030-533d7d026d10",
               "name": "Get Local URLs Whitelist -> Is URL Known",
               "label": null,
@@ -1761,111 +1636,12 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "be95035a-e80a-4955-9095-7ec7db7013fc",
-              "name": "Fields Mapping -> Find Indicator",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb",
-              "sourceStep": "/api/3/workflow_steps/0b5ae245-eda6-49b2-a26d-b34660d84dc4"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "4fcc6f13-1b6d-4e62-98ea-515da09a4b6f",
-              "name": "Find Indicator -> Update Alert Attributes",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/8c46da66-ac0e-4a59-bdfb-9cc0314ea980",
-              "sourceStep": "/api/3/workflow_steps/899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb"
-            },
-            {
-              "@type": "WorkflowRoute",
               "uuid": "f0504c4a-e459-4bd7-b964-34813550444c",
               "name": "Is URL Known -> Create URL Indicator",
               "label": "Yes",
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/0191a4bb-c832-437d-8f8a-85eeb3bdd549",
               "sourceStep": "/api/3/workflow_steps/b3aa435b-a745-435c-b41d-e1fdfb7cc6df"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "39b8aeb4-30a3-40c8-ac2a-940a63a12e73",
-              "name": "Create URL Indicator When Rated and Not Known -> Update Alert",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/5454ff14-8487-4687-94ce-d8992ab1eec7",
-              "sourceStep": "/api/3/workflow_steps/e3dd0e4f-59e9-4a13-858b-d8ff5fad8143"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "b1f6b420-d5ed-49b8-bfab-e1678e943e98",
-              "name": "User Requested URL Allow -> Create URL Indicator When Unrated and Allowed",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/4ec68cfa-67a4-4b06-8fda-30f4c97047d0",
-              "sourceStep": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "a53ddd2c-6a80-4c81-b1b8-9d948ad4db50",
-              "name": "Create URL Indicator When Unrated and Allowed -> URL Was Not Blocked",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/f51eeefe-a953-463d-a8ed-927703186248",
-              "sourceStep": "/api/3/workflow_steps/4ec68cfa-67a4-4b06-8fda-30f4c97047d0"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "97f24288-0b91-475e-a167-d5075f0166e9",
-              "name": "User Requested URL Block -> Create URL Indicator When Unrated and Blocked",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/31ec48a5-f38a-459c-96ec-c912821887cf",
-              "sourceStep": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "ce4d8009-b385-4f39-870a-5573f32b96b3",
-              "name": "Create URL Indicator When Unrated and Blocked -> Close Alert as URL Blocked Manually",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/bbc14413-838f-4a25-bdd9-d5a8a1f4f3dc",
-              "sourceStep": "/api/3/workflow_steps/31ec48a5-f38a-459c-96ec-c912821887cf"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "a3598a66-2103-4c39-89fc-7b7bb54aa118",
-              "name": "Is URL Unrated -> Prompt Whether to Block URL",
-              "label": "No",
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17",
-              "sourceStep": "/api/3/workflow_steps/9dcb8d9d-9b12-4c11-86f5-456f5f063b51"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "0614c4ce-bb17-435c-9e9d-327de8e773d5",
-              "name": "Prompt Whether to Block URL -> User Requested URL Allow",
-              "label": "Allow List",
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0",
-              "sourceStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "458fbefa-55d8-4965-9520-8e94937082bb",
-              "name": "Get URL Rating from IBM XForce -> Get XForce URL Reputation",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/89b380f6-24ca-4654-bd08-2c9ddaf3b524",
-              "sourceStep": "/api/3/workflow_steps/3a1efbc9-56c5-43ae-830d-e0858e7731ec"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "a0076b26-51e0-4c07-8d7c-dd07cfc86467",
-              "name": "Get XForce URL Reputation -> Compute Average",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/a66ad14c-5f35-4a04-bb9d-8a9675c29ea9",
-              "sourceStep": "/api/3/workflow_steps/89b380f6-24ca-4654-bd08-2c9ddaf3b524"
             },
             {
               "@type": "WorkflowRoute",
@@ -1896,25 +1672,178 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "9902a107-6634-4cab-85eb-30772d565b0b",
-              "name": "is URL Malicious -> Automatic URL Block",
-              "label": "Yes",
+              "uuid": "2dd95cd5-d829-4c20-b55c-bace3ff7be71",
+              "name": "Find Indicator -> Get Local URLs Blacklist",
+              "label": null,
               "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/41ab5959-3d25-4029-8e2e-78179f250dee",
-              "sourceStep": "/api/3/workflow_steps/9dcb8d9d-9b12-4c11-86f5-456f5f063b51"
+              "targetStep": "/api/3/workflow_steps/d3f108c8-0b52-4212-97a6-60d602fbf645",
+              "sourceStep": "/api/3/workflow_steps/899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb"
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "aeb5c0c4-58ec-45c6-a6ca-29110c479f51",
+              "uuid": "e8ffa688-bfa9-4754-8ec1-ce1b34e3add5",
+              "name": "Find Indicator -> Get Local URLs Whitelist",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d4896833-9e95-4e6a-835c-55187c452ccc",
+              "sourceStep": "/api/3/workflow_steps/899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "da4f7e6f-23b3-42ad-8f70-76ca7260f75e",
+              "name": "Fields Mapping -> Update Alert Attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8c46da66-ac0e-4a59-bdfb-9cc0314ea980",
+              "sourceStep": "/api/3/workflow_steps/0b5ae245-eda6-49b2-a26d-b34660d84dc4"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "9ab61d01-ddb7-4463-affd-0b95b585192c",
+              "name": "Update Alert Attributes -> Find Indicator",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/899b4e94-b5e6-4a15-9ec2-0aae7f66d1fb",
+              "sourceStep": "/api/3/workflow_steps/8c46da66-ac0e-4a59-bdfb-9cc0314ea980"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c4ef14b0-03a0-4823-bae6-bfae93284dc7",
+              "name": "Prompt Whether to Block URL -> User Requested URL Block",
+              "label": "Block List",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7",
+              "sourceStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ddd213f3-8ee1-40aa-9130-d43106e7b818",
+              "name": "User Requested URL Block -> Create URL Indicator When Unrated and Blocked",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/31ec48a5-f38a-459c-96ec-c912821887cf",
+              "sourceStep": "/api/3/workflow_steps/044a8a3d-373c-4f69-9a0e-16394dbdfaf7"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "33bc9761-5feb-4407-8238-6c4758fcc16c",
+              "name": "Create URL Indicator When Unrated and Blocked -> Close Alert as URL Blocked Manually",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/bbc14413-838f-4a25-bdd9-d5a8a1f4f3dc",
+              "sourceStep": "/api/3/workflow_steps/31ec48a5-f38a-459c-96ec-c912821887cf"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c98fa62e-94c9-4bb2-be63-98032a50a5a4",
+              "name": "Prompt Whether to Block URL -> User Requested URL Allow",
+              "label": "Allow List",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0",
+              "sourceStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c9d1e2d8-5522-4cad-a973-8f56749e38c1",
+              "name": "Create URL Indicator When Unrated and Allowed -> Close Alert as URL Allowed",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/f51eeefe-a953-463d-a8ed-927703186248",
+              "sourceStep": "/api/3/workflow_steps/4ec68cfa-67a4-4b06-8fda-30f4c97047d0"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "64cb3709-f4d3-4288-81e0-51c0ee801f3f",
+              "name": "User Requested URL Allow -> Create URL Indicator When Unrated and Allowed",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/4ec68cfa-67a4-4b06-8fda-30f4c97047d0",
+              "sourceStep": "/api/3/workflow_steps/d5c93483-5983-47c2-9fd8-f94ef9d232f0"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3f08edaa-fb64-42d7-9445-63d748a6a024",
               "name": "Automatic URL Block -> Create URL Indicator When Rated and Not Known",
               "label": null,
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/e3dd0e4f-59e9-4a13-858b-d8ff5fad8143",
               "sourceStep": "/api/3/workflow_steps/41ab5959-3d25-4029-8e2e-78179f250dee"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "68e58767-dd35-47a4-a574-57f027d80247",
+              "name": "Create URL Indicator When Rated and Not Known -> Close Alert as Automatic URL Blocked",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/5454ff14-8487-4687-94ce-d8992ab1eec7",
+              "sourceStep": "/api/3/workflow_steps/e3dd0e4f-59e9-4a13-858b-d8ff5fad8143"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "1975c004-3cbd-49ef-b1c7-90331a412251",
+              "name": "is URL Malicious -> Manual Decision Required",
+              "label": "No",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/87aa2fd2-ebb4-46e9-abde-212e1d6bcb48",
+              "sourceStep": "/api/3/workflow_steps/9dcb8d9d-9b12-4c11-86f5-456f5f063b51"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "d3fa13bb-7c98-425b-a2ee-7b9172e70873",
+              "name": "Manual Decision Required -> Prompt Whether to Block URL",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6ce11c76-dd60-4566-83db-5b92c79fea17",
+              "sourceStep": "/api/3/workflow_steps/87aa2fd2-ebb4-46e9-abde-212e1d6bcb48"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "19ae2e8b-b951-4dd1-944d-30d08b800544",
+              "name": "is URL Malicious -> Automatic Blocking Of URL",
+              "label": "Yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/8aacc8fa-ac83-4f75-857c-478c17f0f6f5",
+              "sourceStep": "/api/3/workflow_steps/9dcb8d9d-9b12-4c11-86f5-456f5f063b51"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "1419ab5a-e6a9-4382-bf8c-2798ffa46b65",
+              "name": "Automatic Blocking Of URL -> Automatic URL Block",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/41ab5959-3d25-4029-8e2e-78179f250dee",
+              "sourceStep": "/api/3/workflow_steps/8aacc8fa-ac83-4f75-857c-478c17f0f6f5"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "20972eaf-e997-48e2-bf7f-77ede4bdb2fd",
+              "name": "Get URL Rating from IBM XForce -> Get XForce URL Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/89b380f6-24ca-4654-bd08-2c9ddaf3b524",
+              "sourceStep": "/api/3/workflow_steps/3a1efbc9-56c5-43ae-830d-e0858e7731ec"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c7b6c039-6b15-4dd4-8bc3-0148ba3e13c1",
+              "name": "Get XForce URL Reputation -> Report XForce URL Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/83821d59-6680-4b65-853a-503e1d633dd5",
+              "sourceStep": "/api/3/workflow_steps/89b380f6-24ca-4654-bd08-2c9ddaf3b524"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "28e24a32-d617-495f-804e-146d3264412b",
+              "name": "Report XForce URL Reputation -> Compute Average Score",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a66ad14c-5f35-4a04-bb9d-8a9675c29ea9",
+              "sourceStep": "/api/3/workflow_steps/83821d59-6680-4b65-853a-503e1d633dd5"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1592943252,
+          "lastModifyDate": 1593534940,
           "uuid": "4b29ccd7-21fb-491f-bcb4-07f611c5f061",
           "recordTags": [],
           "isPrivate": false,
@@ -1929,11 +1858,6 @@
     {
       "name": "Tomorrow_Date",
       "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
-      "default_value": null
-    },
-    {
-      "name": "Current_Data",
-      "value": "{{vars.input.records[0]}}",
       "default_value": null
     },
     {

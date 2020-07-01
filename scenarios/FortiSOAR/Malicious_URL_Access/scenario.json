@@ -139,7 +139,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Malicious URL Detected",
         "source": "FSMSIM-Malicious-URL-Access",
         "demo_message": "2) Client is connecting to an unknown URL that is not on the block list. This one to be manually allowed.",
@@ -276,7 +276,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Malicious URL Detected",
         "source": "FSMSIM-Malicious-URL-Access",
         "demo_message": "3) Client is connecting to an unknown URL that is on the block list.",
@@ -413,7 +413,7 @@
   {
     "data": [
       {
-        "sleep": 0,
+        "sleep": -1,
         "name": "Malicious URL Detected",
         "source": "FSMSIM-Malicious-URL-Access",
         "demo_message": "4) Client is connecting to a known malicious URL",

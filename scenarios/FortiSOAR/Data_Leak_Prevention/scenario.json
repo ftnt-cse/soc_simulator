@@ -89,7 +89,7 @@
                 "sessionId": "182388",
                 "srcIpAddr": "{{TR_ASSET_IP}}",
                 "srcIpPort": "57442",
-                "destIpAddr": "80.222.32.1",
+                "destIpAddr": "10.200.3.16",
                 "destIpPort": "21 (FTP)",
                 "deviceTime": "Wed Jun 10 20:05:26 CEST 2020",
                 "parserName": "FortiGateParser",
@@ -98,7 +98,7 @@
                 "collectorId": "10000",
                 "eventAction": "0 (Permit)",
                 "profileName": "dlp_profile",
-                "rawEventMsg": "<189>date=2020-06-10 time=20:05:26 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591812327419319166 tz=\"+0200\" filteridx=1 filtername=\"Encrypted files\" filtertype=\"encrypted\" filtercat=\"file\" severity=\"high\" policyid=5 sessionid=182388 epoch=749638347 eventid=0 srcip={{TR_ASSET_IP}} srcport=57442 srcintf=\"port3\" srcintfrole=\"lan\" dstip=\"80.222.32.1\" dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" filetype=\"msofficex\" direction=\"outgoing\" action=\"log-only\" filename=\"secret_doc.docx\" filesize=54784 profile=\"dlp_profile\"",
+                "rawEventMsg": "<189>date=2020-06-10 time=20:05:26 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591812327419319166 tz=\"+0200\" filteridx=1 filtername=\"Encrypted files\" filtertype=\"encrypted\" filtercat=\"file\" severity=\"high\" policyid=5 sessionid=182388 epoch=749638347 eventid=0 srcip={{TR_ASSET_IP}} srcport=57442 srcintf=\"port3\" srcintfrole=\"lan\" dstip=\"10.200.3.16\" dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" filetype=\"msofficex\" direction=\"outgoing\" action=\"log-only\" filename=\"secret_doc.docx\" filesize=54784 profile=\"dlp_profile\"",
                 "reptDevName": "FortiGate-Core",
                 "serviceName": "FTP",
                 "srcIntfName": "port3",
@@ -250,7 +250,7 @@
         "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
-        "demo_message": "3) A Top Secret marked file is sent to partner",
+        "demo_message": "3) A file is sent wihout markings",
         "sourcedata": {
           "incident_data": {
             "id": "0",

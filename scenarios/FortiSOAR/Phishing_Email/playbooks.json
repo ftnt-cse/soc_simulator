@@ -55,7 +55,7 @@
                 }
               },
               "status": null,
-              "left": "660",
+              "left": "808",
               "top": "20",
               "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
               "uuid": "a8c48939-3987-4a76-a8c3-339b088a94e9"
@@ -72,7 +72,7 @@
                 "has_attachement_email": "{{vars.input.records[0].sourcedata.parsed_attachment_data | length}}"
               },
               "status": null,
-              "left": "660",
+              "left": "808",
               "top": "127",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "368cd169-84b2-43c2-be57-6c74fca017c8"
@@ -85,7 +85,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Initial Alert update with basic email details",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Initialize Alert Fields</span></p>",
                   "records": ""
                 },
                 "resource": {
@@ -101,6 +101,7 @@
                     "itemValue": "Phishing",
                     "orderIndex": 7
                   },
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
                   "state": {
                     "id": 220,
                     "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
@@ -141,10 +142,13 @@
                   "emailFrom": "{{vars.source_data.headers.from}}",
                   "epochTime": "{{vars.email_date}}",
                   "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "recordTags": [
+                    "/api/3/tags/Phishing"
+                  ],
                   "sourceType": "Suspicious Mailbox",
                   "sourcedata": "{{vars.source_data|toJSON}}",
                   "description": "{%if 'Fw:' in vars.source_data.headers.subject or 'Fwd:' in vars.source_data.headers.subject %}\nEmail: ||**{{vars.source_data.headers.subject}}**|| Submited by  **{{vars.source_data.headers.from}}**\n{%endif%}",
-                  "assigneddate": "{{globalVars.Current_Date}}",
+                  "respDueDate": "{{globalVars.Tomorrow_Date}}",
                   "emailHeaders": "{{vars.source_data.headers|toJSON}}",
                   "emailSubject": "{{vars.source_data.headers.subject}}",
                   "senderDomain": "{{(vars.source_data.headers.from).split('@')[1]}}",
@@ -172,8 +176,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "660",
-              "top": "233",
+              "left": "808",
+              "top": "346",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "41f723c6-112e-4d53-9a92-5eb877e6f6d7"
             },
@@ -196,7 +200,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Sender Auto-response Notification",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Sender Auto-response Notification to Sender</span></p>\n\n<p>The offending email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been informed that they have been blocked.</p>",
                   "records": ""
                 },
                 "version": "3.4.1",
@@ -206,14 +210,14 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "100",
-              "top": "1090",
+              "left": "808",
+              "top": "232",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "a9760ff6-d26f-44f2-af48-e4533b94eebf"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Send Auto_Reply to Other Recipients",
+              "name": "Send Sender Bock Notification to All Recipients",
               "description": null,
               "arguments": {
                 "name": "Exchange",
@@ -230,7 +234,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Inform all recipients the offender email sender is blocked",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Sender Auto-response Notification to Recipients</span></p>\n\n<p>All recipients have been informed that the offender email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been blocked.</p>",
                   "records": ""
                 },
                 "version": "3.4.1",
@@ -240,8 +244,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "100",
-              "top": "1209",
+              "left": "806",
+              "top": "2740",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "47dfe8c4-5eaf-4bc6-a861-a1f6d11548d9"
             },
@@ -259,7 +263,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Block Offender Email Sender: {{vars.email_from}}",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Block Email Sender on FortiMail</span></p>\n\n> At least one Indicator reputation was found to be <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Malicious ]</span>.\n\n<p> The email sender: <span style=\"background-color:#FF0000;color:#FFFFFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been blocked on the FortiMail.</p>",
                   "records": ""
                 },
                 "version": "1.0.1",
@@ -269,8 +273,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "100",
-              "top": "1320",
+              "left": "806",
+              "top": "2520",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "19c11527-61b5-4e0f-871a-f70bcc8e9b62"
             },
@@ -282,8 +286,8 @@
                 "name": "Exchange",
                 "config": "b79754b3-d441-4854-b030-209fd26c61a2",
                 "params": {
-                  "body": "{{vars.email_from}} is suspected to send malicious emails, it will be blocked until the investigation is over<br>\n<br>\nSoC Team<br>",
-                  "subject": "SOC Notification: {{vars.email_sender}} Blocked Temporarily",
+                  "body": "<p>As <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> is suspected of sending malicious emails, it will be blocked until the investigation is over.</p>\n<br>\n<br>\nSoC Team<br>",
+                  "subject": "SOC Notification: {{vars.email_from}} Blocked Temporarily",
                   "iri_list": "",
                   "cc_recipients": "",
                   "to_recipients": "eis@fortielab.com",
@@ -293,7 +297,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Notify EIS: {{vars.email_sender}} alerts are processed",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">EIS Notified</span></p>\n\n<p>EIS has been notified that the alert from <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> requires investigation.</p>",
                   "records": ""
                 },
                 "version": "3.4.1",
@@ -303,8 +307,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "100",
-              "top": "1433",
+              "left": "806",
+              "top": "2847",
               "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
               "uuid": "fa0bde5b-d443-476a-8907-f8952e151a68"
             },
@@ -316,15 +320,52 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Create EIS Task: review {{vars.email_sender}} related alerts",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create EIS Task</span></p>\n\nA new task has been created for EIS: Review the related alerts from <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span>.</p>",
                   "records": ""
                 },
                 "resource": {
                   "name": "Review Blocked Emails",
+                  "type": {
+                    "id": 122,
+                    "@id": "/api/3/picklists/826ad76d-e418-4928-9bc9-ea552ebcc5f9",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Incident Response",
+                    "listName": "/api/3/picklist_names/b837e375-76af-4ba5-b6a1-bd1c3cd27292",
+                    "itemValue": "Incident Response",
+                    "orderIndex": 6
+                  },
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
                   "alerts": "{{vars.input.records[0]['@id']}}",
-                  "taskdata": "Emails: {{vars.original_email_sender}} has been blocked on FortiGate,\nreview the action and unblock it if required:\n1. Open any Alert\n2. Click Action\n3. Select FortiMail\n4. Select Unblock Email action\n5. set the email to: {{vars.original_email_sender}}\n6. Click Execute",
+                  "status": {
+                    "id": 169,
+                    "@id": "/api/3/picklists/ab65eb0f-e7a7-4993-8474-da5c8b52f380",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Assigned",
+                    "listName": "/api/3/picklist_names/21ddbcfd-b4a3-4273-adea-c674fe47d643",
+                    "itemValue": "Assigned",
+                    "orderIndex": 0
+                  },
+                  "priority": {
+                    "id": 139,
+                    "@id": "/api/3/picklists/90088ebe-0a7d-4aa6-9c9c-93b937a4e4f8",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#e36c29",
+                    "display": "High",
+                    "listName": "/api/3/picklist_names/bea9a490-50d1-4597-8ad9-24422e10676e",
+                    "itemValue": "High",
+                    "orderIndex": 2
+                  },
+                  "taskdata": "Emails: {{vars.email_from}} has been blocked on FortiGate,\nreview the action and unblock it if required:\n1. Open any Alert\n2. Click Action\n3. Select FortiMail\n4. Select Unblock Email action\n5. set the email to: {{vars.email_from}}\n6. Click Execute",
                   "__replace": "",
-                  "description": "Emails: {{vars.original_email_sender}} has been blocked on FortiGate,\nreview the action and unblock it if required:\n1. Open any Alert\n2. Click Action\n3. Select FortiMail\n4. Select Unblock Email action\n5. set the email to: {{vars.original_email_sender}}\n6. Click Execute"
+                  "startDate": "{{globalVars.Current_Date}}",
+                  "description": "<p>The email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been blocked on the FortiMail,\nreview the action and unblock it if required.</p>\n<p>The steps to unblock the email sender are:\n1. Open related Alerts<br>\n2. Click Action<br>\n3. Select FortiMail<br>\n4. Select Unblock Email action<br>\n5. Set the email to: <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span><br>\n6. Click Execute<br>",
+                  "assignedOnDate": "{{globalVars.Current_Date}}",
+                  "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
                 },
                 "_showJson": false,
                 "operation": "Overwrite",
@@ -335,8 +376,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "100",
-              "top": "1540",
+              "left": "806",
+              "top": "2960",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "990462b5-fbdd-4b4b-9aa3-6653eb70f16d"
             },
@@ -351,8 +392,8 @@
                 "email_indicators": "{%if vars.headers_artifacts and vars.body_artifacts%}{{vars.headers_artifacts.Email | union(vars.body_artifacts.Email)}}{%elif not vars.headers_artifacts%}{{vars.body_artifacts.Email}}{%elif not vars.body_artifacts%}{{vars.headers_artifacts.Email}}{%endif%}"
               },
               "status": null,
-              "left": "660",
-              "top": "1000",
+              "left": "808",
+              "top": "1114",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "94ebf138-f88f-469d-a6dd-aa766e4d0c5c"
             },
@@ -375,8 +416,8 @@
                 ]
               },
               "status": null,
-              "left": "660",
-              "top": "340",
+              "left": "808",
+              "top": "454",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "3f2876d4-945a-480b-95d5-16554580b67d"
             },
@@ -388,7 +429,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Submitted Email was forwarded Inline",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create Email Record</span></p>\n\n<p>Email was submitted via forwarding inline.</p>",
                   "records": ""
                 },
                 "resource": {
@@ -409,8 +450,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "840",
-              "top": "440",
+              "left": "988",
+              "top": "554",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "a9302fee-cc9a-40bf-901f-59b90ab28c03"
             },
@@ -422,7 +463,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Submitted Email was forwarded as an Attachment",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create Email Record</span></p>\n\n<p>Email was submitted via forwarding as an attachment.</p>",
                   "records": ""
                 },
                 "resource": {
@@ -445,8 +486,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "480",
-              "top": "440",
+              "left": "628",
+              "top": "554",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "6521283e-586f-4abb-b61e-399eb56e8c7e"
             },
@@ -458,8 +499,8 @@
                 "file_attachements": "{%if vars.has_attachement_email == 0%}{{vars.source_data.attachments}}{%else%}{{vars.source_data.parsed_attachment_data[0].attachments}}{%endif%}"
               },
               "status": null,
-              "left": "660",
-              "top": "551",
+              "left": "808",
+              "top": "666",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "87e4fa3e-fad7-4610-a404-453c2b086639"
             },
@@ -475,18 +516,18 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Save File Attachements to Disk",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Storing File Attachments</span></p>\n\n<p>The file attachments are saved to the local disk for further processing.</p>",
                   "records": ""
                 },
-                "version": "1.2.4",
+                "version": "1.2.3",
                 "connector": "code-snippet",
                 "operation": "python_inline",
                 "operationTitle": "Execute Python Code",
                 "step_variables": []
               },
               "status": null,
-              "left": "660",
-              "top": "680",
+              "left": "808",
+              "top": "794",
               "stepType": "/api/3/workflow_step_types/1fdd14cc-d6b4-4335-a3af-ab49c8ed2fd8",
               "uuid": "dab07701-8d63-4b7b-9c79-9ad4811685ee"
             },
@@ -504,7 +545,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "Upload Attached Files to FortiSOAR and save them as indicators",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Uploading File Indicator</span></p>\n\n<p>File attachment have been uploaded into FortiSOAR and attachments has been created.</p>",
                   "records": ""
                 },
                 "version": "3.0.2",
@@ -518,8 +559,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "660",
-              "top": "790",
+              "left": "808",
+              "top": "900",
               "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
               "uuid": "8c1a4037-9ca1-4c10-b782-f73bf635d2d0"
             },
@@ -531,7 +572,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "File -  {{vars.item.data.filename}} Created",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating File Indicator</span></p>\n\n<p>File: <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.item.data.filename}} ]</span> was created.</p>",
                   "records": ""
                 },
                 "for_each": {
@@ -588,8 +629,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "660",
-              "top": "900",
+              "left": "808",
+              "top": "1014",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "eeadb42c-3acb-441b-94b0-045d50ed7cee"
             },
@@ -602,14 +643,14 @@
                 "email_to": "{{vars.steps.Create_Attached_Email.emailTo|regex_findall(\"([\\w,_,.,-]+\\@[\\w,_,.,-]+\\.\\w+)\")|unique}}",
                 "html_body": "{{vars.steps.Create_Attached_Email.emailBody}}",
                 "source_ip": "{{vars.source_data.parsed_attachment_data.0.headers['x-originating-ip'] or ''}}",
-                "email_from": "{{vars.steps.Create_Attached_Email.emailFrom}}",
+                "email_from": "{{vars.steps.Create_Attached_Email.emailFrom|regex_search(\"([\\w,_,.,-]+\\@[\\w,_,.,-]+\\.\\w+)\")}}",
                 "email_header": "{{vars.steps.Create_Attached_Email.emailHeader}}",
                 "body_artifacts": "{{vars.steps.Create_Attached_Email.emailBody|extract_artifacts}}",
                 "headers_artifacts": "{{vars.steps.Create_Attached_Email.emailHeader|extract_artifacts}}"
               },
               "status": null,
-              "left": "300",
-              "top": "551",
+              "left": "448",
+              "top": "666",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "b093b4c9-8c3d-416e-84e0-a185d643f600"
             },
@@ -626,8 +667,8 @@
                 "body_artifacts": "{{vars.steps.Create_Inline_Email.emailBody | extract_artifacts}}"
               },
               "status": null,
-              "left": "1033",
-              "top": "551",
+              "left": "1180",
+              "top": "666",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "783c8c11-497d-4e28-b766-5e65c8a92da9"
             },
@@ -642,8 +683,8 @@
                 "email_indicators": "{{vars.email_indicators|json_query(\"[?contains(@, 'fortielab.com') == `false`]\")}}"
               },
               "status": null,
-              "left": "660",
-              "top": "1100",
+              "left": "808",
+              "top": "1214",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "e0cf2ce8-6bca-4a28-916f-1e28929d22c9"
             },
@@ -653,6 +694,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.ip_indicators_to_create|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating IP Indicator</span></p>\n\n<p>IP indicators are being created for each IP indicator found in the email.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.ip_indicators_to_create}}",
                   "__bulk": true,
@@ -706,8 +753,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1460",
-              "top": "1760",
+              "left": "1420",
+              "top": "1870",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "b6b376d1-48b9-433c-a3bb-f13cc5486a62"
             },
@@ -725,8 +772,8 @@
                 }
               },
               "status": null,
-              "left": "1140",
-              "top": "1654",
+              "left": "1100",
+              "top": "1760",
               "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
               "uuid": "71cb1688-4351-44d7-ab1a-ef6a62abbc0c"
             },
@@ -744,8 +791,8 @@
                 }
               },
               "status": null,
-              "left": "820",
-              "top": "1653",
+              "left": "512",
+              "top": "1766",
               "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
               "uuid": "917ac25e-f222-4299-95c2-0eac22f8ad24"
             },
@@ -763,8 +810,8 @@
                 }
               },
               "status": null,
-              "left": "500",
-              "top": "1653",
+              "left": "192",
+              "top": "1760",
               "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
               "uuid": "235cdf72-43bf-45d4-9a95-d14b2eafff08"
             },
@@ -789,6 +836,12 @@
                   ]
                 },
                 "module": "indicators?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find IP Indicators</span></p>\n\n<p>Host indicators from the reported email are being processed.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.ip_indicators}}",
                   "condition": ""
@@ -796,8 +849,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1460",
-              "top": "1234",
+              "left": "1420",
+              "top": "1340",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "2b2632c7-c81d-475b-ac7c-eaea0b6ad7b7"
             },
@@ -822,6 +875,12 @@
                   ]
                 },
                 "module": "indicators?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find Host Indicators</span></p>\n\n<p>Host indicators from the reported email are being processed.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.host_indicators}}",
                   "condition": ""
@@ -829,8 +888,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "820",
-              "top": "1233",
+              "left": "512",
+              "top": "1346",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "72ca6aba-a9e5-4c05-bda0-5ac017c88ece"
             },
@@ -855,6 +914,12 @@
                   ]
                 },
                 "module": "indicators?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find URL Indicators</span></p>\n\n<p>Host indicators from the reported email are being processed.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.url_indicators}}",
                   "condition": ""
@@ -862,8 +927,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1140",
-              "top": "1234",
+              "left": "1100",
+              "top": "1340",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "0230174a-de8b-4a27-9908-292101101106"
             },
@@ -888,6 +953,12 @@
                   ]
                 },
                 "module": "indicators?$limit=30",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Find Email Indicators</span></p>\n\n<p>Email indicators from the reported email are being processed.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.email_indicators}}",
                   "condition": ""
@@ -895,8 +966,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "500",
-              "top": "1233",
+              "left": "192",
+              "top": "1346",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
               "uuid": "87a31ced-6127-4c2c-9c87-664f7754495f"
             },
@@ -909,17 +980,23 @@
                 "found_ip_indicators_values": "{{vars.find_ip_indicators|json_query(\"[].value\")| flatten(levels=1)}}"
               },
               "status": null,
-              "left": "1460",
-              "top": "1440",
+              "left": "1420",
+              "top": "1551",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "633662a8-853a-4b41-bdee-51cfd0240ae6"
             },
             {
               "@type": "WorkflowStep",
-              "name": "Link Indicators",
+              "name": "Link IP Indicators",
               "description": null,
               "arguments": {
                 "when": "{{vars.found_ip_indicators_iris|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Link IP Indicators to Alert</span></p>\n\n<p>All of the created IP indicators have been linked to this alert.</p>",
+                  "records": ""
+                },
                 "resource": {
                   "__link": {
                     "indicators": "{{vars.found_ip_indicators_iris}}"
@@ -935,8 +1012,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1460",
-              "top": "1874",
+              "left": "1420",
+              "top": "1980",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "31159c31-f748-40e2-9247-967a85b871db"
             },
@@ -949,8 +1026,8 @@
                 "ip_indicators_to_create": "{{vars.ip_indicators | difference(vars.found_ip_indicators_values)}}"
               },
               "status": null,
-              "left": "1460",
-              "top": "1540",
+              "left": "1420",
+              "top": "1650",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "4313e53b-4384-4969-91b2-ca1a97f0ec38"
             },
@@ -962,8 +1039,8 @@
                 "find_ip_indicators": "{{vars.steps.Find_IP_Indicators | flatten(levels=1)}}"
               },
               "status": null,
-              "left": "1460",
-              "top": "1334",
+              "left": "1420",
+              "top": "1440",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "921bb7f6-8123-4683-a021-61c581ffce86"
             },
@@ -975,8 +1052,8 @@
                 "find_url_indicators": "{{vars.steps.Find_URL_Indicators | flatten(levels=1)}}"
               },
               "status": null,
-              "left": "1140",
-              "top": "1334",
+              "left": "1100",
+              "top": "1440",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "2236a522-2da4-4d9a-ba2a-b6a5e5e09a4d"
             },
@@ -989,8 +1066,8 @@
                 "found_url_indicators_values": "{{vars.find_url_indicators|json_query(\"[].value\")| flatten(levels=1)}}"
               },
               "status": null,
-              "left": "1140",
-              "top": "1440",
+              "left": "1100",
+              "top": "1550",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "285e75f2-21d1-41c0-960d-25b9ff34eaf9"
             },
@@ -1003,8 +1080,8 @@
                 "url_indicators_to_create": "{{vars.url_indicators | difference(vars.found_url_indicators_values)}}"
               },
               "status": null,
-              "left": "1140",
-              "top": "1540",
+              "left": "1100",
+              "top": "1650",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "e9b06d7c-536e-4670-ab12-ab192acb32fc"
             },
@@ -1016,8 +1093,8 @@
                 "find_host_indicators": "{{vars.steps.Find_Host_Indicators | flatten(levels=1)}}"
               },
               "status": null,
-              "left": "820",
-              "top": "1333",
+              "left": "512",
+              "top": "1446",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "d91e0ffb-bbfd-4584-a1f7-33ce754ef070"
             },
@@ -1030,8 +1107,8 @@
                 "found_host_indicators_values": "{{vars.find_host_indicators|json_query(\"[].value\")| flatten(levels=1)}}"
               },
               "status": null,
-              "left": "820",
-              "top": "1440",
+              "left": "512",
+              "top": "1552",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "fdff6f5e-72b4-4616-bd1d-5ab731113e38"
             },
@@ -1044,8 +1121,8 @@
                 "host_indicators_to_create": "{{vars.host_indicators | difference(vars.found_host_indicators_values)}}"
               },
               "status": null,
-              "left": "820",
-              "top": "1540",
+              "left": "512",
+              "top": "1653",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "ae8d78b0-d0ad-4692-a6c4-0d3147d2f180"
             },
@@ -1057,8 +1134,8 @@
                 "find_email_indicators": "{{vars.steps.Find_Email_Indicators | flatten(levels=1)}}"
               },
               "status": null,
-              "left": "500",
-              "top": "1333",
+              "left": "192",
+              "top": "1446",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "9e56fd9b-12b4-4441-87be-d4fec6bb925c"
             },
@@ -1071,8 +1148,8 @@
                 "found_email_indicators_values": "{{vars.find_email_indicators|json_query(\"[].value\")| flatten(levels=1)}}"
               },
               "status": null,
-              "left": "500",
-              "top": "1440",
+              "left": "192",
+              "top": "1553",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "9cf1640e-851e-4b50-bd40-c30052323b79"
             },
@@ -1085,8 +1162,8 @@
                 "email_indicators_to_create": "{{vars.email_indicators | difference(vars.found_email_indicators_values)}}"
               },
               "status": null,
-              "left": "500",
-              "top": "1540",
+              "left": "192",
+              "top": "1653",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "2ab5fa47-0fc7-43ee-b02e-cab113683556"
             },
@@ -1096,6 +1173,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.url_indicators_to_create|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating URL Indicator</span></p>\n\n<p>URL indicators are being created for each URL indicator found in the email.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.url_indicators_to_create}}",
                   "__bulk": true,
@@ -1149,8 +1232,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1140",
-              "top": "1760",
+              "left": "1100",
+              "top": "1870",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "18829875-872b-4bf1-870c-b0e0534e853b"
             },
@@ -1160,6 +1243,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.found_url_indicators_iris|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Link URL Indicators to Alert</span></p>\n\n<p>All of the created URL indicators have been linked to this alert.</p>",
+                  "records": ""
+                },
                 "resource": {
                   "__link": {
                     "indicators": "{{vars.found_url_indicators_iris}}"
@@ -1175,8 +1264,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "1140",
-              "top": "1874",
+              "left": "1100",
+              "top": "1980",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "a61ef59e-48ab-41cb-b13e-fb4d5c569ea8"
             },
@@ -1186,6 +1275,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.found_host_indicators_iris|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Link Host Indicators to Alert</span></p>\n\n<p>All of the created host indicators have been linked to this alert.</p>",
+                  "records": ""
+                },
                 "resource": {
                   "__link": {
                     "indicators": "{{vars.found_host_indicators_iris}}"
@@ -1201,8 +1296,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "820",
-              "top": "1873",
+              "left": "512",
+              "top": "1986",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "dc95cf7a-7b31-4506-ac90-3d2a1037c4a4"
             },
@@ -1212,6 +1307,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.host_indicators_to_create|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating Host Indicator</span></p>\n\n<p>Host indicators are being created for each host indicator found in the email.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.host_indicators_to_create}}",
                   "__bulk": true,
@@ -1265,8 +1366,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "820",
-              "top": "1760",
+              "left": "512",
+              "top": "1873",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "e9dc692e-d804-41ff-8a84-b6941f132afb"
             },
@@ -1276,6 +1377,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.found_email_indicators_iris|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Link Email Indicators to Alert</span></p>\n\n<p>All of the created email indicators have been linked to this alert.</p>",
+                  "records": ""
+                },
                 "resource": {
                   "__link": {
                     "indicators": "{{vars.found_email_indicators_iris}}"
@@ -1291,8 +1398,8 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "500",
-              "top": "1873",
+              "left": "192",
+              "top": "1986",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "bab16b0d-894c-4f62-b1cd-dcf686babbd7"
             },
@@ -1302,6 +1409,12 @@
               "description": null,
               "arguments": {
                 "when": "{{vars.email_indicators_to_create|length > 0}}",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Creating Email Indicator</span></p>\n\n<p>Email indicators are being created for each email indicator found in the email.</p>",
+                  "records": ""
+                },
                 "for_each": {
                   "item": "{{vars.email_indicators_to_create}}",
                   "__bulk": true,
@@ -1355,10 +1468,202 @@
                 "step_variables": []
               },
               "status": null,
-              "left": "500",
-              "top": "1760",
+              "left": "192",
+              "top": "1873",
               "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
               "uuid": "97c80303-b76c-41b9-950d-0f500a4035ec"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Indicators Malicious",
+              "description": null,
+              "arguments": {
+                "conditions": [
+                  {
+                    "option": "yes",
+                    "step_iri": "/api/3/workflow_steps/19c11527-61b5-4e0f-871a-f70bcc8e9b62",
+                    "condition": "{{ \"Malicious\" in vars.indicator_reputation }}"
+                  },
+                  {
+                    "option": "no",
+                    "default": true,
+                    "step_iri": "/api/3/workflow_steps/227ce397-1ce5-45b0-8324-0c6638194c4a"
+                  }
+                ]
+              },
+              "status": null,
+              "left": "806",
+              "top": "2407",
+              "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+              "uuid": "b7660deb-8727-4d65-8450-51d7a2f5b063"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "False positive Alert",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Automatic Alert Closure</span></p>\n\n<p> No malicious indicators were found in the reported email. Due to this the alert was closed <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Automatically ]</span> and no further action is required.",
+                  "records": ""
+                },
+                "resource": {
+                  "type": {
+                    "id": 121,
+                    "@id": "/api/3/picklists/0b3ef6f9-eb29-4ab9-ac98-98364bd1a3aa",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Phishing",
+                    "listName": "/api/3/picklist_names/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+                    "itemValue": "Phishing",
+                    "orderIndex": 9
+                  },
+                  "state": {
+                    "id": 221,
+                    "@id": "/api/3/picklists/2879663c-c1dc-4ef2-84ae-8c67c9353b86",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Detail Extracted",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Detail Extracted",
+                    "orderIndex": 1
+                  },
+                  "status": {
+                    "id": 246,
+                    "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Closed",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Closed",
+                    "orderIndex": 4
+                  },
+                  "ackDate": "{{globalVars.Current_Date}}",
+                  "respDate": "{{globalVars.Current_Date}}",
+                  "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert.dueBy %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "closureNotes": "<p>No malicious indicators were found in the email. Due to this the alert was <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Automatically ]</span> closed.</p>",
+                  "resolveddate": "{{globalVars.Current_Date}}",
+                  "closureReason": {
+                    "id": 250,
+                    "@id": "/api/3/picklists/2b0112f6-4746-4dab-ada6-a8cd1e675572",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "False Positive",
+                    "listName": "/api/3/picklist_names/4ebacea1-88cd-4ea8-9dcc-385bea42cc59",
+                    "itemValue": "False Positive",
+                    "orderIndex": 2
+                  },
+                  "respSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
+                  "escalatedtoincident": {
+                    "id": 31,
+                    "@id": "/api/3/picklists/2128a09c-153d-4db3-985d-de6be33deae5",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": "#808080",
+                    "display": "No",
+                    "listName": "/api/3/picklist_names/e131cc54-9ae4-43c9-b830-af6e331fe024",
+                    "itemValue": "No",
+                    "orderIndex": 1
+                  }
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "467",
+              "top": "2407",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "227ce397-1ce5-45b0-8324-0c6638194c4a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Wait for indicators Reputation",
+              "description": null,
+              "arguments": {
+                "delay": {
+                  "days": 0,
+                  "hours": 0,
+                  "weeks": 0,
+                  "minutes": 2,
+                  "seconds": 0
+                }
+              },
+              "status": null,
+              "left": "806",
+              "top": "2090",
+              "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
+              "uuid": "d0a7a733-b2f6-4717-951f-4dcea575f00b"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Indicators",
+              "description": null,
+              "arguments": {
+                "indicators_reputation_iri": "{{ (((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).indicators)|json_query(\"[].reputation\") }}"
+              },
+              "status": null,
+              "left": "806",
+              "top": "2191",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "007744c6-cdba-49e8-9b8a-a760efb1ae7f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Indicators Reputation",
+              "description": null,
+              "arguments": {
+                "indicator_reputation": "{%for iri in vars.indicators_reputation_iri%}{{(iri|fromIRI).itemValue}}{%endfor%}"
+              },
+              "status": null,
+              "left": "806",
+              "top": "2292",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "650297c3-501c-4e3b-966a-cab34ea7302f"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Block URLs on FortiGate",
+              "description": null,
+              "arguments": {
+                "name": "SSH",
+                "config": "6351df85-a63e-4bf6-9cc6-a23d563ecfe0",
+                "params": {
+                  "cmd": "echo {{vars.item}} >> /var/www/html/blocked-urls.txt",
+                  "allowed_exit": "-1,0",
+                  "is_super_user": false
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Block Malicious URLs on FortiGate</span></p>\n\n<p>Due to the email being determined as <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Malicious ]</span> the located URL indicators found in the email have been added to the <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block List ]</span> on the FortiGate.</p>",
+                  "records": ""
+                },
+                "version": "2.1.1",
+                "for_each": {
+                  "item": "{{vars.url_indicators_to_create}}",
+                  "condition": ""
+                },
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "operationTitle": "Execute remote command",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "806",
+              "top": "2630",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "fd0d3527-bb27-48af-a5aa-3f9a52045e1c"
             }
           ],
           "routes": [
@@ -1445,15 +1750,6 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "fb614c37-27dd-417e-810a-8f2964df33e5",
-              "name": "Local Attributes -> Update Alert",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/41f723c6-112e-4d53-9a92-5eb877e6f6d7",
-              "sourceStep": "/api/3/workflow_steps/368cd169-84b2-43c2-be57-6c74fca017c8"
-            },
-            {
-              "@type": "WorkflowRoute",
               "uuid": "7853ab0e-2b0e-4061-aacb-039a6a0eaece",
               "name": "Update Alert -> Original Email Attached",
               "label": null,
@@ -1487,42 +1783,6 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/368cd169-84b2-43c2-be57-6c74fca017c8",
               "sourceStep": "/api/3/workflow_steps/a8c48939-3987-4a76-a8c3-339b088a94e9"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "80f8fd15-8369-44ce-997a-72f62b0c022d",
-              "name": "Send Auto_Reply to Sender -> Send Auto_Reply to Other Recipients",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/47dfe8c4-5eaf-4bc6-a861-a1f6d11548d9",
-              "sourceStep": "/api/3/workflow_steps/a9760ff6-d26f-44f2-af48-e4533b94eebf"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "af0c63b1-7225-4e45-97a6-e6b8913425b4",
-              "name": "Send Auto_Reply to Other Recipients -> Block Email Sender",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/19c11527-61b5-4e0f-871a-f70bcc8e9b62",
-              "sourceStep": "/api/3/workflow_steps/47dfe8c4-5eaf-4bc6-a861-a1f6d11548d9"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "093acae8-8403-400e-8f16-5aee8055a920",
-              "name": "Block Email Sender -> Copy  of Send Auto_Reply to Other Recipients",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/fa0bde5b-d443-476a-8907-f8952e151a68",
-              "sourceStep": "/api/3/workflow_steps/19c11527-61b5-4e0f-871a-f70bcc8e9b62"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "12c43897-622d-4d8b-a3a7-b3ce428153e4",
-              "name": "EIS Notification Email -> Review Blocked Emails",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/990462b5-fbdd-4b4b-9aa3-6653eb70f16d",
-              "sourceStep": "/api/3/workflow_steps/fa0bde5b-d443-476a-8907-f8952e151a68"
             },
             {
               "@type": "WorkflowRoute",
@@ -1769,16 +2029,142 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "8cb3c726-0d14-4ced-b941-2d57de79aa55",
-              "name": "Whitelist local attributes -> Send Auto_Reply to Sender",
+              "uuid": "78b2313d-8037-4cd5-81e5-b2280f9cfdf5",
+              "name": "Local Attributes -> Send Auto_Reply to Sender",
               "label": null,
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/a9760ff6-d26f-44f2-af48-e4533b94eebf",
-              "sourceStep": "/api/3/workflow_steps/e0cf2ce8-6bca-4a28-916f-1e28929d22c9"
+              "sourceStep": "/api/3/workflow_steps/368cd169-84b2-43c2-be57-6c74fca017c8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "328498d9-2ccf-49b0-b8c2-dd152ced9633",
+              "name": "Send Auto_Reply to Sender -> Update Alert",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/41f723c6-112e-4d53-9a92-5eb877e6f6d7",
+              "sourceStep": "/api/3/workflow_steps/a9760ff6-d26f-44f2-af48-e4533b94eebf"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "3d4a6608-e424-46e0-af91-373f16533954",
+              "name": "Send Sender Bock Notification to All Recipients -> EIS Notification Email",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fa0bde5b-d443-476a-8907-f8952e151a68",
+              "sourceStep": "/api/3/workflow_steps/47dfe8c4-5eaf-4bc6-a861-a1f6d11548d9"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "2d5a5869-5da8-4eb9-aa94-c1e5a9bd9289",
+              "name": "Indicators Malicious -> Block Email Sender",
+              "label": "yes",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/19c11527-61b5-4e0f-871a-f70bcc8e9b62",
+              "sourceStep": "/api/3/workflow_steps/b7660deb-8727-4d65-8450-51d7a2f5b063"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e9d4cb7c-7a43-4a62-ad36-e469ac8f70dd",
+              "name": "Link Host Indicators -> Wait for indicators Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d0a7a733-b2f6-4717-951f-4dcea575f00b",
+              "sourceStep": "/api/3/workflow_steps/dc95cf7a-7b31-4506-ac90-3d2a1037c4a4"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "daf33396-8ca0-4916-bb6a-2afe9e9492a7",
+              "name": "Link Email Indicators -> Wait for indicators Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d0a7a733-b2f6-4717-951f-4dcea575f00b",
+              "sourceStep": "/api/3/workflow_steps/bab16b0d-894c-4f62-b1cd-dcf686babbd7"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "d2fe1f03-23c1-4d0f-83fa-394dc8add2a6",
+              "name": "Link URL Indicators -> Wait for indicators Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d0a7a733-b2f6-4717-951f-4dcea575f00b",
+              "sourceStep": "/api/3/workflow_steps/a61ef59e-48ab-41cb-b13e-fb4d5c569ea8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "f633e5af-9927-4e8b-ac47-ecd2bdf8e607",
+              "name": "Link IP Indicators -> Wait for indicators Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d0a7a733-b2f6-4717-951f-4dcea575f00b",
+              "sourceStep": "/api/3/workflow_steps/31159c31-f748-40e2-9247-967a85b871db"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0c45703f-b679-4be2-8963-03391ff31854",
+              "name": "Wait for indicators Reputation -> Get Indicators",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/007744c6-cdba-49e8-9b8a-a760efb1ae7f",
+              "sourceStep": "/api/3/workflow_steps/d0a7a733-b2f6-4717-951f-4dcea575f00b"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "e6e7d053-465e-4cd8-81ec-f6aaf263508b",
+              "name": "Get Indicators -> Get Indicators Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/650297c3-501c-4e3b-966a-cab34ea7302f",
+              "sourceStep": "/api/3/workflow_steps/007744c6-cdba-49e8-9b8a-a760efb1ae7f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "a285bfc1-4a87-4ce8-8a17-2bec815960c5",
+              "name": "Get Indicators Reputation -> Indicators Malicious",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b7660deb-8727-4d65-8450-51d7a2f5b063",
+              "sourceStep": "/api/3/workflow_steps/650297c3-501c-4e3b-966a-cab34ea7302f"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "118fc2b0-6533-4d18-a661-4a7b80ea2a23",
+              "name": "Indicators Malicious -> False positive Alert",
+              "label": "no",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/227ce397-1ce5-45b0-8324-0c6638194c4a",
+              "sourceStep": "/api/3/workflow_steps/b7660deb-8727-4d65-8450-51d7a2f5b063"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "45994fbb-2f8f-4c0f-b648-b2ef1b70aeee",
+              "name": "Block Email Sender -> Block URLs on FortiGate",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fd0d3527-bb27-48af-a5aa-3f9a52045e1c",
+              "sourceStep": "/api/3/workflow_steps/19c11527-61b5-4e0f-871a-f70bcc8e9b62"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "242e24e9-5944-42ea-9b54-cf2e696cf2f1",
+              "name": "Block URLs on FortiGate -> Send Sender Bock Notification to All Recipients",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/47dfe8c4-5eaf-4bc6-a861-a1f6d11548d9",
+              "sourceStep": "/api/3/workflow_steps/fd0d3527-bb27-48af-a5aa-3f9a52045e1c"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0822373f-55c4-4e7d-8d77-3ec0ab2a04c2",
+              "name": "EIS Notification Email -> Review Blocked Emails",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/990462b5-fbdd-4b4b-9aa3-6653eb70f16d",
+              "sourceStep": "/api/3/workflow_steps/fa0bde5b-d443-476a-8907-f8952e151a68"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1593368279,
+          "lastModifyDate": 1593549693,
           "uuid": "319f4647-79fc-429f-8c60-bdbee45b54d3",
           "recordTags": [],
           "isPrivate": false,
@@ -1790,6 +2176,11 @@
     }
   ],
   "macros": [
+    {
+      "name": "Tomorrow_Date",
+      "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
+      "default_value": null
+    },
     {
       "name": "Current_Date",
       "value": "{{arrow.utcnow().timestamp}}",
