@@ -556,7 +556,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Block IP on FortiGate</span></p>\n\nThe file is marked <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.v_dlp_dlpextra}} ]</span>. As the file markings are not appropriate the source IP address <span style=\"background-color:#FF0000;color:#FFFFFF;font-weight:bold\">[ {{vars.v_Source_IP}} ]</span> has been added to the quarantine list on the FortiGate to prevent further Data Leaks",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Block IP on FortiGate</span></p>\n\n<span style=\"background-color:#FF0000;color:#FFFFFF;font-weight:bold\">[ {{vars.v_dlp_dlpextra}} ]</span> marking found on file\nAs the file markings are not appropriate the source IP address <span style=\"background-color:#FF0000;color:#FFFFFF;font-weight:bold\">[ {{vars.v_Source_IP}} ]</span> has been added to the quarantine list on the FortiGate to prevent further Data Leaks",
                   "records": ""
                 },
                 "version": "3.0.0",
@@ -760,7 +760,7 @@
                     "/api/3/tags/DLP",
                     "/api/3/tags/Whitelist"
                   ],
-                  "description": "<p>Source/Destination IPs are compliant with DLP forum.</p>\n\n<p>Please start the <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ Customers Information Security Whitelist ]</span> process.</p>",
+                  "description": "<p>Source/Destination IPs are compliant with DLP forum.</p><br>\n\n<p>Please start the <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ Customers Information Security Whitelist ]</span> process.</p>",
                   "assignedOnDate": "{{globalVars.Current_Date}}",
                   "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
                 },
@@ -1417,7 +1417,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1593585882,
+          "lastModifyDate": 1593660769,
           "uuid": "28b750df-7726-4bc4-a6bc-d468914e79e5",
           "recordTags": [],
           "isPrivate": false,

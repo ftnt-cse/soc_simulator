@@ -1,4 +1,5 @@
 {
+    "author":"cse team",
     "name": "Data Leak Prevention",
     "product":"fortisoar",
     "category":"soc_analyst",

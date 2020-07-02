@@ -1,4 +1,5 @@
 {
+    "author":"CSE Team",
     "name": "Phishing Email Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",

@@ -200,7 +200,7 @@
                 "message": {
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Sender Auto-response Notification to Sender</span></p>\n\n<p>The offending email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been informed that they have been blocked.</p>",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Sender Auto-response Notification to Sender</span></p>\n\n<p>The offending email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.source_data.headers.from|regex_search(\"([\\w_.-]+\\@[\\w_.-]+\\.\\w+)\")}} ]</span> has been informed the reported email is received</p>",
                   "records": ""
                 },
                 "version": "3.4.1",
@@ -363,7 +363,7 @@
                   "taskdata": "Emails: {{vars.email_from}} has been blocked on FortiGate,\nreview the action and unblock it if required:\n1. Open any Alert\n2. Click Action\n3. Select FortiMail\n4. Select Unblock Email action\n5. set the email to: {{vars.email_from}}\n6. Click Execute",
                   "__replace": "",
                   "startDate": "{{globalVars.Current_Date}}",
-                  "description": "<p>The email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been blocked on the FortiMail,\nreview the action and unblock it if required.</p>\n<p>The steps to unblock the email sender are:\n1. Open related Alerts<br>\n2. Click Action<br>\n3. Select FortiMail<br>\n4. Select Unblock Email action<br>\n5. Set the email to: <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span><br>\n6. Click Execute<br>",
+                  "description": "<p>The email sender <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span> has been blocked on the FortiMail,\nreview the action and unblock it if required.</p>\n<p>The steps to unblock the email sender are:<br>\n1. Open related Alerts<br>\n2. Click Action<br>\n3. Select FortiMail<br>\n4. Select Unblock Email action<br>\n5. Set the email to: <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.email_from}} ]</span><br>\n6. Click Execute<br>",
                   "assignedOnDate": "{{globalVars.Current_Date}}",
                   "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
                 },
@@ -2164,7 +2164,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1593549693,
+          "lastModifyDate": 1593660622,
           "uuid": "319f4647-79fc-429f-8c60-bdbee45b54d3",
           "recordTags": [],
           "isPrivate": false,

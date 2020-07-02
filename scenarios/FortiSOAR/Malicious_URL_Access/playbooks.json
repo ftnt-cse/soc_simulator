@@ -428,12 +428,6 @@
                 "params": {
                   "url": "{{vars.v_URL}}"
                 },
-                "message": {
-                  "tags": [],
-                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">VirusTotal URL Lookup</span></p>\n\n<p>VirusTotal identified that {% if vars.result.data.positives == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.result.data.positives}} ]</span> of it's <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.result.data.total}} ]</span> identified the URL as potentially malicious.</p>\n<br>\n<p>The aggregate score was {% if vars.result.data.aggregate == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.result.data.aggregate}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">100</span>.</p>",
-                  "records": ""
-                },
                 "version": "1.0.1",
                 "connector": "virustotal",
                 "operation": "scan_url",
@@ -532,7 +526,7 @@
                     "orderIndex": 4
                   },
                   "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
-                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.v_VT_Aggregate_Score}} ]</span> out of 100, and <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[  {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score {% if vars.v_XForce_Score == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n\n<p>The URL was added to FortiGate block list. This was decided by <span style=\"background-color:#1E6E23;color:white;font-weight:bold\"> [ Automatically ]</span> due to the URL rating from VirusTotal and IBM XForce. This automatically closed the alert.</p>",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ {{vars.v_VT_Aggregate_Score}} ]</span> out of 100, and <span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[  {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score {% if vars.v_XForce_Score == 0 %}<span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">{% else %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n\n<p>The URL was added to FortiGate block list. This was decided by <span style=\"background-color:#1E6E23;color:white;font-weight:bold\"> [ Automatically ]</span> due to the URL rating from VirusTotal and IBM XForce. This automatically closed the alert.</p>",
                   "resolveddate": "{{globalVars.Current_Date}}",
                   "closureReason": {
                     "id": 251,
@@ -682,7 +676,7 @@
                     "orderIndex": 1
                   },
                   "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
-                  "closureNotes": "<p>At the time of closure the URL <span style=\"color:red;font-weight:bold\"> {{vars.v_URL}}</span> was not rated by FortiGuard nor was it in the FortiGate's block list. The URL had an aggregate rating of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Aggregate_Score}}</span> out of 100, and <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Positives}}</span> out of <span style=\"color:red;font-weight:bold\">{{vars.v_VT_Total_Result}}</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"color:red;font-weight:bold\">{{vars.v_XForce_Score}}</span> out of <span style=\"color:red;font-weight:bold\">10</span>.</p>\n\n<p>The URL was added to FortiGate's allow list.</p>\n\n<p>This was decided by <span style=\"background-color:#1e6e23;color:white;font-weight:bold\">{{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}}</span>. This automatically closed the alert.</p>",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was not rated by FortiGuard nor was it in the FortiGate's block or allow lists. The URL had an aggregate rating of <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.v_VT_Aggregate_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 100 ]</span>, and <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[  {{vars.v_VT_Positives}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> detected it as malicious.</p>\n\n<p>IBM XForce gave this a score <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.v_XForce_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ 10 ]</span>.</p>\n\n<p>The URL was added to FortiGate's <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow ]</span> list. This was decided by <span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ {{vars.input.records.0.createUser.firstname}} {{vars.input.records.0.createUser.lastname}} ]</span>. This automatically closed the alert.</p>",
                   "resolveddate": "{{globalVars.Current_Date}}",
                   "closureReason": {
                     "id": 250,
@@ -1022,7 +1016,7 @@
                   "severity": "{% if vars.v_URL_Only in vars.v_Allowed_URLs %}{{\"Severity\" | picklist(\"Minimal\", \"@id\")}}{% else %}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{%endif%}",
                   "indicators": "{%if vars.steps.Find_Indicator | length != 0 %}{{vars.steps.Find_Indicator[0]['@id']}}{%endif%}",
                   "ackSlaStatus": "{% if globalVars.Current_Date <= vars.steps.Update_Alert_Attributes.respDueDate %}{{\"SLAState\" | picklist(\"Met\", \"@id\")}}{% else %}{{\"SLAState\" | picklist(\"Missed\", \"@id\")}}{% endif %}",
-                  "closureNotes": "<p>At the time of closure the URL<span style=\"color:red;font-weight:bold\">{{vars.v_URL}}</span> was already located in the FortiGate's {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">Block List</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1e6e23;color:white;font-weight:bold\">Allow list</span>{%endif%}.</p>",
+                  "closureNotes": "<p>At the time of closure the URL <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_URL}} ]</span> was already located in the FortiGate's {% if vars.v_URL_Only in vars.v_Blocked_URLs %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">[ Block List ]</span>{% elif vars.v_URL_Only in vars.v_Allowed_URLs %}<span style=\"background-color:#1E6E23;color:#FFF;font-weight:bold\">[ Allow list ]</span>{%endif%}.</p>",
                   "resolveddate": "{{globalVars.Current_Date}}",
                   "closureReason": {
                     "id": 249,
@@ -1399,7 +1393,7 @@
                 "v_VT_Aggregate_Score": "{{vars.steps.Get_URL_Rating_from_VirusTotal.data.aggregate}}"
               },
               "status": null,
-              "left": "940",
+              "left": "1500",
               "top": "40",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "97a41571-919c-46e4-a79e-e8e1720c543c"
@@ -1550,6 +1544,49 @@
               "top": "247",
               "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
               "uuid": "83821d59-6680-4b65-853a-503e1d633dd5"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set VT Reputation",
+              "description": null,
+              "arguments": {
+                "v_VT_Positives": "{%if not vars.steps.Get_URL_Rating_from_VirusTotal.data.positives%}0{%else%}{{vars.steps.Get_URL_Rating_from_VirusTotal.data.positives}}{%endif%}",
+                "v_VT_Total_Result": "{%if not vars.steps.Get_URL_Rating_from_VirusTotal.data.total%}67{%else%}{{vars.steps.Get_URL_Rating_from_VirusTotal.data.total}}{%endif%}"
+              },
+              "status": null,
+              "left": "1100",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "7e8ac904-01dc-4bbd-8bd6-58df57682c49"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Add Url Rating",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">VirusTotal URL Lookup</span></p>\n\n<p>VirusTotal identified that {% if vars.v_VT_Positives == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#e31b1d;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_VT_Positives}} ]</span> of it's <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">[ {{vars.v_VT_Total_Result}} ]</span> identified the URL as potentially malicious.</p>\n<br>\n<p>The aggregate score was {% if vars.v_VT_Aggregate_Score == 0 %}<span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">{% else %}<span style=\"background-color:#E31B1D;color:#FFF;font-weight:bold\">{%endif%}[ {{vars.v_VT_Aggregate_Score}} ]</span> out of <span style=\"background-color:#E4DBCF;color:#1B2430;font-weight:bold\">100</span>.</p>",
+                  "records": ""
+                },
+                "resource": {
+                  "alerts": "{{vars.input.records[0]['@id']}}",
+                  "__replace": ""
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "/api/3/comments",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "1500",
+              "top": "140",
+              "stepType": "/api/3/workflow_step_types/2597053c-e718-44b4-8394-4d40fe26d357",
+              "uuid": "708da227-6c9e-4c35-90f8-115acc8eef09"
             }
           ],
           "routes": [
@@ -1642,24 +1679,6 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/0191a4bb-c832-437d-8f8a-85eeb3bdd549",
               "sourceStep": "/api/3/workflow_steps/b3aa435b-a745-435c-b41d-e1fdfb7cc6df"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "bd661d47-0d7e-4822-927c-870ce019ebde",
-              "name": "Get URL Rating from VirusTotal -> Get VT Reputation",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/97a41571-919c-46e4-a79e-e8e1720c543c",
-              "sourceStep": "/api/3/workflow_steps/2a37459d-9293-4196-b1f9-f1928a318dc1"
-            },
-            {
-              "@type": "WorkflowRoute",
-              "uuid": "cd327c3c-4852-46c9-98fe-739983352791",
-              "name": "Get VT Reputation -> Compute Average Score",
-              "label": null,
-              "isExecuted": false,
-              "targetStep": "/api/3/workflow_steps/a66ad14c-5f35-4a04-bb9d-8a9675c29ea9",
-              "sourceStep": "/api/3/workflow_steps/97a41571-919c-46e4-a79e-e8e1720c543c"
             },
             {
               "@type": "WorkflowRoute",
@@ -1840,10 +1859,46 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/a66ad14c-5f35-4a04-bb9d-8a9675c29ea9",
               "sourceStep": "/api/3/workflow_steps/83821d59-6680-4b65-853a-503e1d633dd5"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "36c3f5d6-a2d8-4bbe-a919-e9bd4d2c7c25",
+              "name": "Get URL Rating from VirusTotal -> Set VT Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7e8ac904-01dc-4bbd-8bd6-58df57682c49",
+              "sourceStep": "/api/3/workflow_steps/2a37459d-9293-4196-b1f9-f1928a318dc1"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "247cba31-1f57-40c1-ba12-9baded82a91a",
+              "name": "Set VT Reputation -> Get VT Reputation",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/97a41571-919c-46e4-a79e-e8e1720c543c",
+              "sourceStep": "/api/3/workflow_steps/7e8ac904-01dc-4bbd-8bd6-58df57682c49"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "5b7d6cd0-3183-4a51-8ef8-31c6652686a4",
+              "name": "Add Url Rating -> Compute Average Score",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a66ad14c-5f35-4a04-bb9d-8a9675c29ea9",
+              "sourceStep": "/api/3/workflow_steps/708da227-6c9e-4c35-90f8-115acc8eef09"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "caef3a42-4c82-4c37-92c9-35bc48c2f0af",
+              "name": "Get VT Reputation -> Add Url Rating",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/708da227-6c9e-4c35-90f8-115acc8eef09",
+              "sourceStep": "/api/3/workflow_steps/97a41571-919c-46e4-a79e-e8e1720c543c"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1593534940,
+          "lastModifyDate": 1593601593,
           "uuid": "4b29ccd7-21fb-491f-bcb4-07f611c5f061",
           "recordTags": [],
           "isPrivate": false,

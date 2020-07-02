@@ -1,4 +1,5 @@
 {
+	"author":"cse team",
     "name": "Case management, Dashboards and Reports",
     "product":"fortisoar",
     "connectors_dependencies":["virustotal"],    
