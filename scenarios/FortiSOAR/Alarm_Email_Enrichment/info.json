@@ -1,5 +1,5 @@
 {
-    "author":"cse team",
+    "publisher": "CSE-Team",
     "name": "Alarm Email Enrichment Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
@@ -7,6 +7,5 @@
     "version": "1.0.0",
     "description": "When an Alarm received via Email, it is enriched then forwarded accorfing to the escalation path",
     "category": "soc_analyst",
-    "publisher": "CSE-Team",
     "infographic": "https://github..."
 }

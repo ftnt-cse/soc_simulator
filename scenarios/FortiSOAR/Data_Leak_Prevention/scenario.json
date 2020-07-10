@@ -5,7 +5,7 @@
         "sleep": 0,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
-        "demo_message": "1) User Belgooda shares a secret file: top_secret.docx \n2) The File is Encrypted\n3) The user is not a known offender\n4) Destination compliant with DLP Forum (Internal recipient)\n5) Start Customer InfoSec Whitelist",
+        "demo_message": "1) [Alerts view] User Belgooda shares a secret file: top_secret.docx \n2) [Playbooks Logs] The File is Encrypted\n3) [Users View] The user is not a known offender\n4) [Alerts View] Destination compliant with InfoSec policy\n5) [Alerts > tasks View] Start Customer InfoSec Whitelist",
         "sourcedata": {
           "incident_data": {
             "id": "0",
@@ -127,7 +127,7 @@
         "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
-        "demo_message": "1) User m.goodspeed Shares Traduction.docx with Internet recipient\n2) The file Traduction.docx data classification is: Top Secret\n3) Severity set to Critical\n4) Playbook walkthrough\n5) user blocked on FortiGate",
+        "demo_message": "1) [Alerts View] User m.goodspeed Shares Traduction.docx with Internet recipient\n2) [Playbooks Logs] The file Traduction.docx data classification is: Top Secret\n3) [Alerts View] Severity set to Critical\n4) [Playbooks Logs] Playbook walkthrough\n5) [Alerts > Comments View/FortiGate GUI] User blocked on FortiGate",
         "sourcedata": {
           "incident_data": {
             "id": "0",
@@ -250,7 +250,7 @@
         "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
-        "demo_message": "1) user Kolbad sends an unclassified file: Benchmarks_f.docx over the internet\n2) Playbook Flow\n 3) Analyst to set markings after investigation\n4) Look for the user in the Tracking DB\n5) Update Trackign DB: open User page, show security ID Value\n6) User is a repeated Offender => Find previous offenses\n7) Start Repeated Offense procedure",
+        "demo_message": "1) [Alerts View] User: Kolbad sends an unclassified file: Benchmarks_f.docx over the internet\n2) [Playbooks Logs] Playbook Flow\n3) [Playbooks Logs] Analyst to set markings after investigation\n4) [Users View] Look for the user in the Tracking DB\n5) [Users View] Update Trackign DB: open User page, show security ID Value\n6) [Playbooks View] User is a repeated Offender => Find previous offenses\n7) [Alerts > Tasks View] Start Repeated Offense procedure",
         "sourcedata": {
           "incident_data": {
             "id": "0",
@@ -373,7 +373,7 @@
         "sleep": -1,
         "name": "Data leak detected",
         "source": "FSMSIM-DLP-1",
-        "demo_message": "1) User Baddler sharing a torrent file over the internet\n2) torrents are against policy\n3) Show playbook\n4) Email sent to HR",
+        "demo_message": "1) [Alerts View] User Baddler sharing a torrent file over the internet\n2) [Playbooks Logs] Sharing torrents is against InfoSec policy\n3) [Playbooks Logs] Playbook walkthrough\n4) [Playbooks Logs > Email Step] Email sent to HR",
         "sourcedata": {
           "incident_data": {
             "id": "0",

@@ -1,5 +1,5 @@
 {
-    "author":"cse team",
+    "publisher": "CSE-Team",
     "name": "Data Leak Prevention",
     "product":"fortisoar",
     "category":"soc_analyst",
@@ -9,6 +9,5 @@
     "version": "1.0.0",
     "description": "A user uploads sensitive files to an FTP server",
     "category": "soc_analyst",
-    "publisher": "CSE-Team",
     "infographic": ""
 }

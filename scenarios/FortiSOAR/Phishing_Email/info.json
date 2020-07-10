@@ -1,5 +1,5 @@
 {
-    "author":"CSE Team",
+    "publisher": "CSE-Team",
     "name": "Phishing Email Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
@@ -7,6 +7,5 @@
     "version": "1.0.0",
     "description": "A user receives a suspicious email and forward it to FortiSOAR for analysis",
     "category": "soc_analyst",
-    "publisher": "CSE-Team",
     "infographic": "https://github..."
 }

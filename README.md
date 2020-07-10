@@ -10,7 +10,19 @@ it is written in python so it can run on any machine with python installed inclu
 -FortiSIEM
 -FortiAnalyzer
 -MTA
--Others to come
+-Others
+
+A sample scenario run would look like:
+
+![img](documentation/media/sample_scenario.png)
+
+The prerequisite will be executed first:
+- Connectors verification, each required connector will be checked, it has to be installed, configured and set to Default.
+- The associated playbooks will be uploaded to the FortiSIEM instance
+- Users creation in FortiSOAR (optional)
+- Syslogs sent to a SIEM server (optional)
+
+
 
 The Environment requires a FortiGate to be used as a response enforcement point.
 ## How to use:
@@ -18,13 +30,12 @@ The Environment requires a FortiGate to be used as a response enforcement point.
 usage: ProgramName [-h] -f SCENARIO_FOLDER [-j STEP] [-t TENANT]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -f SCENARIO_FOLDER, --scenario-folder SCENARIO_FOLDER
-                        Scenario folder exp:
-                        ./scenarios/FortiSOAR/Comprmised_Web_Server/
-  -j STEP, --step STEP  Run a specific step of the scenario and exit
-  -t TENANT, --tenant TENANT
-                        Tenant IRI
+  -h, --help            		show this help message and exit
+  -f SCENARIO_FOLDER, 			--scenario-folder SCENARIO_FOLDER
+                        		Scenario folder exp:
+                        		./scenarios/FortiSOAR/Comprmised_Web_Server/
+  -j STEP, --step STEP  		Run a specific step of the scenario and exit
+  -t TENANT, --tenant TENANT 	Tenant IRI
 
 SOC Simulator: use config.json to configure FortiSIEM and FortiSOAR IPs and credentials depending on your environment
 ```
@@ -84,7 +95,7 @@ It contains the scenario meta data and dependencies, this file is first read and
 |infographic | link to the infographic file|
 |connectors_dependencies| a list of required connectors for the scenario, exp:["whois-rdap","virustotal"]|
 |fsm_events_dependencies|a list of events to be sent to a SIEM before the scenario starts, check syntax below|
-|fsr_user_dependencies|a list of users FortiSOAR will use during the playbooks execution|
+|fsr_user_dependencies|a list of users FortiSOAR will use during the playbooks execution, each user will have a tag 'offender' and a security ID of :10 if it contains the word: bad (such as r.baddler)|
 
 
 Example:

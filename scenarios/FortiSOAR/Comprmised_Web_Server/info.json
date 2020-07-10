@@ -1,5 +1,5 @@
 {
-    "author":"cse team",
+    "publisher": "CSE-Team",
     "name": "Compromised Web Server Scenario",
     "product":"fortisoar",
     "category":"soc_analyst",
@@ -15,7 +15,5 @@
     "version": "1.0.0",
     "description": "A Web Server is Compromised, its index.htm overridden with a malicious URL redirect",
     "category": "soc_analyst",
-    "publisher": "CSE-Team",
-    "infographic": "https://github.com/ftnt-cse/soc_simulator/raw/master/scenarios/FSOAR/Comprmised_Web_Server/infographics.gif",
-    "device_list":["fortigate.xml","fortimail.xml"]
+    "infographic": "https://github.com/ftnt-cse/soc_simulator/raw/master/scenarios/FSOAR/Comprmised_Web_Server/infographics.gif"
 }
