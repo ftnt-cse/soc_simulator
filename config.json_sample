@@ -10,10 +10,12 @@
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
+	"FGT_SN": "FGXXXXXXXXXXXXXX"
 	"TR_CUSTOMER_LAN":"10.200.3.0/24",
 	"GUI_mode": "local",
 	"GUI_sshHost": "10.22.1.234",
 	"GUI_sshPort": "20200",
 	"GUI_sshUser": "admin",
-	"GUI_sshPass": "admin*1"
+	"GUI_sshPass": "admin*1",
+	"TimeZone": "+0000"
 }

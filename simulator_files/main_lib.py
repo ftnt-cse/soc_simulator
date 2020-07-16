@@ -49,7 +49,7 @@ def read_json(data):
 			return json_data
 
 def load_scenario_folder(scenario_folder_path,scenario_files):
-	"""loadss the json files within the scenario folder into a single json object"""
+	"""loads the json files within the scenario folder into a single json object"""
 	scenario_data={}
 
 	for file in scenario_files:
@@ -64,7 +64,6 @@ def load_scenario_folder(scenario_folder_path,scenario_files):
 				file_content = f.read()
 			f.close()
 			file_content=json.loads(file_content)
-
 		except IOError:
 			if file == PLAYBOOKS_FILE:
 				scenario_data.update({PLAYBOOKS_FILE:""})
@@ -73,7 +72,7 @@ def load_scenario_folder(scenario_folder_path,scenario_files):
 			exit()
 		except ValueError:
 			print(bcolors.FAIL+"Bad Config file: "+file+" syntax"+bcolors.ENDC)
-			exit()		
+			exit()
 		else:
 			scenario_data.update({file:file_content})
 
@@ -92,7 +91,7 @@ def read_mainconfig():
 		return None
 	except ValueError:
 		print(bcolors.FAIL+"Bad Config file syntax, fall back to command arguments"+bcolors.ENDC)
-		return None		
+		return None
 	else:
 		return mainconfig_file
 
@@ -115,7 +114,7 @@ def unprivileged_send_fsm_event(event,sudo_password):
 	fifo = os.open(SOCSIM_FIFO, os.O_WRONLY)
 	os.write(fifo, event)
 	os.close(fifo)
-		
+
 def send_fsm_event(event):
 	"""Default FortiSIEM send events while the tool is running as root"""
 	try:
@@ -132,11 +131,11 @@ def send_fsm_event(event):
 
 
 def cook_fsm_events(scenario_json):
-	try:	
+	try:
 		template_file = json.dumps(scenario_json)
 		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
 		for tag in tag_list:
-			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))	
+			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 
 	except:
 		print(bcolors.FAIL+"Couldn't process FortiSIEM template file"+bcolors.ENDC)

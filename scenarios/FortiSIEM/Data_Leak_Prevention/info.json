@@ -1,0 +1,11 @@
+{
+    "publisher": "CSE Team",
+    "name": "Data Leakage",
+    "product":"fortisiem",
+    "category":"soc_analyst",
+    "version": "1.0.0",
+    "description": "Data leakage of files: an encrypted file, a classified file, an unclassified file, and a restricted file.",
+    "device_dependency":{"dev_name":"fortigate","dev_ip":"10.16.120.254"},
+    "category": "soc_analyst",
+    "infographic": "https://github..."
+}
