@@ -10,11 +10,12 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 templates_path 		= './'
+config_file		= './config.json'
 malware_hashes 		= './threat_intelligence/malware_hashes.txt'
 malicious_domains	= './threat_intelligence/malicious_domains.txt'
 malicious_ips		= './threat_intelligence/malicious_ips.txt'
 malicious_urls		= './threat_intelligence/malicious_urls.txt'
-SOCSIM_FIFO			= '/tmp/socsim.pipe'
+SOCSIM_FIFO		= '/tmp/socsim.pipe'
 MALWARE_FILE 		= '/tmp/malware.pdf'
 
 
@@ -33,7 +34,7 @@ def get_malicious_file():
 	malicious_file = base64.b64decode(b64_malicious_file)+bytes([random.randint(0, 256),random.randint(0, 256),random.randint(0, 256)])
 	tmp_file = open(MALWARE_FILE, 'wb')
 	tmp_file.write(malicious_file)
-	tmp_file.close()	
+	tmp_file.close()
 	return base64.b64encode(malicious_file).decode("utf-8")
 
 
@@ -59,11 +60,29 @@ def get_username():
 	usernames=["Morgoth","Lúthien","Glorfindel","Beren","Túrin_turambar","Eärendil","Ancalagon","Manwë","Thingol","Húrin","Melian","Glaurung","Mandos","Maglor","Elendil","Círdan","Finarfin","Ulmo","Morwen","Beleg","Niënor_níniel","Finduilas","Orodreth","Carcharoth","Eöl","Ossë","Yavanna","Anárion","Lalaith","Emeldir","Dorlas","Aerin","Rían"]
 	return random.choices(usernames)[0]
 
-def get_fg_mgmt_ip():
-	return "10.200.3.1"
+def get_fgt_mgmt_ip():
+        p = open("config.json", 'r')
+        fg_mgmt_config = p.read()
+        fg_mgmt_config = json.loads(fg_mgmt_config)
+        p.close()
+        fg_mgmt_config = fg_mgmt_config['TR_FG_MGMT_IP']
+        return fg_mgmt_config
 
-def get_fg_dev_name():
-	return "FortiGate-Edge"
+def get_fgt_dev_name():
+        p = open(config_file, 'r')
+        fg_hostname_config = p.read()
+        fg_hostname_config = json.loads(fg_hostname_config)
+        p.close()
+        fg_hostname_config = fg_hostname_config['TR_FG_DEV_NAME']
+        return fg_hostname_config
+
+def get_fgt_sn():
+        p = open("config.json", 'r')
+        sn_config = p.read()
+        sn_config = json.loads(sn_config)
+        p.close()
+        sn_config = sn_config['FGT_SN']
+        return sn_config
 
 def get_asset_ip():
 	return "10.200.3."+str(random.randint(2, 24))
@@ -92,6 +111,19 @@ def get_time_minus_five():
 def get_time_minus_six():
 	return int(time.time()) - random.randint(21600, 21900)
 
+def get_date_now_only():
+        return time.strftime('%Y-%m-%d', time.localtime(time.time()))
+
+def get_time_now_only():
+        return time.strftime('%H:%M:%S', time.localtime(time.time()))
+
+def get_timezone():
+	p = open("config.json", 'r')
+	tz_config = p.read()
+	tz_config = json.loads(tz_config)
+	p.close()
+	tz_config = tz_config['TimeZone']
+	return tz_config
 
 def get_random_integer(start=55555,end=99999):
 	return random.randint(start, end)
@@ -237,12 +269,16 @@ function_dictionary={
 "TR_MALICIOUS_FILE_SHA1":get_malicious_file_sha1,
 "TR_MALICIOUS_FILE_SHA256":get_malicious_file_sha256,
 "TR_FORMATTED_CURRENT_TIME":get_formatted_current_time,
-"TR_FG_MGMT_IP":get_fg_mgmt_ip,
-"TR_FG_DEV_NAME":get_fg_dev_name,
+"TR_FG_MGMT_IP":get_fgt_mgmt_ip,
+"TR_FG_DEV_NAME":get_fgt_dev_name,
+"TR_FGT_SN":get_fgt_sn,
 "TR_ASSET_IP":get_asset_ip,
 "TR_MALICIOUS_IP":get_malicious_ip,
 "TR_NOW":get_time_now,
+"TR_DATE_NOW_ONLY":get_date_now_only,
+"TR_TIME_NOW_ONLY":get_time_now_only,
 "TR_PAST":get_time_past,
+"TR_TIMEZONE":get_timezone,
 "TR_RANDOM_INTEGER":get_random_integer,
 "TR_MALICIOUS_DOMAIN":get_malicious_domains,
 "TR_MALICIOUS_URL":get_malicious_url,

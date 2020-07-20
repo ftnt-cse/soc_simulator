@@ -8,7 +8,7 @@ from scapy.all import *
 
 
 def send_event(source_ip,destination_ip,payload):
-	try:	
+	try:
 		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload
 		send(spoofed_packet)
 	except:
@@ -33,7 +33,7 @@ def unprivileged_send_fsm_event(event,sudo_password):
 	fifo = os.open(SOCSIM_FIFO, os.O_WRONLY)
 	os.write(fifo, event)
 	os.close(fifo)
-		
+
 def send_fsm_event(event):
 	"""Default FortiSIEM send events while the tool is running as root"""
 	try:
@@ -49,11 +49,11 @@ def send_fsm_event(event):
 
 
 def cook_fsm_events(scenario_json):
-	try:	
+	try:
 		template_file = json.dumps(scenario_json)
 		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
 		for tag in tag_list:
-			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))	
+			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 
 	except:
 		print(bcolors.FAIL+"Couldn't process FortiSIEM template file"+bcolors.ENDC)

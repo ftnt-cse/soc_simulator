@@ -1,0 +1,38 @@
+[
+  {
+    "sleep": -1,
+    "name": "Data Leakage Detected",
+    "source": "FSMSIM-Data-Leak-Prevention",
+    "demo_message": "1) Data Leakage: A user send an encrypted file to a trusted destination.\n  a) [Alerts view] User a.belgooda shares a secret file: top_secret.docx.\n  b) [Playbooks Logs] The File is Encrypted.\n  c) [Users View] The user is not a known offender.\n  d) [Alerts View] Destination compliant with InfoSec policy.\n  e) [Alerts > tasks View] Start Customer InfoSec Whitelist.",
+    "source_ip": "10.16.120.254",
+    "destination_ip": "",
+    "payload": "<189>date={{TR_DATE_NOW_ONLY}} time={{TR_TIME_NOW_ONLY}} devname=\"{{TR_FG_DEV_NAME}}\" devid=\"{{TR_FGT_SN}}\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591812327419319166 tz=\"{{TR_TIMEZONE}}\" filteridx=1 filtername=\"Encrypted files\" filtertype=\"encrypted\" filtercat=\"file\" severity=\"high\" policyid=5 sessionid=182388 epoch=749638347 eventid=0 srcip={{TR_ASSET_IP}} srcport=57442 srcintf=\"port3\" srcintfrole=\"lan\" dstip=\"10.200.3.250\" dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" user=\"a.belgooda\" authserver=\"FSSO\" filetype=\"msofficex\" direction=\"outgoing\" action=\"log-only\" filename=\"secret_doc.docx\" filesize=54784 profile=\"dlp_profile\""
+  },
+  {
+    "sleep": -1,
+    "name": "Data Leakage Detected",
+    "source": "FSMSIM-Data-Leak-Prevention",
+    "demo_message": "2) Data Leakage: A user sends a file with the classification tag of \"Top Secret\".\n  a) [Alerts View] User m.goodspeed Shares Traduction.docx with Internet recipient.\n  b) [Playbooks Logs] The file Traduction.docx data classification is: Top Secret.\n  c) [Alerts View] Severity set to Critical.\n  d) [Playbooks Logs] Playbook walkthrough.\n  e) [Alerts > Comments View/FortiGate GUI] User blocked on FortiGate.",
+    "source_ip": "10.16.120.254",
+    "destination_ip": "",
+    "payload": "<189>date={{TR_DATE_NOW_ONLY}} time={{TR_TIME_NOW_ONLY}} devname=\"{{TR_FG_DEV_NAME}}\" devid=\"{{TR_FGT_SN}}\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591815494749154664 tz=\"{{TR_TIMEZONE}}\" filteridx=3 filtername=\"watermark_private\" dlpextra=\"top_secret: Critical\" filtertype=\"watermark\" filtercat=\"file\" severity=\"high\" policyid=5 sessionid=189656 epoch=2125573460 eventid=0 srcip={{TR_ASSET_IP}} srcport=57492 srcintf=\"port3\" srcintfrole=\"lan\" dstip={{TR_MALICIOUS_IP}} dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" user=\"m.goodspeed\" authserver=\"FSSO\" filetype=\"msofficex\" direction=\"outgoing\" action=\"log-only\" filename=\"Traduction.docx\" filesize=96090 profile=\"dlp_profile\" infectedfilename=\"docProps/custom.xml\" infectedfilesize=473 infectedfiletype=\"html\" infectedfilelevel=1"
+  },
+  {
+    "sleep": -1,
+    "name": "Data Leakage Detected",
+    "source": "FSMSIM-Data-Leak-Prevention",
+    "demo_message": "3) Data Leakage: A user sends a file without a classification tag.\n  a) [Alerts View] User: l.kolbad sends an unclassified file: Benchmarks_f.docx over the internet.\n  b) [Playbooks Logs] Playbook Flow.\n  c) [Playbooks Logs] Analyst to set markings after investigation.\n  d) [Users View] Look for the user in the Tracking DB.\n  e) [Users View] Update Tracking DB: open User page, show security ID Value.\n  f) [Playbooks View] User is a repeated Offender => Find previous offenses.\n  g) [Alerts > Tasks View] Start Repeated Offense procedure.",
+    "source_ip": "10.16.120.254",
+    "destination_ip": "",
+    "payload": "<189>date={{TR_DATE_NOW_ONLY}} time={{TR_TIME_NOW_ONLY}} devname=\"{{TR_FG_DEV_NAME}}\" devid=\"{{TR_FGT_SN}}\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591815494749154664 tz=\"{{TR_TIMEZONE}}\" filteridx=3 filtername=\"watermark_private\" dlpextra=\"\" filtertype=\"watermark\" filtercat=\"file\" severity=\"high\" policyid=5 sessionid=189656 epoch=2125573460 eventid=0 srcip={{TR_ASSET_IP}} srcport=57492 srcintf=\"port3\" srcintfrole=\"lan\" dstip=\"80.222.32.1\" dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" user=\"l.kolbad\" authserver=\"FSSO\" filetype=\"msofficex\" direction=\"outgoing\" action=\"log-only\" filename=\"Traduction.docx\" filesize=96090 profile=\"dlp_profile\" infectedfilename=\"docProps/custom.xml\" infectedfilesize=473 infectedfiletype=\"html\" infectedfilelevel=1"
+  },
+  {
+    "sleep": -1,
+    "name": "Data Leakage Detected",
+    "source": "FSMSIM-Data-Leak-Prevention",
+    "demo_message": "4) Data Leakage: A user sends a file that violates the company policy - a torrent file.\n  a) [Alerts View] User f.baddler sharing a torrent file over the internet.\n  b) [Playbooks Logs] Sharing torrents is against InfoSec policy.\n  c) [Playbooks Logs] Playbook walkthrough.\n  d) [Playbooks Logs > Email Step] Email sent to HR.",
+    "source_ip": "10.16.120.254",
+    "destination_ip": "",
+    "payload": "<189>date={{TR_DATE_NOW_ONLY}} time={{TR_TIME_NOW_ONLY}} devname=\"{{TR_FG_DEV_NAME}}\" devid=\"{{TR_FGT_SN}}\" logid=\"0954024577\" type=\"utm\" subtype=\"dlp\" eventtype=\"dlp\" level=\"notice\" vd=\"root\" eventtime=1591818293024005770 tz=\"{{TR_TIMEZONE}}\" filteridx=5 filtername=\"log_all_files\" dlpextra=\"All_files\" filtertype=\"file-type\" filtercat=\"file\" severity=\"medium\" policyid=5 sessionid=196625 epoch=749638349 eventid=0 srcip={{TR_ASSET_IP}} srcport=57498 srcintf=\"port3\" srcintfrole=\"lan\" dstip={{TR_MALICIOUS_IP}} dstport=21 dstintf=\"port2\" dstintfrole=\"dmz\" proto=6 service=\"FTP\" user=\"f.baddler\" authserver=\"FSSO\" filetype=\"torrent\" direction=\"outgoing\" action=\"log-only\" filename=\"Dark.Tower.torrent\" filesize=11903 profile=\"dlp_profile\""
+  }
+]
