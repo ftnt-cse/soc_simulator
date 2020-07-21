@@ -1,0 +1,569 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "00 - FSM-EH-Mapping",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "uuid": "1d78848f-fa26-44b4-8254-29d594d29eb3",
+      "recordTags": [],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSM-Mapper",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/1d78848f-fa26-44b4-8254-29d594d29eb3",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/31395014-9fdb-4c51-9e17-c5ca3ac78906",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "alerts",
+                "resources": [
+                  "alerts"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "source",
+                      "value": "%FortiSIEM%",
+                      "operator": "like",
+                      "_operator": "like"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "127",
+              "top": "9",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "31395014-9fdb-4c51-9e17-c5ca3ac78906"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "287",
+              "top": "100",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "aa79936b-2e44-47ea-bc69-967fab64e4c0"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Fields Mapping",
+              "description": null,
+              "arguments": {
+                "v_URL": "",
+                "v_Email": "",
+                "v_Domain": "",
+                "v_Metrics": "",
+                "v_Service": "",
+                "v_Ack_Date": "",
+                "v_Reporter": "{%if vars.source_data.incident_data.attributes.incidentRptDevName%}{{vars.source_data.incident_data.attributes.incidentRptDevName}}\n{% elif vars.source_data.incident_data.attributes.reptDevIpAddr %}\n{{vars.source_data.incident_data.attributes.reptDevIpAddr}}\n{%endif%}",
+                "v_Type_Map": "{\n'PH_RULE_Availability_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Domain Controller': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Environmental': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_HVAC': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Hardware': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_License': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Mail': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_UPS': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Video Conferencing': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_WAN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Windows': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_CHANGE_Audit': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_CHANGE_Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},\n'PH_RULE_CHANGE_UserAccount': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_Other_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_CPU': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_IPSLA': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Interface': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Mail': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Memory': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Suspicious': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Virtualization': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Airline': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Audit': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_SECURITY_Authentication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Behavioral': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_BotNet': {{\"AlertType\" | picklist(\"Malware\")}},\n'PH_RULE_SECURITY_COLLECTION': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_COMMAND': {{\"AlertType\" | picklist(\"Beaconing\")}},\n'PH_RULE_SECURITY_CRED': {{\"AlertType\" | picklist(\"Lost / Stolen\")}},\n'PH_RULE_SECURITY_DEFENSE': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_DISCOVERY': {{\"AlertType\" | picklist(\"Reconnaissance\")}},\n'PH_RULE_SECURITY_EXECUTION': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_EXFILTRATION': {{\"AlertType\" | picklist(\"Data Exfiltration\")}},\n'PH_RULE_SECURITY_IMPACT': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_INIT': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_LATERAL': {{\"AlertType\" | picklist(\"Lateral Movement\")}},\n'PH_RULE_SECURITY_Malware': {{\"AlertType\" | picklist(\"Malware\")}},\n'PH_RULE_SECURITY_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_PERSISTENCE': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Policy': {{\"AlertType\" | picklist(\"Policy Violation\")}},\n'PH_RULE_SECURITY_PRIV': {{\"AlertType\" | picklist(\"\")}},\n'PH_RULE_SECURITY_Suspicious': {{\"AlertType\" | picklist(\"Other / Unknown\")}}\n}",
+                "v_Username": "{{vars.source_data.incident_data.attributes.user}}",
+                "v_severity": "{% if vars.source_data.attributes.eventSeverityCat == \"LOW\" %}{{\"Severity\" | picklist(\"Low\", \"@id\")}}{% elif vars.source_data.attributes.eventSeverityCat == \"MEDIUM\" %}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{% elif vars.source_data.attributes.eventSeverityCat == \"HIGH\" %}{{\"Severity\" | picklist(\"High\", \"@id\")}}{%endif%}",
+                "v_File_Hash": "",
+                "v_File_Name": "{{vars.source_data.associated_events.0.attributes.fileName}}",
+                "v_File_Path": "",
+                "v_Source_ID": "{{vars.source_data.incident_data.nid}}",
+                "v_Source_IP": "{{vars.source_data.associated_events.0.attributes.srcIpAddr}}",
+                "v_eventName": "{{vars.source_data.associated_events.0.attributes.eventName}}",
+                "v_Device_UID": "",
+                "v_Email_Body": "",
+                "v_Email_From": "",
+                "v_Epoch_Time": "",
+                "v_Event_Time": "{{vars.source_data.incident_data.attributes.phRecvTime}}",
+                "v_File_Names": "",
+                "v_Process_ID": "",
+                "v_Description": "{{vars.source_data.incident_data.attributes.incidentTitle}}",
+                "v_Return_Path": "",
+                "v_Source_Port": "",
+                "v_Source_Tool": "",
+                "v_Source_Type": "{{vars.source_data.incident_data.attributes.eventType}}",
+                "v_incidentSrc": "",
+                "v_subcategory": "{{vars.source_data.incident_data.attributes.phSubIncidentCategory}}",
+                "v_Command_Line": "",
+                "v_Latest_Login": "",
+                "v_Process_GUID": "",
+                "v_Process_Name": "",
+                "v_Process_Tree": "",
+                "v_Registry_Key": "",
+                "v_Response_SLA": "",
+                "v_Target_Asset": "",
+                "v_dlp_dlpextra": "",
+                "v_Computer_Name": "{%if vars.incidentCategory =='Change/UserAccount'%}{{vars.origDevName}}{%endif%}",
+                "v_Email_Headers": "",
+                "v_Email_Subject": "",
+                "v_Sender_Domain": "",
+                "v_Destination_IP": "{{vars.source_data.associated_events.0.attributes.destIpAddr}}",
+                "v_Scheduled_Task": "",
+                "v_Source_Process": "",
+                "v_Target_Process": "",
+                "v_alert_severity": "{{vars.source_data.attributes.eventSeverityCat}}",
+                "v_dlp_filtername": "",
+                "v_dlp_filtertype": "",
+                "v_incidentTarget": "{%if vars.incidentTarget%}{{vars.incidentTarget | extract_artifacts}}{%endif%}",
+                "v_Attachment_Names": "",
+                "v_Destination_Port": "{{vars.source_data.associated_events.0.attributes.destIpPort}}",
+                "v_HR_Email_Address": "hr@fortielab.com",
+                "v_Bytes_Transferred": "",
+                "v_Escalation_Reason": "",
+                "v_FSR_Email_Address": "fsr@fortielab.com",
+                "v_Parent_Process_ID": "",
+                "v_Registry_Key_Value": "",
+                "v_Email_Recipients_To": "",
+                "v_Parent_Process_Name": "",
+                "v_Reporter_Email_Body": "",
+                "v_Decoded_Command_Line": "",
+                "v_Sender_Email_Address": "",
+                "v_Recipient_Email_Address": "",
+                "v_Parent_Process_Command_Line": ""
+              },
+              "status": null,
+              "left": "447",
+              "top": "189",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "3972b5dd-5db1-4b91-ab49-12b9975d63e4"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert Attributes",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Initialize Alert Fields</span></p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.input.records[0].name}}",
+                  "type": "{{vars.v_subcategory | resolveRange(vars.v_Type_Map)}}",
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "domain": "{%if vars.v_Domain%}{{vars.v_Domain}}{%endif%}",
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "reporter": "{{vars.v_Reporter}}",
+                  "severity": "{{vars.v_severity}}",
+                  "sourceId": "{{vars.v_Source_ID}}",
+                  "sourceIp": "{{vars.v_Source_IP}}",
+                  "userName": "{{vars.v_Username}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "recordTags": [
+                    "/api/3/tags/DLP"
+                  ],
+                  "sourceType": "{{vars.v_Source_Type}}",
+                  "sourcedata": "{{vars.source_data|toJSON}}",
+                  "description": "{{vars.v_Description}}\nIncident Category: {{vars.v_Source_Type}}\n{%if vars.v_Source_IP%}Source IP:{{vars.v_Source_IP}}{%endif%}\n{%if vars.v_Destination_IP%}Destination IP:&nbsp;{{vars.v_Destination_IP}}{%endif%}\n{%if vars.v_Reporter %} Reporting Device: {{vars.v_Reporter}}{%endif%}{%if vars.v_Username %} Username: {{vars.v_Username}}{%endif%}",
+                  "respDueDate": "{{globalVars.Tomorrow_Date}}",
+                  "assigneddate": "{{globalVars.Current_Data}}",
+                  "emailSubject": "None",
+                  "destinationIp": "{{vars.v_Destination_IP}}",
+                  "killChainPhase": {
+                    "id": 373,
+                    "@id": "/api/3/picklists/8dfaa4f1-cd5b-43dc-bc3f-8821261fcb69",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Actions on Objectives",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Actions on Objectives",
+                    "orderIndex": 7
+                  },
+                  "alertDetectionDate": "{{globalVars.Current_Date}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "620",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "a66f7efe-8fbb-47f9-a09a-be3751faf1e6"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "6a4bb204-7e75-492b-91c8-17270109248d",
+              "name": "Set Source Data -> Fields Mapping",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/3972b5dd-5db1-4b91-ab49-12b9975d63e4",
+              "sourceStep": "/api/3/workflow_steps/aa79936b-2e44-47ea-bc69-967fab64e4c0"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "cd207b71-989a-40ea-ac84-84ad880c9403",
+              "name": "Fields Mapping -> Update Alert Attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/a66f7efe-8fbb-47f9-a09a-be3751faf1e6",
+              "sourceStep": "/api/3/workflow_steps/3972b5dd-5db1-4b91-ab49-12b9975d63e4"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "09aba740-698f-4f1b-b185-1083eb69506e",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/aa79936b-2e44-47ea-bc69-967fab64e4c0",
+              "sourceStep": "/api/3/workflow_steps/31395014-9fdb-4c51-9e17-c5ca3ac78906"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1594638001,
+          "uuid": "28b750df-7726-4bc4-a6bc-d468914e79e5",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSM-Mapper-Manual",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/1d78848f-fa26-44b4-8254-29d594d29eb3",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/503edd4e-c138-45cd-af91-de145df36276",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Set Source Data",
+              "description": null,
+              "arguments": {
+                "source_data": "{{vars.input.records[0].sourcedata}}"
+              },
+              "status": null,
+              "left": "287",
+              "top": "100",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "ab4c73c4-5236-4899-828e-283c1b2be028"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert Attributes",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Initialize Alert Fields</span></p>",
+                  "records": ""
+                },
+                "resource": {
+                  "name": "{{vars.v_eventName}}-{{vars.v_Source_ID}}",
+                  "type": "{{vars.v_subcategory | resolveRange(vars.v_Type_Map)}}",
+                  "dueBy": "{{globalVars.Tomorrow_Date}}",
+                  "state": {
+                    "id": 220,
+                    "@id": "/api/3/picklists/a1bac09b-1441-45aa-ad1b-c88744e48e72",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "New",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "New",
+                    "orderIndex": 0
+                  },
+                  "domain": "{%if vars.v_Domain%}{{vars.v_Domain}}{%endif%}",
+                  "status": {
+                    "id": 118,
+                    "@id": "/api/3/picklists/7de816ff-7140-4ee5-bd05-93ce22002146",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Open",
+                    "listName": "/api/3/picklist_names/33e964a9-d607-49f2-813c-7ce46141815a",
+                    "itemValue": "Open",
+                    "orderIndex": 1
+                  },
+                  "reporter": "{{vars.v_Reporter}}",
+                  "severity": "{{vars.v_severity| resolveRange(vars.v_Severity_map)}}",
+                  "sourceId": "{{vars.v_Source_ID}}",
+                  "sourceIp": "{{vars.v_Source_IP}}",
+                  "userName": "{{vars.v_Username}}",
+                  "assignedTo": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce",
+                  "recordTags": [
+                    "/api/3/tags/DLP"
+                  ],
+                  "sourceType": "{{vars.v_Source_Type}}",
+                  "sourcedata": "{{vars.source_data|toJSON}}",
+                  "description": "{{vars.v_Description}}\nIncident Category: {{vars.v_Source_Type}}\n{%if vars.v_Source_IP%}Source IP:{{vars.v_Source_IP}}{%endif%}\n{%if vars.v_Destination_IP%}Destination IP:&nbsp;{{vars.v_Destination_IP}}{%endif%}\n{%if vars.v_Reporter %} Reporting Device: {{vars.v_Reporter}}{%endif%}{%if vars.v_Username %} Username: {{vars.v_Username}}{%endif%}",
+                  "respDueDate": "{{globalVars.Tomorrow_Date}}",
+                  "assigneddate": "{{globalVars.Current_Data}}",
+                  "emailSubject": "None",
+                  "destinationIp": "{{vars.v_Destination_IP}}",
+                  "killChainPhase": {
+                    "id": 373,
+                    "@id": "/api/3/picklists/8dfaa4f1-cd5b-43dc-bc3f-8821261fcb69",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Actions on Objectives",
+                    "listName": "/api/3/picklist_names/eddbc863-c725-479a-867f-cec66206a6b4",
+                    "itemValue": "Actions on Objectives",
+                    "orderIndex": 7
+                  },
+                  "alertDetectionDate": "{{globalVars.Current_Date}}"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Overwrite"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "629",
+              "top": "286",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "b29ce54d-a6ca-4036-b524-c8013ecc7528"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Fields Mapping",
+              "description": null,
+              "arguments": {
+                "v_URL": "",
+                "v_Email": "",
+                "v_Domain": "",
+                "v_Metrics": "",
+                "v_Service": "",
+                "v_Ack_Date": "",
+                "v_Reporter": "{%if vars.source_data.incident_data.attributes.incidentRptDevName%}{{vars.source_data.incident_data.attributes.incidentRptDevName}}\n{% elif vars.source_data.incident_data.attributes.reptDevIpAddr %}\n{{vars.source_data.incident_data.attributes.reptDevIpAddr}}\n{%endif%}",
+                "v_Type_Map": "{\n'PH_RULE_Availability_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Domain Controller': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Environmental': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_HVAC': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Hardware': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_License': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Mail': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Suspicious Activity': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_UPS': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Video Conferencing': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_WAN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_Availability_Windows': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_CHANGE_Audit': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_CHANGE_Policy Violation': {{\"AlertType\" | picklist(\"Policy Violation\")}},\n'PH_RULE_CHANGE_UserAccount': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_Other_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_CPU': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Database': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_FortiSIEM': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_IPSLA': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Interface': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Mail': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Memory': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_SDN': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Server': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Storage': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Suspicious': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_Virtualization': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_PERFORMANCE_VoIP': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Airline': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Application': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Audit': {{\"AlertType\" | picklist(\"Compliance\")}},\n'PH_RULE_SECURITY_Authentication': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Behavioral': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_BotNet': {{\"AlertType\" | picklist(\"Malware\")}},\n'PH_RULE_SECURITY_COLLECTION': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_COMMAND': {{\"AlertType\" | picklist(\"Beaconing\")}},\n'PH_RULE_SECURITY_CRED': {{\"AlertType\" | picklist(\"Lost / Stolen\")}},\n'PH_RULE_SECURITY_DEFENSE': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_DISCOVERY': {{\"AlertType\" | picklist(\"Reconnaissance\")}},\n'PH_RULE_SECURITY_EXECUTION': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_EXFILTRATION': {{\"AlertType\" | picklist(\"Data Exfiltration\")}},\n'PH_RULE_SECURITY_IMPACT': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_INIT': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_LATERAL': {{\"AlertType\" | picklist(\"Lateral Movement\")}},\n'PH_RULE_SECURITY_Malware': {{\"AlertType\" | picklist(\"Malware\")}},\n'PH_RULE_SECURITY_Network': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_PERSISTENCE': {{\"AlertType\" | picklist(\"Other / Unknown\")}},\n'PH_RULE_SECURITY_Policy': {{\"AlertType\" | picklist(\"Policy Violation\")}},\n'PH_RULE_SECURITY_PRIV': {{\"AlertType\" | picklist(\"\")}},\n'PH_RULE_SECURITY_Suspicious': {{\"AlertType\" | picklist(\"Other / Unknown\")}}\n}",
+                "v_Username": "{{vars.source_data.incident_data.attributes.user}}",
+                "v_severity": "{% if vars.source_data.incident_data.attributes.eventSeverityCat == \"LOW\" %}{{\"Severity\" | picklist(\"Low\", \"@id\")}}{% elif vars.source_data.incident_data.attributes.eventSeverityCat == \"MEDIUM\" %}{{\"Severity\" | picklist(\"Medium\", \"@id\")}}{% elif vars.source_data.incident_data.attributes.eventSeverityCat == \"HIGH\" %}{{\"Severity\" | picklist(\"High\", \"@id\")}}{%endif%}",
+                "v_File_Hash": "",
+                "v_File_Name": "{{vars.source_data.associated_events.0.attributes.fileName}}",
+                "v_File_Path": "",
+                "v_Source_ID": "{{vars.source_data.incident_data.nid}}",
+                "v_Source_IP": "{{vars.source_data.associated_events.0.attributes.srcIpAddr}}",
+                "v_eventName": "{{vars.source_data.associated_events.0.attributes.eventName}}",
+                "v_Device_UID": "",
+                "v_Email_Body": "",
+                "v_Email_From": "",
+                "v_Epoch_Time": "",
+                "v_Event_Time": "{{vars.source_data.incident_data.attributes.phRecvTime}}",
+                "v_File_Names": "",
+                "v_Process_ID": "",
+                "v_Description": "{{vars.source_data.incident_data.attributes.incidentTitle}}",
+                "v_Return_Path": "",
+                "v_Source_Port": "",
+                "v_Source_Tool": "",
+                "v_Source_Type": "{{vars.source_data.incident_data.attributes.eventType}}",
+                "v_incidentSrc": "",
+                "v_subcategory": "{{vars.source_data.incident_data.attributes.phSubIncidentCategory}}",
+                "v_Command_Line": "",
+                "v_Latest_Login": "",
+                "v_Process_GUID": "",
+                "v_Process_Name": "",
+                "v_Process_Tree": "",
+                "v_Registry_Key": "",
+                "v_Response_SLA": "",
+                "v_Target_Asset": "",
+                "v_dlp_dlpextra": "",
+                "v_Computer_Name": "{%if vars.incidentCategory =='Change/UserAccount'%}{{vars.origDevName}}{%endif%}",
+                "v_Email_Headers": "",
+                "v_Email_Subject": "",
+                "v_Sender_Domain": "",
+                "v_Destination_IP": "{{vars.source_data.associated_events.0.attributes.destIpAddr}}",
+                "v_Scheduled_Task": "",
+                "v_Source_Process": "",
+                "v_Target_Process": "",
+                "v_dlp_filtername": "",
+                "v_dlp_filtertype": "",
+                "v_incidentTarget": "{%if vars.incidentTarget%}{{vars.incidentTarget | extract_artifacts}}{%endif%}",
+                "v_Attachment_Names": "",
+                "v_Destination_Port": "{{vars.source_data.associated_events.0.attributes.destIpPort}}",
+                "v_HR_Email_Address": "hr@fortielab.com",
+                "v_Bytes_Transferred": "",
+                "v_Escalation_Reason": "",
+                "v_FSR_Email_Address": "fsr@fortielab.com",
+                "v_Parent_Process_ID": "",
+                "v_Registry_Key_Value": "",
+                "v_Email_Recipients_To": "",
+                "v_Parent_Process_Name": "",
+                "v_Reporter_Email_Body": "",
+                "v_Decoded_Command_Line": "",
+                "v_Sender_Email_Address": "",
+                "v_Recipient_Email_Address": "",
+                "v_Parent_Process_Command_Line": ""
+              },
+              "status": null,
+              "left": "447",
+              "top": "189",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "ff345756-23a1-40ec-b60a-5ca1dec771a2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "d3a16e8b-ac76-48ab-93b6-e009bd00cffd",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records}}"
+                  }
+                },
+                "displayConditions": {
+                  "alerts": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": [
+                      {
+                        "type": "primitive",
+                        "field": "source",
+                        "value": "%FortiSIEM%",
+                        "operator": "like",
+                        "_operator": "like"
+                      }
+                    ]
+                  },
+                  "assets": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": []
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": false,
+                "singleRecordExecution": true
+              },
+              "status": null,
+              "left": "127",
+              "top": "9",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "503edd4e-c138-45cd-af91-de145df36276"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "fb2e4fbc-d7fd-4679-bcca-85bba8efce16",
+              "name": "Set Source Data -> Fields Mapping",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ff345756-23a1-40ec-b60a-5ca1dec771a2",
+              "sourceStep": "/api/3/workflow_steps/ab4c73c4-5236-4899-828e-283c1b2be028"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c451214f-7081-49e1-af32-aab68105cc97",
+              "name": "Fields Mapping -> Update Alert Attributes",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b29ce54d-a6ca-4036-b524-c8013ecc7528",
+              "sourceStep": "/api/3/workflow_steps/ff345756-23a1-40ec-b60a-5ca1dec771a2"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "40834031-c734-43a5-ae52-f683838b09e7",
+              "name": "Start -> Set Source Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ab4c73c4-5236-4899-828e-283c1b2be028",
+              "sourceStep": "/api/3/workflow_steps/503edd4e-c138-45cd-af91-de145df36276"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1594636270,
+          "uuid": "eb001a3c-8e0b-4b74-b3e0-2a51d736e049",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "name": "Tomorrow_Date",
+      "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Data",
+      "value": "{{vars.input.records[0]}}",
+      "default_value": null
+    },
+    {
+      "name": "Current_Date",
+      "value": "{{arrow.utcnow().timestamp}}",
+      "default_value": null
+    }
+  ],
+  "exported_tags": []
+}
