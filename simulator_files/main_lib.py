@@ -142,3 +142,22 @@ def cook_fsm_events(scenario_json):
 		exit()
 
 	return json.loads(template_file)
+
+def resolve_tags(scenario_json):
+	''' Reads json scenario and replaces each tag with its equivalent function output'''
+	try:
+		template_file = json.dumps(scenario_json)
+		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
+		for tag in tag_list:
+			if ',' in tag and length(tag.split(",")) > 1:
+				args_list = tag.split(",")
+				tag = args_list[0]
+				function_args = args_list[1:]
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag](tuple(function_args)))) # use *args as functions input
+			else:
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
+	except:
+		print(bcolors.FAIL+"Couldn't process template,playbooks definition files: "+bcolors.ENDC)
+		exit()
+
+	return json.loads(template_file),json.loads(playbooks_definition)	

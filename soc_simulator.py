@@ -49,7 +49,7 @@ def main():
 				fsr_create_user(config['FORTISOAR_IP'],headers,user)
 
 
-		if getpass.getuser() == 'root':
+		if os.getuid() == 0:
 			print('running as root')
 			if 'fsm_events_dependencies' in scenario_data['info.json']:
 				for event in scenario_data['info.json']['fsm_events_dependencies']:
@@ -87,21 +87,20 @@ def main():
 				print(bcolors.INST+"Step Instructions: \n"+alert['data'][0]['demo_message']+bcolors.ENDC)
 
 	if 'fortisiem' in args.scenario_folder.lower():
-		eventCount = 1
 		for event in cook_fsm_events(scenario_data['scenario.json']):
-			print(bcolors.INST+event['demo_message']+bcolors.ENDC)
+			if 'demo_message' in event:
+				print(bcolors.INST+event['demo_message']+bcolors.ENDC)
 			if len(event['destination_ip']) < 7:
 				print(bcolors.OKGREEN+'Setting destination IP address to pre-configured FortiSIEM IP:'+bcolors.ENDC,bcolors.MSG+config['FORTISIEM_IP']+bcolors.ENDC)
 				event['destination_ip'] = config['FORTISIEM_IP']
-			print(bcolors.OKGREEN+'Sending event from'+bcolors.ENDC,bcolors.MSG+str(event['source_ip'])+bcolors.ENDC,bcolors.OKGREEN+'to:'+bcolors.ENDC,bcolors.MSG+str(event['destination_ip'])+bcolors.ENDC)
-			send_fsm_event(event)
-			if eventCount < len(cook_fsm_events(scenario_data['scenario.json'])):
-				if event['sleep'] > 0:
-					input(bcolors.MSG+"Sleeping for {} seconds".format(sleep)+bcolors.ENDC)
+
+			if 'sleep' in event:
+				if event['sleep'] >= 0:
 					time.sleep(event['sleep'])
 				else:
 					input(bcolors.MSG+"Press Enter key to continue"+bcolors.ENDC)
-			eventCount += 1
+			print(bcolors.OKGREEN+'Sending event from'+bcolors.ENDC,bcolors.MSG+str(event['source_ip'])+bcolors.ENDC,bcolors.OKGREEN+'to:'+bcolors.ENDC,bcolors.MSG+str(event['destination_ip'])+bcolors.ENDC)
+			send_fsm_event(event)
 
 if __name__ == '__main__':
 	main()
