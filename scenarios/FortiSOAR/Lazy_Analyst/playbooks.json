@@ -127,7 +127,20 @@
                   "sort": [],
                   "limit": 30,
                   "logic": "AND",
-                  "filters": []
+                  "filters": [
+                    {
+                      "type": "array",
+                      "field": "recordTags",
+                      "value": [
+                        "/api/3/tags/malware_investigation"
+                      ],
+                      "module": "recordTags",
+                      "display": null,
+                      "operator": "in",
+                      "OPERATOR_KEY": "$",
+                      "previousOperator": "in"
+                    }
+                  ]
                 }
               },
               "status": null,
@@ -276,7 +289,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1596469709,
+          "lastModifyDate": 1597839977,
           "uuid": "1847fc20-5b9a-4df6-8f35-fa1381a015ea",
           "recordTags": [
             "Assets"
@@ -671,6 +684,436 @@
           "versions": null,
           "lastModifyDate": 1596469768,
           "uuid": "6a77ab52-fd9b-4135-94f1-df107b758ce2",
+          "recordTags": [
+            "Incidents"
+          ],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "04 - Malware Investigation - Auto",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/4afec611-32a5-4368-a338-4c7336d4c670",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/07e56d3d-06b3-4cfd-be0e-ab9f3098a87a",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Incident Data",
+              "description": null,
+              "arguments": {
+                "assets_IPs": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).assets|json_query('[*].ip[]')|join(\",\")}}",
+                "indicators": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).indicators|json_query('[*].[\"value\"][]')}}",
+                "linked_alerts": "[]",
+                "related_users": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).alerts|json_query('[*].[\"userName\"][]')}}",
+                "related_alerts": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).alerts|json_query('[*].[\"name\"][]')}}",
+                "related_assets": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).assets|json_query('[*].[\"ip\"][]')}}",
+                "alerts_source_data": "[]",
+                "related_assets_IRIs": "{{ ((vars.input.records[0]['@id'] + \"?$relationships=true\") | fromIRI).assets|json_query('[*].[\"@id\"][]')}}"
+              },
+              "status": null,
+              "left": "420",
+              "top": "211",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "06765a23-808b-43a3-be19-48f73f0793f4"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Most Used Protocols",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet FortiSIEM",
+                "config": "8ea08a0e-458a-4d6f-be15-1dbe8feeef99",
+                "params": {
+                  "cond": "srcIpAddr IN({{vars.assets_IPs}})",
+                  "start": 0,
+                  "value": 10,
+                  "groupby": "",
+                  "orderby": "totBytes64",
+                  "perPage": 50,
+                  "AttrList": "appName,totBytes64",
+                  "rel_time": "Minutes",
+                  "time_selection": "Relative Time"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "- Run FortiSIEM Query: <span style=\"color:orange;font-weight:bold\">Get Most Used Protocols</span>",
+                  "records": ""
+                },
+                "version": "4.0.0",
+                "connector": "fortinet-fortisiem",
+                "operation": "run_report",
+                "operationTitle": "Run Advanced Search Query",
+                "step_variables": {
+                  "used_protocols": "{{vars.result.data.events}}"
+                }
+              },
+              "status": null,
+              "left": "600",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "fd97b2fc-f815-4df4-b8e6-5f346e75af77"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get All Dropped Files",
+              "description": null,
+              "arguments": {
+                "name": "Fortinet FortiSIEM",
+                "config": "8ea08a0e-458a-4d6f-be15-1dbe8feeef99",
+                "params": {
+                  "cond": "reptDevIpAddr IN ({{vars.assets_IPs}})  AND  eventType = \"Win-Sysmon-11-FileCreate\"",
+                  "start": 0,
+                  "value": 10,
+                  "groupby": "",
+                  "orderby": "reptDevIpAddr DESC",
+                  "perPage": 100,
+                  "AttrList": "reptDevIpAddr,fileName,hashCode,procName",
+                  "rel_time": "Minutes",
+                  "time_selection": "Relative Time"
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "- FortiSIEM Query: <span style=\"color:orange;font-weight:bold\">Get All Dropped Files</span>",
+                  "records": ""
+                },
+                "version": "4.0.0",
+                "connector": "fortinet-fortisiem",
+                "operation": "run_report",
+                "operationTitle": "Run Advanced Search Query",
+                "step_variables": {
+                  "dropped_files": "{{vars.result.data.events}}"
+                }
+              },
+              "status": null,
+              "left": "600",
+              "top": "413",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "6aa6b576-66f0-4f32-b860-6f7898a83b06"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Format Dropped Files Report",
+              "description": null,
+              "arguments": {
+                "when": "{{vars.dropped_files | length > 0}}",
+                "params": {
+                  "data": "{{vars.dropped_files}}",
+                  "display": "Horizontal",
+                  "styling": false,
+                  "template": "Stylized with row selection",
+                  "row_fields": ""
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">List of dropped files on infected machines:</span></p>\t\n{{vars.result.data}}",
+                  "records": ""
+                },
+                "version": "3.0.3",
+                "connector": "cyops_utilities",
+                "operation": "json_to_html",
+                "operationTitle": "Utils: Convert JSON into a HTML Table",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "600",
+              "top": "613",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "uuid": "eef93a89-4f6f-4428-81ed-662111e83201"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Format Results",
+              "description": null,
+              "arguments": {
+                "_tmp1": "{%for asset in vars.related_assets_IRIs%}{{vars.linked_alerts.append((asset+ \"?$relationships=true\")|fromIRI)}}{%endfor%}",
+                "dropped_files": "{{vars.dropped_files|json_query(\"[].attributes\")}}",
+                "used_protocols": "{{vars.used_protocols|json_query(\"[*].attributes\")}}"
+              },
+              "status": null,
+              "left": "800",
+              "top": "500",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "7dc3429f-e598-47ed-8417-92f08d43d3da"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Format Network Report",
+              "description": null,
+              "arguments": {
+                "when": "{{vars.used_protocols|length > 0}}",
+                "params": {
+                  "data": "{{vars.used_protocols}}",
+                  "display": "Horizontal",
+                  "styling": false,
+                  "template": "Stylized with row selection",
+                  "row_fields": ""
+                },
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Used Protocols between infected assets:</span></p>\t\n{{vars.result.data}}",
+                  "records": ""
+                },
+                "version": "3.0.3",
+                "connector": "cyops_utilities",
+                "operation": "json_to_html",
+                "operationTitle": "Utils: Convert JSON into a HTML Table",
+                "step_variables": []
+              },
+              "status": null,
+              "left": "990",
+              "top": "613",
+              "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+              "uuid": "bd7966f5-9a6d-4fe2-be6c-1908da0d1507"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Incident",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "- Update Incident Data with FortiSIEM Reports",
+                  "records": ""
+                },
+                "resource": {
+                  "phase": {
+                    "id": 187,
+                    "@id": "/api/3/picklists/bb7407e0-f699-11e7-8c3f-9a214cf093ae",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Containment",
+                    "listName": "/api/3/picklist_names/b862eb1f-b385-40ca-baa7-5a1b1f91a651",
+                    "itemValue": "Containment",
+                    "orderIndex": 3
+                  },
+                  "__link": {
+                    "mitreincidentlink": "{{(vars.alerts_source_data|json_query('[].mitrelink[].[\"@id\"]'))|flatten(levels=1)|unique}}"
+                  },
+                  "description": "<span style=\"background-color:yellow;color:black;font-weight:bold\">Related Alerts:</span>\n-{{vars.alerts_list|json_query(\"[*].name\")|join(\"\\n -\")}}\n\n\n<span style=\"background-color:yellow;color:black;font-weight:bold\">Related Assets:</span>\n-{{vars.related_assets|join(\"\\n-\")}}\n\n<span style=\"background-color:yellow;color:black;font-weight:bold\">Related Users:</span>\n{{vars.related_users|join(\", \")}}\n\n<span style=\"background-color:yellow;color:black;font-weight:bold\">Indicators:</span>\n<span style=\"color:red;font-weight:bold\">- {{vars.indicators|join(\"\\n-\")}}</span>\n\n<span style=\"background-color:yellow;color:black;font-weight:bold\">Suggested MITRE Remediations:</span>\n-{{((vars.alerts_source_data|json_query('[].mitrelink[]. mitigations'))|flatten(levels=1)|unique)|join(\"\\n-\")}}\n"
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/incidents",
+                "fieldOperation": {
+                  "recordTags": "Append"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "791",
+              "top": "989",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "fc95f4f1-e221-4407-a779-8725090baca6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Compute Results",
+              "description": null,
+              "arguments": {
+                "alerts_list": "{{vars.linked_alerts|json_query('[*].alerts[]') | flatten(levels=1)}}",
+                "alerts_list_IRIs": "{{vars.linked_alerts|json_query('[*].alerts[].[\"@id\"]')|flatten(levels=1)}}"
+              },
+              "status": null,
+              "left": "791",
+              "top": "760",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "15423588-0219-4baf-8837-c1e3b7e12a97"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Results Parser",
+              "description": null,
+              "arguments": {
+                "_tmp2": "{%for alert in vars.alerts_list_IRIs%}{{vars.alerts_source_data.append((alert+ \"?$relationships=true\")|fromIRI)}}{%endfor%}"
+              },
+              "status": null,
+              "left": "791",
+              "top": "873",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "90bd85bc-14b1-48a1-aeab-0fcaa685d3b8"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "resource": "incidents",
+                "resources": [
+                  "incidents"
+                ],
+                "step_variables": {
+                  "input": {
+                    "records": [
+                      "{{vars.input.records[0]}}"
+                    ]
+                  }
+                },
+                "fieldbasedtrigger": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "name",
+                      "value": "%alware%",
+                      "operator": "like",
+                      "_operator": "like"
+                    }
+                  ]
+                }
+              },
+              "status": null,
+              "left": "67",
+              "top": "27",
+              "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
+              "uuid": "07e56d3d-06b3-4cfd-be0e-ab9f3098a87a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Wait for Alerts to be Linked",
+              "description": null,
+              "arguments": {
+                "delay": {
+                  "days": 0,
+                  "hours": 0,
+                  "weeks": 0,
+                  "minutes": 0,
+                  "seconds": 15
+                }
+              },
+              "status": null,
+              "left": "247",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
+              "uuid": "e9606b3f-0365-4cdf-b8bf-405c4c471625"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "aafcd6de-3fac-419a-90ca-bc2c469e2095",
+              "name": "Get Incident Data -> Get Most Used Protocols",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fd97b2fc-f815-4df4-b8e6-5f346e75af77",
+              "sourceStep": "/api/3/workflow_steps/06765a23-808b-43a3-be19-48f73f0793f4"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "689ff70d-8ddb-435f-8aeb-6f9774e225f2",
+              "name": "Get Most Used Protocols -> Get All Dropped Files",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6aa6b576-66f0-4f32-b860-6f7898a83b06",
+              "sourceStep": "/api/3/workflow_steps/fd97b2fc-f815-4df4-b8e6-5f346e75af77"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c7eedf06-175b-4a78-b14f-3be7f4e40ee5",
+              "name": "Get All Dropped Files -> Format Results",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/7dc3429f-e598-47ed-8417-92f08d43d3da",
+              "sourceStep": "/api/3/workflow_steps/6aa6b576-66f0-4f32-b860-6f7898a83b06"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "8fb577ca-e12a-405e-bd38-1eeb6e68d682",
+              "name": "Format Results -> Compile results",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/eef93a89-4f6f-4428-81ed-662111e83201",
+              "sourceStep": "/api/3/workflow_steps/7dc3429f-e598-47ed-8417-92f08d43d3da"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "4eb178ce-b4cd-4796-b932-dc04a07c4ec2",
+              "name": "Format Results -> Format Network Report",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/bd7966f5-9a6d-4fe2-be6c-1908da0d1507",
+              "sourceStep": "/api/3/workflow_steps/7dc3429f-e598-47ed-8417-92f08d43d3da"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "16921ccd-d785-49e3-bf5e-ce7157af6839",
+              "name": "Format Dropped Files Report -> Compute Results",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/15423588-0219-4baf-8837-c1e3b7e12a97",
+              "sourceStep": "/api/3/workflow_steps/eef93a89-4f6f-4428-81ed-662111e83201"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "240ef45a-cd7f-40c4-a5fc-9239454d3c5f",
+              "name": "Format Network Report -> Compute Results",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/15423588-0219-4baf-8837-c1e3b7e12a97",
+              "sourceStep": "/api/3/workflow_steps/bd7966f5-9a6d-4fe2-be6c-1908da0d1507"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "70cd27de-9165-4048-a8bf-ac62a4aefa78",
+              "name": "Compute Results -> Results Parser",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/90bd85bc-14b1-48a1-aeab-0fcaa685d3b8",
+              "sourceStep": "/api/3/workflow_steps/15423588-0219-4baf-8837-c1e3b7e12a97"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "13aa5510-95aa-4c22-b981-7aef0efc86ca",
+              "name": "Results Parser -> Update Incident",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fc95f4f1-e221-4407-a779-8725090baca6",
+              "sourceStep": "/api/3/workflow_steps/90bd85bc-14b1-48a1-aeab-0fcaa685d3b8"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "d83f0d95-bb4f-4f6e-804d-241ba427b7a7",
+              "name": "Start -> Wait for Alerts to be Linked",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/e9606b3f-0365-4cdf-b8bf-405c4c471625",
+              "sourceStep": "/api/3/workflow_steps/07e56d3d-06b3-4cfd-be0e-ab9f3098a87a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "c44e10de-d218-4a10-8b5c-80e838353f64",
+              "name": "Wait for Alerts to be Linked -> Get Incident Data",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/06765a23-808b-43a3-be19-48f73f0793f4",
+              "sourceStep": "/api/3/workflow_steps/e9606b3f-0365-4cdf-b8bf-405c4c471625"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1596644471,
+          "uuid": "737c0d50-dc4d-41c5-b4fa-10efc06d8cca",
           "recordTags": [
             "Incidents"
           ],
@@ -2968,7 +3411,10 @@
                   "ip": "{{vars.v_Source_IP}}",
                   "users": "{%if vars.steps.Create_User['@id']%}{{vars.steps.Create_User['@id']}}{%endif%}",
                   "alerts": "{{vars.input.records[0]['@id']}}",
-                  "__replace": ""
+                  "__replace": "",
+                  "recordTags": [
+                    "/api/3/tags/malware_investigation"
+                  ]
                 },
                 "_showJson": false,
                 "operation": "Overwrite",
@@ -3096,7 +3542,10 @@
                 },
                 "resource": {
                   "__link": {
-                    "alerts": "{{vars.input.records[0]['@id']}}"
+                    "alerts": "{{vars.input.records[0]['@id']}}",
+                    "recordTags": [
+                      "/api/3/tags/malware_investigation"
+                    ]
                   }
                 },
                 "_showJson": false,
@@ -3574,7 +4023,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1596472390,
+          "lastModifyDate": 1597840298,
           "uuid": "cbb861db-5cc9-4e1c-8b8b-b622b8f702e2",
           "recordTags": [
             "Alerts"
@@ -4178,7 +4627,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1596560723,
+          "lastModifyDate": 1596642942,
           "uuid": "ed2e5d8f-3f7a-45f9-8334-a6aa2f944fd8",
           "recordTags": [
             "Incidents"
@@ -4331,7 +4780,20 @@
                   "sort": [],
                   "limit": 30,
                   "logic": "AND",
-                  "filters": []
+                  "filters": [
+                    {
+                      "type": "array",
+                      "field": "recordTags",
+                      "value": [
+                        "/api/3/tags/malware_investigation"
+                      ],
+                      "module": "recordTags",
+                      "display": null,
+                      "operator": "in",
+                      "OPERATOR_KEY": "$",
+                      "previousOperator": "in"
+                    }
+                  ]
                 }
               },
               "status": null,
@@ -4371,7 +4833,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1596469950,
+          "lastModifyDate": 1597840230,
           "uuid": "fecdc7bf-b5e4-47f8-b495-ebfdbc8583db",
           "recordTags": [
             "Assets"
