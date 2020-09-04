@@ -5,7 +5,7 @@
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
-import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time, sys, getpass, datetime, base64, hashlib
+import requests, argparse, textwrap, json, random, time, os, csv, re, errno, stat, time, sys, datetime, base64, hashlib
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -61,28 +61,28 @@ def get_username():
 	return random.choices(usernames)[0]
 
 def get_fgt_mgmt_ip():
-        p = open("config.json", 'r')
-        fg_mgmt_config = p.read()
-        fg_mgmt_config = json.loads(fg_mgmt_config)
-        p.close()
-        fg_mgmt_config = fg_mgmt_config['TR_FG_MGMT_IP']
-        return fg_mgmt_config
+		p = open("config.json", 'r')
+		fg_mgmt_config = p.read()
+		fg_mgmt_config = json.loads(fg_mgmt_config)
+		p.close()
+		fg_mgmt_config = fg_mgmt_config['TR_FG_MGMT_IP']
+		return fg_mgmt_config
 
 def get_fgt_dev_name():
-        p = open(config_file, 'r')
-        fg_hostname_config = p.read()
-        fg_hostname_config = json.loads(fg_hostname_config)
-        p.close()
-        fg_hostname_config = fg_hostname_config['TR_FG_DEV_NAME']
-        return fg_hostname_config
+		p = open(config_file, 'r')
+		fg_hostname_config = p.read()
+		fg_hostname_config = json.loads(fg_hostname_config)
+		p.close()
+		fg_hostname_config = fg_hostname_config['TR_FG_DEV_NAME']
+		return fg_hostname_config
 
 def get_fgt_sn():
-        p = open("config.json", 'r')
-        sn_config = p.read()
-        sn_config = json.loads(sn_config)
-        p.close()
-        sn_config = sn_config['FGT_SN']
-        return sn_config
+		p = open("config.json", 'r')
+		sn_config = p.read()
+		sn_config = json.loads(sn_config)
+		p.close()
+		sn_config = sn_config['FGT_SN']
+		return sn_config
 
 def get_asset_ip():
 	return "10.200.3."+str(random.randint(2, 24))
@@ -94,28 +94,32 @@ def get_time_past():
 	return int(time.time()) - random.randint(86400, 172800)
 
 def get_time_minus_one():
-	return int(time.time()) - random.randint(3400, 3800)
+	return int(time.time()) - random.randint(3300, 3900)
 
 def get_time_minus_two():
-	return int(time.time()) - random.randint(7200, 86400)
+	return int(time.time()) - random.randint(7100, 7700)
 
 def get_time_minus_tree():
-	return int(time.time()) - random.randint(10800, 11000)
+	return int(time.time()) - random.randint(10600, 11200)
 
 def get_time_minus_four():
-	return int(time.time()) - random.randint(14400, 14600)
+	return int(time.time()) - random.randint(14400, 14800)
 
 def get_time_minus_five():
-	return int(time.time()) - random.randint(18000, 18300)
+	return int(time.time()) - random.randint(18000, 18600)
 
 def get_time_minus_six():
-	return int(time.time()) - random.randint(21600, 21900)
+	return int(time.time()) - random.randint(21400, 22000)
 
 def get_date_now_only():
-        return time.strftime('%Y-%m-%d', time.localtime(time.time()))
+	return time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
 def get_time_now_only():
-        return time.strftime('%H:%M:%S', time.localtime(time.time()))
+	return time.strftime('%H:%M:%S', time.localtime(time.time()))
+
+def get_time_x_min_ago(minutes):
+	return int(time.time()) - random.randint(21600, 21900)
+
 
 def get_timezone():
 	p = open("config.json", 'r')
@@ -215,7 +219,7 @@ def get_malicious_ip(malicious_ip_file=malicious_ips):
 			for row in bad_ips_list:
 				lines+=row[2].split(':')[0]+'\n'
 			with open(malicious_ip_file, 'w+') as f:
-			 	f.write(lines)
+				f.write(lines)
 
 		except requests.ConnectionError:
 			print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
@@ -249,7 +253,7 @@ def get_malicious_domains(malicious_domains_file=malicious_domains):
 			for row in bad_ips_list:
 				lines+=row[0]+'\n'
 			with open(malicious_domains_file, 'w+') as f:
-			 	f.write(lines)
+				f.write(lines)
 
 		except requests.ConnectionError:
 			print(bcolors.FAIL+"Connection error"+bcolors.ENDC)

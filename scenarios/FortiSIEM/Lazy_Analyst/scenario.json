@@ -1,0 +1,98 @@
+[
+    {
+      "sleep": 0,
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-07-20T16:23:47Z WorkstationC 10.10.0.2 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"fortielab\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"+0200\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Jul 27 2020 16:23:46\" [deviceTime]=\"Jul 27 2020 16:23:46\" [msg]=\"File created:\nRuleName: -\nUtcTime: 2020-07-20 16:23:46.810\nProcessGuid: {000ed29b-f3c0-5f1e-a0d3-010000001200}\nProcessId: 13680\nImage: C:\\Program Files (x86)\\eM Client\\MailClient.exe\nTargetFilename: C:\\Users\\masha\\AppData\\Local\\Temp\\eM Client temporary files\\instructions.pdf\nCreationUtcTime: 2020-07-20 16:23:46.810\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-07-20T14:18:04Z WorkstationC 10.10.0.2 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Jul 27 2020 14:18:03\" [deviceTime]=\"Jul 27 2020 14:18:03\" [msg]=\"File created:\nRuleName: Downloads\nUtcTime: 2020-07-20 14:18:03.076\nProcessGuid: {163ed29b-e20a-5f1e-33d3-010000001200}\nProcessId: 20668\nImage: C:\\Program Files\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe\nTargetFilename: C:\\Windows\\system32\\svhots.exe\nCreationUtcTime: 2020-07-20 14:18:03.076\""
+    },    
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-07-28T01:36:38Z WorkstationA 10.20.0.23 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Jul 28 2020 01:36:37\" [deviceTime]=\"Jul 28 2020 01:36:37\" [msg]=\"File created:\nRuleName: -\nUtcTime: 2020-07-28 01:36:37.580\nProcessGuid: {163ed29b-915d-5eb4-0100-000000001200}\nProcessId: 4\nImage: System\nTargetFilename: C:\\Windows\\system32\\svhots.exe\nCreationUtcTime: 2020-07-28 01:36:37.579\""
+    }, 
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-07-28T01:36:38Z DHCPServerA 10.0.130.98 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Jul 28 2020 01:36:37\" [deviceTime]=\"Jul 28 2020 01:36:37\" [msg]=\"File created:\nRuleName: -\nUtcTime: 2020-07-28 01:36:37.580\nProcessGuid: {163ed29b-915d-5eb4-0100-000000001200}\nProcessId: 4\nImage: System\nTargetFilename: C:\\Windows\\system32\\svhots.exe\nCreationUtcTime: 2020-07-28 01:36:37.579\""
+    },    
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "<190>date=2020-07-23 time=07:10:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.10.0.2 dstip=10.20.0.23 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "<189>date=2020-07-23 time=07:11:00 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0000000013\" type=\"traffic\" subtype=\"forward\" level=\"notice\" vd=\"root\" eventtime=1595481061592196284 tz=\"+0200\" srcip=10.10.0.2 srcport=34532 srcintf=\"port3\" srcintfrole=\"lan\" dstip=10.20.0.23 dstport=445 dstintf=\"port2\" dstintfrole=\"dmz\" srccountry=\"Reserved\" dstcountry=\"Reserved\" sessionid=5974776 proto=6 action=\"pass\" policyid=5 policytype=\"policy\" poluuid=\"2b375acc-aa67-51ea-9e67-57aae273bde3\" policyname=\"LAN -> DMZ\" service=\"SMB\" trandisp=\"noop\" appid=44624 app=\"SMB.v3\" appcat=\"Network.Service\" apprisk=\"elevated\" applist=\"default\" appact=\"detected\" duration=1 sentbyte=351492 rcvdbyte=10366 sentpkt=252 rcvdpkt=252 wanin=838 wanout=882 lanin=882 lanout=882 utmaction=\"allow\" countapp=2 mastersrcmac=\"52:54:00:4e:6e:7c\" srcmac=\"52:54:00:4e:6e:7c\" srcserver=0"
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "<190>date=2020-07-23 time=07:20:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.20.0.23 dstip=10.0.130.98 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "<189>date=2020-07-23 time=07:21:00 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0000000013\" type=\"traffic\" subtype=\"forward\" level=\"notice\" vd=\"root\" eventtime=1595481061592196284 tz=\"+0200\" srcip=10.20.0.23 srcport=34532 srcintf=\"port3\" srcintfrole=\"lan\" dstip=10.0.130.98 dstport=445 dstintf=\"port2\" dstintfrole=\"dmz\" srccountry=\"Reserved\" dstcountry=\"Reserved\" sessionid=5974776 proto=6 action=\"pass\" policyid=5 policytype=\"policy\" poluuid=\"2b375acc-aa67-51ea-9e67-57aae273bde3\" policyname=\"LAN -> DMZ\" service=\"SMB\" trandisp=\"noop\" appid=44624 app=\"SMB.v3\" appcat=\"Network.Service\" apprisk=\"elevated\" applist=\"default\" appact=\"detected\" duration=1 sentbyte=351492 rcvdbyte=10366 sentpkt=252 rcvdpkt=252 wanin=838 wanout=882 lanin=882 lanout=882 utmaction=\"allow\" countapp=2 mastersrcmac=\"52:54:00:4e:6e:7c\" srcmac=\"52:54:00:4e:6e:7c\" srcserver=0"
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "Tue Mar 08 19:48:40 2020 WorkstationC 10.10.0.2 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"masha\" [domain]=\"fortielab.com\" [eventTime]=\"Mar 08 2020 19:48:34\" [fileName]=\"C:\\Documents and Settings\\All Users\\Application Data\\svhosts.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "Tue Mar 08 19:48:40 2016 WorkstationC 10.10.0.2 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"masha\" [domain]=\"fortielab.com\" [eventTime]=\"Mar 08 2020 19:48:34\" [fileName]=\"C:\\Users\\Masha\\Downloads\\instructions.pdf\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ff565a\" [msg]=\"\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "Tue Mar 08 19:48:40 2016 WorkstationC 10.10.0.2 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"dricardo\" [domain]=\"fortielab.com\" [eventTime]=\"Mar 08 2020 19:48:34\" [fileName]=\"C:\\Documents and Settings\\All Users\\Application Data\\svhosts.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451346ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "Tue Mar 08 19:48:40 2016 WorkstationC 10.10.0.2 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"dricardo\" [domain]=\"fortielab.com\" [eventTime]=\"Mar 08 2020 19:48:34\" [fileName]=\"C:\\windwos\\system32\\drivers\\etc\\hosts\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3412e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "Tue Mar 08 19:48:40 2016 WorkstationC 10.10.0.2 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"asmith\" [domain]=\"fortielab.com\" [eventTime]=\"Mar 08 2020 19:48:34\" [fileName]=\"C:\\Documents and Settings\\All Users\\Application Data\\svhosts.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3421e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-08-04T23:24:11Z WorkstationC 10.10.0.2 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Aug 04 2020 23:24:10\" [deviceTime]=\"Aug 04 2020 23:24:10\" [msg]=\"File created:\nRuleName: EXE\nUtcTime: 2020-08-04 23:24:10.949\nProcessGuid: {163ed29b-3a2f-5ec6-4e52-000000001200}\nProcessId: 17532\nImage: C:\\Windows\\system32\\svchost.exe\nTargetFilename: C:\\Windows\\SoftwareDistribution\\Download\\Install\\AM_Delta_Patch_1.321.509.0.exe\nCreationUtcTime: 2020-08-04 23:24:10.949\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-08-04T22:45:41Z WorkstationA 10.20.0.23 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Aug 04 2020 22:45:40\" [deviceTime]=\"Aug 04 2020 22:45:40\" [msg]=\"File created:\nRuleName: T1053\nUtcTime: 2020-08-04 22:45:40.698\nProcessGuid: {163ed29b-9163-5eb4-2600-000000001200}\nProcessId: 1572\nImage: C:\\Windows\\system32\\svchost.exe\nTargetFilename: C:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\UpdateOrchestrator\\AC Power Download\nCreationUtcTime: 2020-08-04 22:45:40.698\""
+    },
+    {
+      "sleep": 0,      
+      "source_ip": "10.10.11.204",
+      "destination_ip": "10.222.248.71",
+      "payload": "2020-08-04T23:24:14Z DHCPServerA 10.0.130.98 AccelOps-WUA-WinLog-Microsoft-Windows-Sysmon/Operational [phCustId]=\"2000\" [customer]=\"hulu\" [monitorStatus]=\"Success\" [Locale]=\"en-US\" [MachineGuid]=\"163ed29b-96e0-44fc-ae2c-cfcf66128bb6\" [timeZone]=\"-0800\" [eventName]=\"Microsoft-Windows-Sysmon/Operational\" [eventSource]=\"Microsoft-Windows-Sysmon\" [eventId]=\"11\" [eventType]=\"Information\" [domain]=\"NT AUTHORITY\" [computer]=\"Exch19.fortielab.com\" [user]=\"SYSTEM\" [userSID]=\"S-1-5-18\" [userSIDAcctType]=\"User\" [eventTime]=\"Aug 04 2020 23:24:13\" [deviceTime]=\"Aug 04 2020 23:24:13\" [msg]=\"File created:\nRuleName: DLL\nUtcTime: 2020-08-04 23:24:13.253\nProcessGuid: {163ed29b-6a38-5efe-0e42-010000001200}\nProcessId: 15792\nImage: C:\\ProgramData\\Microsoft\\Windows Defender\\platform\\4.18.2006.10-0\\MsMpEng.exe\nTargetFilename: C:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\{32E7CC0F-3541-4F5C-8763-70EE4688F6F6}\\mpengine.dll\nCreationUtcTime: 2020-08-04 23:24:13.253\""
+    }              
+  ]
