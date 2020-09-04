@@ -1,0 +1,74 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "00 - SIM Malicious Insider",
+      "description": null,
+      "visible": true,
+      "image": null,
+      "uuid": "e9974520-fbe2-4464-bb31-5eed804a5441",
+      "recordTags": [],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "FSMSIM-Malicious_Insider",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/e9974520-fbe2-4464-bb31-5eed804a5441",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/7c23ddb3-a1a1-4374-85f6-f0853b47136f",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "b1e73032-0e5d-45da-a4a3-f23a2d41a176",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records}}"
+                  }
+                },
+                "displayConditions": {
+                  "alerts": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": []
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": false,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "left": "40",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "7c23ddb3-a1a1-4374-85f6-f0853b47136f"
+            }
+          ],
+          "routes": [],
+          "versions": [],
+          "lastModifyDate": 1599224110,
+          "uuid": "79e5f367-0258-44bb-bb0b-82daefa5850f",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        }
+      ]
+    }
+  ],
+  "exported_tags": []
+}
