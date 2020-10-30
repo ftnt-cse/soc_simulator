@@ -307,10 +307,10 @@ def cook_alert(server,headers,scenario_json,playbooks_definition):
 			if ',' in tag:
 				function = tag.split(',')[0]
 				params = tag.split(',')[1:]
-				logger.info('tag {0} replaced with {1}'.format(tag,str(function_dictionary[function](params))))
+				logger.debug('tag {0} replaced with {1}'.format(tag,str(function_dictionary[function](params))))
 				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[function](params)))
 			else:
-				logger.info('tag {0} replaced with {1}'.format(tag,str(function_dictionary[tag]())))
+				logger.debug('tag {0} replaced with {1}'.format(tag,str(function_dictionary[tag]())))
 				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 		# Check sourcedata format, fix it if needed
 		fortisoar_sourcedata=lookup_source_data(server,headers)
