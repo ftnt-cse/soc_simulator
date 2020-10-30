@@ -13,22 +13,23 @@ def fsr_login(server,username,password):
 			'password': password
 		}
 	}
+
 	try:
 		response = requests.post(
 			url='https://'+server+'/auth/authenticate', json=body,
 			verify=False
 		)
 		if response.status_code != 200:
-			print(bcolors.FAIL+'Authentication error'+bcolors.ENDC)
+			logger.error('{0}Authentication error{1}'.format(bcolors.FAIL,bcolors.ENDC))
 			exit()
 		json_response = response.json()
 		token = json_response['token']
 		headers = {"Authorization": "Bearer " + token}
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error('{0}Connection error{1}'.format(bcolors.FAIL,bcolors.ENDC))
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error('{0}Connection timeout{1}'.format(bcolors.FAIL,bcolors.ENDC))		
 		exit()
 	else:
 		return headers
@@ -39,52 +40,35 @@ def lookup_tenant_iri(server,headers,tenant_name):
 			headers=headers,verify=False)
 
 		if response.status_code != 200:
-			print(bcolors.FAIL+'Error retrieving tenants IRI:'+response.text+bcolors.ENDC)
+			logger.error('{0}Error retrieving tenants IRI:{1}{2}'.format(bcolors.FAIL,response.text,bcolors.ENDC))
 			exit()
 		tenants=response.json()
 		for tenant in tenants['hydra:member']:
 			if tenant_name in tenant['name']:
 				return tenant
 		else:
-			print(bcolors.FAIL+"Tenant not found"+bcolors.ENDC)
+			logger.error('{0}Tenant not found{1}'.format(bcolors.FAIL,bcolors.ENDC))
 			exit()
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error('{0}Connection error{1}'.format(bcolors.FAIL,bcolors.ENDC))
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error('{0}Connection timeout{1}'.format(bcolors.FAIL,bcolors.ENDC))	
 		exit()
 
-#TODO: Implement depemdencies check with /api/integration/configuration/
-# def check_prerequisites(server,headers,connectors_dependencies): # check whether the initial config is done to run the playbooks properly
-# 	response = requests.get(url='https://'+server+'/api/integration/configuration/',
-# 	headers=headers,verify=False)
-
-# 	if response.status_code != 200 or len(response.json()["data"]) < 1:
-# 		print(bcolors.FAIL+'Error Getting Connectors List '+response.text+bcolors.ENDC)
-# 		exit()	
-# 	for required_connector in connectors_dependencies:
-# 		if not any(required_connector.lower() in connector['name'].lower() for connector in response.json()["data"]):
-# 			print(bcolors.FAIL+'Connector: '+required_connector+' is not Installed, Install it and try again'+bcolors.ENDC)
-# 			exit()
-
-# 	for required_connector in connectors_dependencies:
-# 		for connector in response.json()["data"]:
-			
 
 def check_connectors_prerequisites(server,headers,connectors_dependencies): # check whether the initial config is done to run the playbooks properly
 	try:
-		response = requests.get(url='https://'+server+'/api/integration/connectors/?configured=true&ordering=label&page_size=250format=json',
-			headers=headers,verify=False)
+		response = requests.get(url='https://'+server+'/api/integration/connectors/?ordering=label&page_size=100&format=json', #search=Connector_name
+			headers=headers,verify=False)      
 
 		if response.status_code != 200 or len(response.json()["data"]) < 1:
-			print(bcolors.FAIL+'Error Getting Connectors List '+response.text+bcolors.ENDC)
+			logger.error('{0}Error Getting Connectors List: {1}{2}'.format(bcolors.FAIL,response.text,bcolors.ENDC))
 			exit()
-		#print(json.dumps(response.json(), indent=4, sort_keys=True))
 
 		for required_connector in connectors_dependencies:
 			if not any(connector['name'] == required_connector for connector in response.json()["data"]):
-				print(bcolors.FAIL+'Connector: '+required_connector+' is not Installed, Install it and try again'+bcolors.ENDC)
+				logger.error('{0}Connector: {1} is not Installed, Install it and try again{2}'.format(bcolors.FAIL,required_connector,bcolors.ENDC))
 				exit()
 	
 
@@ -92,7 +76,7 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies): # ch
 			for connector in response.json()["data"]:
 				if required_connector == connector["name"]:
 					if connector["config_count"] < 1:
-						print(bcolors.FAIL+'Connector: '+required_connector+' is not Configured, Configure it and try again'+bcolors.ENDC)
+						logger.error(bcolors.FAIL+'Connector: '+required_connector+' is not Configured, Configure it and try again'+bcolors.ENDC)
 						exit()						
 		 			# get connector default config:
 					config_response = requests.get(url='https://'+server+'/api/integration/connectors/'+connector["name"]+'/'+connector["version"]+'/?format=json',
@@ -104,22 +88,23 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies): # ch
 								'/?config='+config['config_id'],headers=headers,verify=False)
 
 							if connector['active'] and status_response.json()['status'] == 'Available':
-								print(bcolors.MSG+"Connector: "+connector["name"]+" is properly configured"+bcolors.ENDC)
+								logger.info(bcolors.MSG+"Connector: "+connector["name"]+" is properly configured"+bcolors.ENDC)
 							else:
-								print(bcolors.FAIL+'Missing Prerequisites: Connector '+connector["name"]+' is not properly configured and/or Available'+bcolors.ENDC)
+								logger.error(bcolors.FAIL+'Missing Prerequisites: Connector '+connector["name"]+' is not properly configured and/or Available'+bcolors.ENDC)
 								exit()
 
 							break
 					else:
-						print(bcolors.FAIL+'Connector '+connector["name"]+' has no default configuration, configure it and try again'+bcolors.ENDC)
+						logger.error(bcolors.FAIL+'Connector '+connector["name"]+' has no default configuration, configure it and try again'+bcolors.ENDC)
 						exit()
 			
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection error"+bcolors.ENDC)
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
+
 
 def lookup_source_data(server,headers):
 	try:
@@ -127,7 +112,7 @@ def lookup_source_data(server,headers):
 			headers=headers,verify=False)
 
 		if response.status_code != 200 or len(response.json()["hydra:member"]) < 1:
-			print(bcolors.FAIL+'Error retrieving model_metadatas:'+response.text+bcolors.ENDC)
+			logger.error(bcolors.FAIL+'Error retrieving model_metadatas:'+response.text+bcolors.ENDC)
 			exit()
 
 		model_metadatas=response.json()["hydra:member"]
@@ -140,7 +125,7 @@ def lookup_source_data(server,headers):
 			headers=headers,verify=False)
 
 		if response.status_code != 200:
-			print(bcolors.FAIL+'Error retrieving attribute_model_metadata_id:'+response.text+bcolors.ENDC)
+			logger.error(bcolors.FAIL+'Error retrieving attribute_model_metadata_id:'+response.text+bcolors.ENDC)
 			exit()
 		
 		model_attributes=response.json()["attributes"]
@@ -151,10 +136,10 @@ def lookup_source_data(server,headers):
 
 
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection error"+bcolors.ENDC)
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
 
 
@@ -188,21 +173,21 @@ def upload_playbooks(server,headers,playbooks_definition):
 			headers=headers,verify=False)
 
 		if len(response.json()["hydra:member"]) == 0:
-			print(bcolors.MSG+"Uploading Scenario Playbook Collection to FortiSOAR"+bcolors.ENDC)
+			logger.info(bcolors.MSG+"Uploading Scenario Playbook Collection to FortiSOAR"+bcolors.ENDC)
 			response = requests.post(url='https://'+server+'/api/3/bulkupsert/workflow_collections',
 			headers=headers,json=upload_playbook_json,verify=False)
 			if response.status_code != 200:
-				print(bcolors.FAIL+"Could not Upload Playbook Collection: "+response.text+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+				logger.error(bcolors.FAIL+"Could not Upload Playbook Collection: "+response.text+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
 				exit()
 			else:
-				print(bcolors.MSG+"Playbook Collection Uploaded Successfully"+bcolors.ENDC)
+				logger.info(bcolors.MSG+"Playbook Collection Uploaded Successfully"+bcolors.ENDC)
 
 
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection error"+bcolors.ENDC)
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
 
 def fsr_create_user(server,headers,username):
@@ -257,24 +242,24 @@ def fsr_create_user(server,headers,username):
 				headers=headers,json=delete_user_json,verify=False)
 
 			if response.status_code != 200:
-				print(bcolors.FAIL+"Could not delete: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+				logger.error(bcolors.FAIL+"Could not delete: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
 				exit()
 
 		response = requests.post(url='https://'+server+'/api/3/users',
 			headers=headers,json=create_user_json,verify=False)
 
 		if response.status_code != 201:
-			print(bcolors.FAIL+"Could not create user: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Could not create user: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
 			exit()
 
 		else:
-			print(bcolors.MSG+"User: "+username+' created'+bcolors.ENDC)
+			logger.info(bcolors.MSG+"User: "+username+' created'+bcolors.ENDC)
 
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection error"+bcolors.ENDC)
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
 
 def fsr_send_alert(server,headers,body,single_step=False,tenant=None):
@@ -287,7 +272,7 @@ def fsr_send_alert(server,headers,body,single_step=False,tenant=None):
 			sleep=body['data'][0]['sleep']
 			if sleep:
 				if sleep >= 0:
-					print(bcolors.MSG+"Sleeping for {} seconds".format(sleep)+bcolors.ENDC)
+					logger.info(bcolors.MSG+"Sleeping for {} seconds".format(sleep)+bcolors.ENDC)
 					time.sleep(sleep)
 				else:
 					input(bcolors.MSG+"Type any key to continue"+bcolors.ENDC)
@@ -296,21 +281,21 @@ def fsr_send_alert(server,headers,body,single_step=False,tenant=None):
 			headers=headers,json=body,verify=False)
 
 		if response.status_code != 200:
-			print(bcolors.FAIL+'Error Updating :'+response.text+bcolors.ENDC)
+			logger.error(bcolors.FAIL+'Error Updating :'+response.text+bcolors.ENDC)
 			exit()
 		else:
-			print(bcolors.OKGREEN+'Alert Sent'+bcolors.ENDC)
+			logger.info(bcolors.OKGREEN+'Alert Sent'+bcolors.ENDC)
 
 	except requests.ConnectionError:
-		print(bcolors.FAIL+"Connection error"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection error"+bcolors.ENDC)
 		exit()
 	except requests.ConnectTimeout:
-		print(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Connection timeout"+bcolors.ENDC)
 		exit()
 	else:
 		return response.json()
 
-def cook_alert(server,headers,scenario_json,malware_hashes_file,malicious_urls_file,malicious_ip_file,malicious_domains_file,playbooks_definition):
+def cook_alert(server,headers,scenario_json,playbooks_definition):
 	try:
 
 		template_file = json.dumps(scenario_json)
@@ -318,14 +303,21 @@ def cook_alert(server,headers,scenario_json,malware_hashes_file,malicious_urls_f
 
 		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
 		for tag in tag_list:
-			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
-
+			logger.debug('{0}Processing tag: {1} {2}'.format(bcolors.OKGREEN,tag,bcolors.ENDC))
+			if ',' in tag:
+				function = tag.split(',')[0]
+				params = tag.split(',')[1:]
+				logger.info('tag {0} replaced with {1}'.format(tag,str(function_dictionary[function](params))))
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[function](params)))
+			else:
+				logger.info('tag {0} replaced with {1}'.format(tag,str(function_dictionary[tag]())))
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 		# Check sourcedata format, fix it if needed
 		fortisoar_sourcedata=lookup_source_data(server,headers)
 		try:
 			template_sourcedata = re.search('\"(source[dD]ata)\"', template_file).group(1)
 		except AttributeError:
-			print(bcolors.FAIL+"Cannot determine sourcedata format from template"+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Cannot determine sourcedata format from template"+bcolors.ENDC)
 			exit()
 
 		if template_sourcedata != fortisoar_sourcedata:
@@ -334,8 +326,8 @@ def cook_alert(server,headers,scenario_json,malware_hashes_file,malicious_urls_f
 
 
 
-	except:
-		print(bcolors.FAIL+"Couldn't process template,playbooks definition files: "+bcolors.ENDC)
-		exit()
+	except Exception as e:
+		logger.error("{0}Couldn't process template,playbooks definition files: {1}{2}".format(bcolors.FAIL,e,bcolors.ENDC))
+		sys.exit()
 
 	return json.loads(template_file),json.loads(playbooks_definition)

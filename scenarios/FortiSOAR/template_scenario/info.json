@@ -1,0 +1,17 @@
+{
+  "publisher": "PUBLISHER_NAME",
+  "name": "SCENARIO_NAME",
+  "product": "PROUCT_NAME(FSOAR,FSM)",
+  "category": "soc_analyst",
+  "connectors_dependencies": ["LIST","OF","CONNECTORS"],
+  "fsm_events_dependencies": [
+    {
+      "source_ip": "SRC_IP",
+      "destination_ip": "FSM_IP/OTHER SIEM IP",
+      "payload": "RAW_SYSLOG"
+    }
+  ],
+  "version": "1.0.0",
+  "description": "SCENARIO_DESCRIPTION",
+  "infographic": "LINK OT INFOGRAPHIC"
+}

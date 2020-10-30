@@ -12,7 +12,7 @@ def send_event(source_ip,destination_ip,payload):
 		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload
 		send(spoofed_packet)
 	except:
-		print ('Sending Event Failed', sys.exc_info()[0])
+		logger.error('Sending Event Failed', sys.exc_info()[0])
 
 def unprivileged_send_fsm_event(event,sudo_password):
 	"""To be used when the tool is runs as an unprivileged user"""
@@ -23,7 +23,7 @@ def unprivileged_send_fsm_event(event,sudo_password):
 		exit_status = os.system('echo %s|sudo -S %s' % (sudo_password, command))
 		time.sleep(2)
 		if exit_status != 0:
-			print(bcolors.FAIL+"Couldn't start socsim_daemon, exit status: "+exit_status+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Couldn't start socsim_daemon, exit status: "+exit_status+bcolors.ENDC)
 			exit()
 
 	# ship the event to socsim_daemon over SOCSIM_FIFO pipe
@@ -44,7 +44,7 @@ def send_fsm_event(event):
 			return source_ip,destination_ip,' not a valid IP address'
 		send_event(source_ip,destination_ip,payload)
 	except:
-		print(bcolors.FAIL+"Couldn't send event: ",source_ip,destination_ip,payload,bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Couldn't send event: ",source_ip,destination_ip,payload,bcolors.ENDC)
 		exit()
 
 
@@ -56,7 +56,7 @@ def cook_fsm_events(scenario_json):
 			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 
 	except:
-		print(bcolors.FAIL+"Couldn't process FortiSIEM template file"+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Couldn't parse template file: "+bcolors.ENDC)
 		exit()
 
 	return json.loads(template_file)

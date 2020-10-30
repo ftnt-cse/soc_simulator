@@ -1,0 +1,76 @@
+{
+  "list_assets": [
+    {
+      "low": 3,
+      "high": 16,
+      "info": 331,
+      "score": 157361,
+      "medium": 10,
+      "host-ip": "10.222.248.67",
+      "host_id": 2,
+      "critical": 14,
+      "host_end": "Wed Oct 14 07:59:54 2020",
+      "hostname": "10.222.248.67",
+      "progress": "100-100/121296-121296",
+      "severity": 374,
+      "host_index": 0,
+      "host_start": "Wed Oct 14 06:55:23 2020",
+      "mac-address": "52:54:00:FA:14:C4",
+      "offline_low": 0,
+      "netbios-name": "EXCH19",
+      "offline_high": 0,
+      "offline_info": 0,
+      "severitycount": {
+        "item": [
+          {
+            "count": 331,
+            "severitylevel": 0
+          },
+          {
+            "count": 3,
+            "severitylevel": 1
+          },
+          {
+            "count": 10,
+            "severitylevel": 2
+          },
+          {
+            "count": 16,
+            "severitylevel": 3
+          },
+          {
+            "count": 14,
+            "severitylevel": 4
+          },
+          {
+            "count": 0,
+            "severitylevel": 5
+          },
+          {
+            "count": 0,
+            "severitylevel": 6
+          },
+          {
+            "count": 0,
+            "severitylevel": 7
+          },
+          {
+            "count": 0,
+            "severitylevel": 8
+          },
+          {
+            "count": 0,
+            "severitylevel": 9
+          }
+        ]
+      },
+      "offline_medium": 0,
+      "offline_critical": 0,
+      "operating-system": "Microsoft Windows Server 2019 Standard Evaluation",
+      "scanprogresstotal": 100,
+      "numchecksconsidered": 121296,
+      "scanprogresscurrent": 100,
+      "totalchecksconsidered": 121296
+    }
+  ]
+}

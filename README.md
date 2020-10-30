@@ -30,12 +30,11 @@ The Environment requires a FortiGate to be used as a response enforcement point.
 usage: ProgramName [-h] -f SCENARIO_FOLDER [-j STEP] [-t TENANT]
 
 optional arguments:
-  -h, --help            		show this help message and exit
-  -f SCENARIO_FOLDER, 			--scenario-folder SCENARIO_FOLDER
-                        		Scenario folder exp:
-                        		./scenarios/FortiSOAR/Comprmised_Web_Server/
-  -j STEP, --step STEP  		Run a specific step of the scenario and exit
-  -t TENANT, --tenant TENANT 	Tenant IRI
+  -h, --help            					: Shows this help message and exit
+  -f SCENARIO_FOLDER, 	--scenario-folder 	: SCENARIO_FOLDER Scenario folder exp: ./scenarios/FortiSOAR/Comprmised_Web_Server/
+  -j STEP, 				--step STEP 		: Run a specific step of the scenario and exit
+  -t TENANT, 			--tenant TENANT 	: Tenant IRI
+  -c CONFIG, 			--config CONFIG 	: Configuration file to use, by default config.json 
 
 SOC Simulator: use config.json to configure FortiSIEM and FortiSOAR IPs and credentials depending on your environment
 ```
@@ -44,20 +43,20 @@ All parameters except: tenant, step and Scenario_folder are stored in a config.j
 Example:
 ```json
 {
-	"FORTISOAR_IP":"10.20.20.1",
+	"FORTISOAR_IP":"10.2.24.52",
 	"fortisoar_username":"csadmin",
 	"fortisoar_password":"changeme",
-	"FORTISIEM_IP":"10.20.20.18",
+	"FORTISIEM_IP":"10.2.24.20",
 	"fortisiem_username":"admin",
 	"fortisiem_password":"admin*1",
 	"sudo_password":"",
-	"random":"yes",
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
 	"TR_CUSTOMER_LAN":"10.200.3.0/24",
+	"TR_FGT_SN": "FGXXXXXXXXXXXXXX",
 	"GUI_mode": "local",
-	"GUI_sshHost": "10.20.20.11",
+	"GUI_sshHost": "10.22.24.52",
 	"GUI_sshPort": "20200",
 	"GUI_sshUser": "admin",
 	"GUI_sshPass": "admin*1"
@@ -215,13 +214,14 @@ The list of available dynamic values (Variables):
 
 |"VARIABLE"|function name|use case|
 |:----------|:-------------|:-------------|
+|"TR_X_MIN_AGO"|get_time_x_min_ago| returns a timestamp of X minutes ago, minutes parameter is added as a CSV, example: to set time to 40 min ago, use the syntax: {{TR_X_MIN_AGO,40}}|
 |"TR_FORMATTED_CURRENT_TIME"|get_formatted_current_time|returns the current time formatted as in: Sun, 14 Jan 2020 19:46:35|
 |"TR_FG_MGMT_IP"|get_fg_mgmt_ip|get fortigate mgmt IP (according to the topology file)|
 |"TR_FG_DEV_NAME"|get_fg_dev_name|get fortigate device name (according to the topology file)|
-|"TR_ASSET_IP"|get_asset_ip| get a random local IP|
+|"TR_ASSET_IP"|get_asset_ip| get a random local IP from the prefix: 10.200.3.2-25, to specify another range (30 to 99 for example) use the syntax: {{TR_ASSET_IP,30,99}}|
 |"TR_MALICIOUS_IP"|get_malicious_ip| get a malicious IP from CTI|
 |"TR_NOW"|get_time_now|get current timestamp|
-|"TR_RANDOM_INTEGER"|get_random_integer|get random number between 55555 and 99999|
+|"TR_RANDOM_INTEGER"|get_random_integer|get random number between 55555 and 99999 if used without parameters, to specify the range from 1 to 100 use the syntax: {{TR_RANDOM_INTEGER,1,100}}|
 |"TR_MALICIOUS_DOMAIN"|get_malicious_domains| get a malicious domain name from CTI|
 |"TR_MALICIOUS_URL"|get_malicious_url|get a malicious url from CTI|
 |"TR_MALICIOUS_HASH"|get_malware_hash|get malicious hash from CTI|
@@ -238,6 +238,12 @@ The list of available dynamic values (Variables):
 |"TR_MALICIOUS_FILE_MD5"|get_malicious_file_md5|if TR_MALICIOUS_FILE exists, returns its md5|
 |"TR_MALICIOUS_FILE_SHA1"|get_malicious_file_sha1|if TR_MALICIOUS_FILE exists, returns its sha1|
 |"TR_MALICIOUS_FILE_SHA256"|get_malicious_file_sha256|if TR_MALICIOUS_FILE exists, returns its sha256|
+|"TR_FGT_SN"|get_fgt_sn|returns FortiGate serial number from the config file|
+|"TR_DATE_NOW_ONLY"|get_date_now_only| returns current date|
+|"TR_TIME_NOW_ONLY"|get_time_now_only| returns current time|
+|"TR_TIMEZONE"|get_timezone| returns timezone from config file|
+
+
 
 ### FortiSIEM Templates:
 Each scenario template is a folder containing:

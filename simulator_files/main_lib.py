@@ -36,14 +36,14 @@ def send_event(source_ip,destination_ip,payload):
 		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload
 		send(spoofed_packet)
 	except:
-		print ('Sending Event Failed', sys.exc_info()[0])
+		logger.error('Sending Event Failed', sys.exc_info()[0])
 
 def read_json(data):
 		try:
 			json_data=json.loads(data)
 
 		except ValueError:
-			print(bcolors.FAIL+"Bad JSON event syntax: "+data+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Bad JSON event syntax: "+data+bcolors.ENDC)
 			return None
 		else:
 			return json_data
@@ -68,10 +68,10 @@ def load_scenario_folder(scenario_folder_path,scenario_files):
 			if file == PLAYBOOKS_FILE:
 				scenario_data.update({PLAYBOOKS_FILE:""})
 				continue
-			print(bcolors.FAIL+"Couldn't open scenario file "+file+", make sure the file exists"+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Couldn't open scenario file "+file+", make sure the file exists"+bcolors.ENDC)
 			exit()
 		except ValueError:
-			print(bcolors.FAIL+"Bad Config file: "+file+" syntax"+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Bad Config file: "+file+" syntax"+bcolors.ENDC)
 			exit()
 		else:
 			scenario_data.update({file:file_content})
@@ -79,21 +79,23 @@ def load_scenario_folder(scenario_folder_path,scenario_files):
 	return scenario_data
 
 
-def read_mainconfig():
+def read_mainconfig(config_file=MAINCONFIG_FILE):
 	try:
-		with open(MAINCONFIG_FILE, 'r') as f:
-			mainconfig_file = f.read()
-		f.close()
-		mainconfig_file=json.loads(mainconfig_file)
+		with open(config_file, 'r') as file:
+			config = file.read()
+		file.close()
+		logger.info('Parsing config file: {0}'.format(config_file))
+		config=json.loads(config)
+		copyfile(config_file, tmp_config_file)
 
 	except IOError:
-		print(bcolors.FAIL+"Couldn't open config file, fall back to command arguments"+bcolors.ENDC)
-		return None
+		logger.error(bcolors.FAIL+"Couldn't open config file: {0}, make sure the file exists and its JSON syntax is correct".format(config_file)+bcolors.ENDC)
+		sys.exit()
 	except ValueError:
-		print(bcolors.FAIL+"Bad Config file syntax, fall back to command arguments"+bcolors.ENDC)
-		return None
+		logger.error(bcolors.FAIL+"Bad Config file JSON syntax"+bcolors.ENDC)
+		sys.exit()
 	else:
-		return mainconfig_file
+		return config
 
 def unprivileged_send_fsm_event(event,sudo_password):
 	"""To be used when the tool is runs as an unprivileged user"""
@@ -104,7 +106,7 @@ def unprivileged_send_fsm_event(event,sudo_password):
 		exit_status = os.system('echo %s|sudo -S %s' % (sudo_password, command))
 		time.sleep(2)
 		if exit_status != 0:
-			print(bcolors.FAIL+"Couldn't start socsim_daemon, exit status: "+exit_status+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Couldn't start socsim_daemon, exit status: "+exit_status+bcolors.ENDC)
 			exit()
 
 	# ship the event to socsim_daemon over SOCSIM_FIFO pipe
@@ -122,26 +124,13 @@ def send_fsm_event(event):
 		destination_ip=event['destination_ip']
 		payload=event['payload']
 		if not is_valid_ip(source_ip) or not is_valid_ip(destination_ip):
-			print(source_ip,destination_ip,' not a valid IP address')
+			logger.info(source_ip,destination_ip,' not a valid IP address')
 			return None
 		send_event(source_ip,destination_ip,payload)
 	except:
-		print(bcolors.FAIL+"Couldn't send event: "+payload+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Couldn't send event: "+payload+bcolors.ENDC)
 		exit()
 
-
-def cook_fsm_events(scenario_json):
-	try:
-		template_file = json.dumps(scenario_json)
-		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
-		for tag in tag_list:
-			template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
-
-	except:
-		print(bcolors.FAIL+"Couldn't process FortiSIEM template file"+bcolors.ENDC)
-		exit()
-
-	return json.loads(template_file)
 
 def resolve_tags(scenario_json):
 	''' Reads json scenario and replaces each tag with its equivalent function output'''
@@ -157,7 +146,7 @@ def resolve_tags(scenario_json):
 			else:
 				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
 	except:
-		print(bcolors.FAIL+"Couldn't process template,playbooks definition files: "+bcolors.ENDC)
+		logger.error(bcolors.FAIL+"Couldn't process template,playbooks definition files: "+bcolors.ENDC)
 		exit()
 
 	return json.loads(template_file),json.loads(playbooks_definition)	

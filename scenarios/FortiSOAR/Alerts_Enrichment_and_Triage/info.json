@@ -1,0 +1,11 @@
+{
+  "publisher": "CSE-Team",
+  "name": "Alerts Enrichment and Triage",
+  "product": "fortisoar",
+  "category": "soc_analyst",
+  "connectors_dependencies": ["virustotal","nessus","fortinet-fortisiem"],
+  "fsm_events_dependencies": [],
+  "version": "1.0.0",
+  "description": "Apply Enrichment from AD, CMDB, Vulnerability Management on alerts and Triage",
+  "infographic": "https://github..."
+}
