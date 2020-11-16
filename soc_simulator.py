@@ -29,9 +29,9 @@ def main():
 
 
 	if args.config:
-		config = read_mainconfig(args.config)
+		config = read_config(args.config)
 	else:
-		config = read_mainconfig()	
+		config = read_config()	
 
 
 	if not os.path.isdir(args.scenario_folder):
@@ -40,10 +40,13 @@ def main():
 		sys.exit()
 
 	scenario_data = load_scenario_folder(args.scenario_folder,SCENARIO_FILES)
-
+	
 	if 'fortisoar' in args.scenario_folder.lower():
 		headers=fsr_login(config['FORTISOAR_IP'],config['fortisoar_username'],config['fortisoar_password'])
 
+		# TODO : comlete import process
+		#fsr_config_file = fsr_import_configuration(config['FORTISOAR_IP'],headers,args.scenario_folder+FSR_CONFIG_FILE)
+		
 		if args.tenant:
 			tenant_iri = lookup_tenant_iri(config['FORTISOAR_IP'],headers,args.tenant)['@id']
 
@@ -54,7 +57,10 @@ def main():
 			for user in scenario_data['info.json']['fsr_user_dependencies']:
 				fsr_create_user(config['FORTISOAR_IP'],headers,user)
 
-
+		if 'fsr_picklist_dependencies' in scenario_data['info.json']:
+			for entry in scenario_data['info.json']['fsr_picklist_dependencies']:
+				fsr_update_picklist(config['FORTISOAR_IP'],headers,entry,scenario_data['info.json']['fsr_picklist_dependencies'][entry])
+				
 		if os.getuid() == 0:
 			logger.info('running as root')
 			if 'fsm_events_dependencies' in scenario_data['info.json']:

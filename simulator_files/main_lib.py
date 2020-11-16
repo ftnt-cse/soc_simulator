@@ -6,9 +6,10 @@ from .artifact_factory import *
 from scapy.all import *
 
 
-MAINCONFIG_FILE="config.json"
-PLAYBOOKS_FILE='playbooks.json'
-SCENARIO_FILES=['info.json','infographics.gif',PLAYBOOKS_FILE,'scenario.json']
+MAINCONFIG_FILE = 'config.json'
+PLAYBOOKS_FILE = 'playbooks.json'
+FSR_CONFIG_FILE = 'fsr_config.json'
+SCENARIO_FILES = ['info.json','infographics.gif',PLAYBOOKS_FILE,'scenario.json']
 
 #TODO
 def remote_repo_sync():
@@ -43,7 +44,7 @@ def read_json(data):
 			json_data=json.loads(data)
 
 		except ValueError:
-			logger.error(bcolors.FAIL+"Bad JSON event syntax: "+data+bcolors.ENDC)
+			logger.error(bcolors.FAIL+"Bad JSON Syntax: "+data+bcolors.ENDC)
 			return None
 		else:
 			return json_data
@@ -79,7 +80,7 @@ def load_scenario_folder(scenario_folder_path,scenario_files):
 	return scenario_data
 
 
-def read_mainconfig(config_file=MAINCONFIG_FILE):
+def read_config(config_file=MAINCONFIG_FILE):
 	try:
 		with open(config_file, 'r') as file:
 			config = file.read()

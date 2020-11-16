@@ -6,7 +6,6 @@ from .artifact_factory import *
 from .main_lib import *
 from scapy.all import *
 
-
 def send_event(source_ip,destination_ip,payload):
 	try:
 		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload

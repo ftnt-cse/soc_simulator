@@ -22,13 +22,14 @@ import sys
 import datetime
 import base64
 import hashlib
+import paramiko
 from shutil import copyfile
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 log_formatter = '%(asctime)s [%(levelname)s]: %(message)s'
-logging.basicConfig(format=log_formatter, datefmt='%H:%M:%S', level=logging.DEBUG)
+logging.basicConfig(format=log_formatter, datefmt='%H:%M:%S', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

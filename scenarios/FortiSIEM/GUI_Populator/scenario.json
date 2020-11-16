@@ -1,0 +1,23 @@
+[
+  {
+    "sleep": 0,
+    "source_ip": "10.10.11.204",
+    "destination_ip": "10.222.248.50",
+    "payload": "<185>date=2020-10-13 time=18:43:50 idseq=13085484108480513 bid=7505785 dvid=1029 itime=\"2020-10-13 18:43:51\" euid=3 epid=3 dsteuid=0 dstepid=3 logver=60 logid=0100032021 type=event subtype=system level=alert action=login msg=\"Login disabled from IP {{TR_MALICIOUS_IP}} for 60 seconds because of 3 bad attempts\" logdesc=\"Admin login disabled\" ui={{TR_MALICIOUS_IP}} status=failed reason=exceed_limit eventtime=1602603830 devid=FWF92D3G16000159 vd=root csf=TM dtime=\"2020-10-13 18:43:50\" itime_t=1602603831 devname=FWF92D"
+  },
+  {
+    "sleep": 0,
+    "source_ip": "10.10.11.204",
+    "destination_ip": "10.222.248.50",
+    "payload": "<185>date=2020-10-13 time=18:43:50 idseq=13085484108480512 bid=7505789 dvid=1029 itime=\"2020-10-13 18:43:51\" euid=3 epid=3 dsteuid=0 dstepid=3 logver=60 logid=0100032002 type=event subtype=system level=alert action=login msg=\"Administrator admin login failed from https(192.168.7.40) because of invalid password\" logdesc=\"Admin login failed\" sn=0 user=admin ui=https(192.168.7.40) status=failed srcip={{TR_MALICIOUS_IP}} dstip=192.168.7.99 reason=passwd_invalid method=https eventtime=1602603830 devid=FWF92D3G16000159 vd=root csf=TM dtime=\"2020-10-13 18:43:50\" itime_t=1602603831 devname=FWF92D"
+  },
+  {
+    "sleep": 0,
+    "source_ip": "10.10.11.204",
+    "destination_ip": "10.222.248.50",
+    "payload": "<185>date=2016-09-13 time=16:52:07 devname=FG240D3913800441 devid=FG240D3913800441 devid=FG240D3913800441 logid=0316013056 type=utm subtype=\"webfilter\" eventtype=\"ftgd_blk\" level=\"warning\" vd=\"root\" eventtime=1594714477081154589 tz=\"+0200\" policyid=39 sessionid=11775126 user=\"csmith\" authserver=\"FSSO\" srcip={{TR_ASSET_IP}} srcport=53670 srcintf=\"port3\" srcintfrole=\"lan\" dstip={{TR_MALICIOUS_IP}} dstport=80 dstintf=\"port1\" dstintfrole=\"wan\" proto=6 service=\"HTTP\" hostname=dom0 profile=\"Monitor-All\" action=\"blocked\" reqtype=\"direct\" url=\"{{TR_MALICIOUS_URL}}\" sentbyte=296 rcvdbyte=0 direction=\"outgoing\" msg=\"URL belongs to a denied category in policy\" method=\"domain\" cat=0 catdesc=\"Unrated\" crscore=30 craction=4194304 crlevel=\"high\""
+  }
+]
+
+
+
