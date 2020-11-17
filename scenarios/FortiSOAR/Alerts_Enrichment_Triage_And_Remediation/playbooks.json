@@ -629,7 +629,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Assign Task: Incident Investigation and remediation</span></p>\n",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Task Created</span></p>\n\n- <span style=\"color:red;font-weight:bold\"> Assign the task for an analyst to:</span>\n    - Run the mitigation playbook to contain the threat\n    - Remediate the affected assets",
                   "records": ""
                 },
                 "resource": {
@@ -672,7 +672,7 @@
                   "taskdata": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Task: Incident Investigation and remediation</span></p>\n\n\n- Run the mitigation playbook to contain the threat\n- Remediate the affected assets",
                   "__replace": "",
                   "incidents": "{{vars.steps.Escalate_Alert_to_Incident['@id']}}",
-                  "description": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Assign Task: Incident Investigation and remediation</span></p>\n\n<span style=\"color:red;font-weight:bold\"> Assign this task to an Analyst so they can:</span>\n- Run the mitigation playbook to contain the threat\n- Remediate the affected assets",
+                  "description": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Task Created</span></p>\n\n- <span style=\"color:red;font-weight:bold\"> Assign this task to an Analyst so they can:</span>\n    - Run the mitigation playbook to contain the threat\n    - Remediate the affected assets",
                   "assignedOnDate": "{{globalVars.Current_Date}}",
                   "assignedToPerson": "/api/3/people/3451141c-bac6-467c-8d72-85e0fab569ce"
                 },
@@ -805,7 +805,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Escalate to Incident </span></p>\n- Escalating the current Alert to incident and linking all related alerts <span style=\"color:orange;font-weight:bold\"></span>",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Escalate Alert</span></p>\n\n- Escalating the current Alert to incident and linking all related alerts <span style=\"color:orange;font-weight:bold\"></span>",
                   "records": ""
                 },
                 "resource": {
@@ -930,7 +930,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605538621,
+          "lastModifyDate": 1605596276,
           "priority": null,
           "uuid": "30c99b0d-bfa6-4b7e-9a11-a0fe7ef30b30",
           "recordTags": [],
@@ -962,7 +962,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create/Link Assets</span></p>\n\n<p><span style=\"color:orange;font-weight:bold\">{{vars.private_ip_addresses}}</span></p>",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Create/Link Assets</span></p>\n\n- <p><span style=\"color:orange;font-weight:bold\">{{vars.private_ip_addresses}}</span></p>",
                   "records": ""
                 },
                 "for_each": {
@@ -989,7 +989,14 @@
               "description": null,
               "arguments": {
                 "params": [],
-                "version": "3.0.3",
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Playbook Stopped</span></p>\n\n- Alert has no Indicators",
+                  "records": ""
+                },
+                "version": "3.0.5",
                 "connector": "cyops_utilities",
                 "operation": "no_op",
                 "operationTitle": "Utils: No Operation",
@@ -1011,7 +1018,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create/Link User </span></p>\n\n<p><span style=\"color:orange;font-weight:bold\">{{vars.steps.Update_Alert_Attributes.userName}}</span></p>",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Create/Link User</span></p>\n\n- <p><span style=\"color:orange;font-weight:bold\">{{vars.steps.Update_Alert_Attributes.userName}}</span></p>",
                   "records": ""
                 },
                 "arguments": {
@@ -1033,6 +1040,13 @@
               "name": "Set Alert State",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Update Alert</span></p>\n\n- Assets, Indicators, users extracted, updating alert state",
+                  "records": ""
+                },
                 "resource": {
                   "state": {
                     "id": 223,
@@ -1082,8 +1096,8 @@
                 "alert_artifacts": "{{vars.input.records[0].sourcedata| extract_artifacts}}"
               },
               "status": null,
-              "left": "475",
-              "top": "165",
+              "left": "474",
+              "top": "154",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "29e4fd77-52ac-410a-922b-b9f4d6343a95"
             },
@@ -1096,7 +1110,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Initialize Alert Fields</span></p>",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Alert Parser</span></p>\n\n- Parsing Alert attributes and perform fields mapping",
                   "records": ""
                 },
                 "resource": {
@@ -1152,7 +1166,6 @@
                   "assigneddate": "{{globalVars.Current_Data}}",
                   "emailSubject": "None",
                   "destinationIp": "{{vars.v_Destination_IP}}",
-                  "mitreattackid": "T1566",
                   "respSlaStatus": {
                     "id": 281,
                     "@id": "/api/3/picklists/72979f64-e8b9-4888-a965-957e0ec24818",
@@ -1253,6 +1266,7 @@
                 "v_dlp_filtername": "",
                 "v_dlp_filtertype": "",
                 "v_incidentTarget": "{%if vars.incidentTarget%}{{vars.incidentTarget | extract_artifacts}}{%endif%}",
+                "v_mitre_attack_id": "{{vars.source_data.attributes.incidentExtTicketId or None}}",
                 "v_Attachment_Names": "",
                 "v_Destination_Port": "{{vars.source_data.associated_events.0.attributes.destIpPort}}",
                 "v_HR_Email_Address": "hr@fortielab.com",
@@ -1319,7 +1333,7 @@
                   "tags": [],
                   "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                   "tenant": "",
-                  "content": "<p><span style=\"background-color:yellow;color:black;font-weight:bold\">Create/Link Indicator </span></p>\n\n<p><span style=\"color:orange;font-weight:bold\">{{vars.public_ip_addresses}}</span></p>",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Create/Link Indicator</span></p>\n\n- <p><span style=\"color:orange;font-weight:bold\">{{vars.public_ip_addresses}}</span></p>",
                   "records": ""
                 },
                 "for_each": {
@@ -1398,7 +1412,7 @@
                 }
               },
               "status": null,
-              "left": "475",
+              "left": "474",
               "top": "30",
               "stepType": "/api/3/workflow_step_types/ea155646-3821-4542-9702-b246da430a8d",
               "uuid": "ecfe9650-e31b-41ab-99df-5d37903f6354"
@@ -1408,6 +1422,13 @@
               "name": "Init Assets Data",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Asset Update</span></p>\n\n- Fetches latest vulnerability scan results",
+                  "records": ""
+                },
                 "arguments": [],
                 "apply_async": false,
                 "step_variables": [],
@@ -1415,9 +1436,29 @@
               },
               "status": null,
               "left": "820",
-              "top": "165",
+              "top": "153",
               "stepType": "/api/3/workflow_step_types/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
               "uuid": "fdc361d8-863c-4b88-9dab-f79fcee81470"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Link Related MITRE Techniques",
+              "description": null,
+              "arguments": {
+                "when": "{{vars.v_mitre_attack_id}}",
+                "arguments": {
+                  "record_iri": "{{vars.input.records[0]['@id']}}",
+                  "mitre_technique_id": "{{vars.v_mitre_attack_id}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "workflowReference": "/api/3/workflows/d03ad3ef-8098-4b15-88a1-fe4e90991c53"
+              },
+              "status": null,
+              "left": "120",
+              "top": "300",
+              "stepType": "/api/3/workflow_step_types/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+              "uuid": "f6ae0f1e-5de6-4ffd-bfc3-597c20bdf811"
             }
           ],
           "routes": [
@@ -1546,10 +1587,19 @@
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/03a50629-47b7-429a-85c7-34119a81e246",
               "sourceStep": "/api/3/workflow_steps/6f158c26-e32e-474b-a489-0cbfc75d9517"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b95a5e4b-3212-44cd-b72c-86ba5c906e59",
+              "name": "Fields Mapping -> Link Related MITRE Techniques",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/f6ae0f1e-5de6-4ffd-bfc3-597c20bdf811",
+              "sourceStep": "/api/3/workflow_steps/8cf0fa27-e7dc-4fc6-97ca-778daf6e6e1c"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605175891,
+          "lastModifyDate": 1605598341,
           "priority": null,
           "uuid": "33f5dd37-2835-4571-8910-2f63b6e32ec9",
           "recordTags": [],
@@ -2323,6 +2373,7 @@
               "description": null,
               "arguments": {
                 "record": "{{vars.input.params['indicator_value'] | ternary(vars.input.params['indicator_value'],vars.input.records[0].value) }}",
+                "record_data": "{{(vars.input.records[0]['@id'] + \"?$relationships=true\")|fromIRI}}",
                 "googleMapAPIkey": "AIzaSyDy4tlleelMlMRB-HuBbgxeBMrfUJQF2ZE",
                 "foundIPMxReputation": "false",
                 "reputation_threshold": "2",
@@ -2597,6 +2648,13 @@
               "name": "Update Record",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Get Indicator Reputation</span></p>\n\n- Fetched Indicator <<span style=\"color:orange;font-weight:bold\">{{vars.indicator_value}}</span>> reputation:  \n     - AlientVaultOTX: {{vars.otx_reputation}}\n     - VirusTotal.com: {{vars.vt_reputation}}\n     - OPSWAT: {{vars.opswat_reputation}}\n  ",
+                  "records": "{{vars.record_data.alerts.0[\"@id\"]}}"
+                },
                 "resource": {
                   "__link": {
                     "recordTags": "{% if vars.foundAVReputation %}{{(vars.steps.Get_AlienVault_Reputation.data.results | json_query(\"[*].tags[]\") | unique | string).replace(\"[\",\"\").replace(\"]\",\"\").replace(\"?\",\"\").replace(\"\\'\",\"\").replace(\"#\",\"\").replace(\"\\\"\",\"\").replace(\"/\",\"\").replace(\"*\",\"\")}}{%endif%}"
@@ -3170,7 +3228,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605172887,
+          "lastModifyDate": 1605593443,
           "priority": null,
           "uuid": "609bb7be-11aa-4338-b996-d89bb4405df9",
           "recordTags": [],
@@ -3221,6 +3279,13 @@
               "name": "Update User",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">User Enrichment</span></p>\n\n- Update user: <<span style=\"color:green;font-weight:bold\">Ricardo</span>> attributes from Active Directory",
+                  "records": "{{vars.linked_alert_iri}}"
+                },
                 "resource": {
                   "__link": {
                     "recordTags": []
@@ -3281,7 +3346,8 @@
                 "ad_groups": "{{vars.steps.Get_Groups_Definition.data.entries}}",
                 "member_of": "[]",
                 "security_id": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.objectSid}}",
-                "raw_member_of": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.memberOf}}"
+                "raw_member_of": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.memberOf}}",
+                "user_record_data": "{{(vars.input.records[0]['@id'] + \"?$relationships=true\")|fromIRI}}"
               },
               "status": null,
               "left": "125",
@@ -3295,6 +3361,7 @@
               "description": null,
               "arguments": {
                 "__temp1": "{%if vars.raw_member_of|length > 0%}\n{%for item in vars.raw_member_of%}\n{{vars.member_of.append(item.split(\",\")[0].split(\"=\")[1])}}\n{%endfor%}\n{%endif%}",
+                "linked_alert_iri": "{{vars.user_record_data.alerts.0[\"@id\"]}}",
                 "user_primary_group": "{%for group in vars.ad_groups%}\n{%if '-'+vars.group_id|string in group.attributes.objectSid%}{{group}}{%endif%}\n{%endfor%}"
               },
               "status": null,
@@ -3402,7 +3469,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605172938,
+          "lastModifyDate": 1605592676,
           "priority": null,
           "uuid": "61382542-74e5-48e8-9001-3d6225a28e99",
           "recordTags": [],
@@ -3451,7 +3518,7 @@
               },
               "status": null,
               "left": "100",
-              "top": "220",
+              "top": "350",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "0dfcac3c-367d-41ae-a45f-70601426ecc4"
             },
@@ -3469,7 +3536,7 @@
               },
               "status": null,
               "left": "100",
-              "top": "400",
+              "top": "530",
               "stepType": "/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562",
               "uuid": "360f4998-1fb9-4dff-ad69-c6d067589f1c"
             },
@@ -3513,7 +3580,6 @@
                       "value": "/api/3/picklists/89dc3716-1818-4286-ab75-0d49714aea0f",
                       "_value": {
                         "@id": "/api/3/picklists/89dc3716-1818-4286-ab75-0d49714aea0f",
-                        "display": "Similar Alerts Correlated",
                         "itemValue": "Similar Alerts Correlated"
                       },
                       "operator": "eq"
@@ -3524,7 +3590,6 @@
                       "value": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
                       "_value": {
                         "@id": "/api/3/picklists/fac53e73-8d16-4189-98d5-95fbd1555232",
-                        "display": "Closed",
                         "itemValue": "Closed"
                       },
                       "operator": "neq"
@@ -3585,7 +3650,7 @@
               },
               "status": null,
               "left": "100",
-              "top": "514",
+              "top": "640",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "dff8c5d4-54ec-433a-a883-ad1a646ccf12"
             },
@@ -3604,7 +3669,7 @@
               },
               "status": null,
               "left": "100",
-              "top": "120",
+              "top": "250",
               "stepType": "/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dbf",
               "uuid": "e38c2edd-782f-4657-8806-8bae539fece2"
             },
@@ -3636,9 +3701,42 @@
               },
               "status": null,
               "left": "100",
-              "top": "313",
+              "top": "440",
               "stepType": "/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28",
               "uuid": "f81b81f4-f865-491a-b46e-00f43240ecf7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Alert State",
+              "description": null,
+              "arguments": {
+                "resource": {
+                  "state": {
+                    "id": 125,
+                    "@id": "/api/3/picklists/8675a07f-2d0d-4e3a-89af-4822b8341df8",
+                    "icon": null,
+                    "@type": "Picklist",
+                    "color": null,
+                    "display": "Ready to Investigate",
+                    "listName": "/api/3/picklist_names/2f9ed741-25fe-475a-9f12-64336288eebf",
+                    "itemValue": "Ready to Investigate",
+                    "orderIndex": 4
+                  }
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Append"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "100",
+              "top": "140",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "f2661732-eead-4f39-8ddf-63ad145e559e"
             }
           ],
           "routes": [
@@ -3716,16 +3814,25 @@
             },
             {
               "@type": "WorkflowRoute",
-              "uuid": "d826b8e0-515a-47ec-9ab4-7d017693ab56",
-              "name": "Start -> Wait For Indicators Reputation",
+              "uuid": "2e47533a-3c73-4e6b-b4af-518b2edc46f7",
+              "name": "Start -> Update Alert State",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/f2661732-eead-4f39-8ddf-63ad145e559e",
+              "sourceStep": "/api/3/workflow_steps/87cd23df-6c6d-4e27-9b44-f1f6bb02bc8c"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "9c6d838c-7f2b-4c3b-9614-6adcb74e84bc",
+              "name": "Update Alert State -> Wait For Indicators Reputation",
               "label": null,
               "isExecuted": false,
               "targetStep": "/api/3/workflow_steps/e38c2edd-782f-4657-8806-8bae539fece2",
-              "sourceStep": "/api/3/workflow_steps/87cd23df-6c6d-4e27-9b44-f1f6bb02bc8c"
+              "sourceStep": "/api/3/workflow_steps/f2661732-eead-4f39-8ddf-63ad145e559e"
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605172907,
+          "lastModifyDate": 1605595259,
           "priority": null,
           "uuid": "68088053-f1a3-4fe1-a1b9-7662dfd95f70",
           "recordTags": [],
@@ -4242,7 +4349,7 @@
                 "enrichment_summary": "{{vars.steps.Enrichment_Summary.data['formatted_string']}}"
               },
               "status": null,
-              "left": "2800",
+              "left": "2840",
               "top": "440",
               "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
               "uuid": "80b50ebf-1cf5-4307-a0a8-9ee804f5da6d"
@@ -4302,6 +4409,7 @@
               "name": "Configuration",
               "description": null,
               "arguments": {
+                "record_data": "{{(vars.input.records[0]['@id'] + \"?$relationships=true\")|fromIRI}}",
                 "indicator_value": "{{vars.input.params['indicator_value'] | ternary(vars.input.params['indicator_value'],vars.input.records[0].value) }}",
                 "reputation_threshold": "2",
                 "foundAnomaliReputation": "false"
@@ -4453,6 +4561,13 @@
               "name": "Update Record",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Get Indicator Reputation</span></p>\n\n- Fetched Indicator <<span style=\"color:orange;font-weight:bold\">{{vars.indicator_value}}</span>> :  \n     - AlientVaultOTX: {{vars.alienvault_reputation}}\n     - VirusTotal.com: {{vars.vt_reputation}}\n     - FortiGuard: {{vars.fortiguard_reputation}}",
+                  "records": "{{vars.record_data.alerts.0[\"@id\"]}}"
+                },
                 "resource": {
                   "__link": {
                     "recordTags": "{% if vars.foundAVReputation %}{{(vars.steps.Get_Reputation_from_AlienVault_OTX.data.results | json_query(\"[*].tags[]\") | unique | string).replace(\"[\",\"\").replace(\"]\",\"\").replace(\"?\",\"\").replace(\"\\'\",\"\").replace(\"#\",\"\").replace(\"\\\"\",\"\").replace(\"/\",\"\").replace(\"*\",\"\")}}{%endif%}"
@@ -4854,9 +4969,141 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605172897,
+          "lastModifyDate": 1605593234,
           "priority": null,
           "uuid": "917e8b65-4d4d-4f03-8d2b-56803ffdad1c",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "C > 4: Link associated MITRE Technique",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/3b4f08a2-b295-4abb-8243-3d987e49209c",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [
+            "record_iri",
+            "mitre_technique_id"
+          ],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/7616edba-266e-4e8d-9b87-b799dc4cb17a",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": {
+                  "input": {
+                    "params": {
+                      "record_iri": "{{ vars.record_iri }}",
+                      "mitre_technique_id": "{{ vars.mitre_technique_id }}"
+                    }
+                  }
+                }
+              },
+              "status": null,
+              "left": "40",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "uuid": "7616edba-266e-4e8d-9b87-b799dc4cb17a"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Find Technique Record",
+              "description": null,
+              "arguments": {
+                "query": {
+                  "sort": [],
+                  "limit": 30,
+                  "logic": "AND",
+                  "filters": [
+                    {
+                      "type": "primitive",
+                      "field": "techniqueid",
+                      "value": "{{vars.input.params['mitre_technique_id']}}",
+                      "operator": "eq",
+                      "_operator": "eq"
+                    }
+                  ],
+                  "__selectFields": [
+                    "techniqueid",
+                    "mitigations"
+                  ]
+                },
+                "module": "mitreattack?$limit=30",
+                "checkboxFields": true,
+                "step_variables": []
+              },
+              "status": null,
+              "left": "40",
+              "top": "168",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928770",
+              "uuid": "ff18020d-87a9-4e6a-931e-784ed93a6348"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Update Record",
+              "description": null,
+              "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Linking MITRE Techniques</span></p>\n\n- Technique: <span style=\"color:orange;font-weight:bold\">{{vars.input.params['mitre_technique_id']}}</span> is linked to the alert\n- Technique Mitigation:\n> {{vars.steps.Find_Technique_Record[0].mitigations}}",
+                  "records": "{{vars.input.params['record_iri']}}"
+                },
+                "resource": {
+                  "__link": {
+                    "mitrelink": "{{vars.steps.Find_Technique_Record[0]['@id']}}"
+                  }
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.input.params['record_iri']}}",
+                "collectionType": "/api/3/alerts",
+                "fieldOperation": {
+                  "recordTags": "Append"
+                },
+                "step_variables": []
+              },
+              "status": null,
+              "left": "40",
+              "top": "292",
+              "stepType": "/api/3/workflow_step_types/b593663d-7d13-40ce-a3a3-96dece928722",
+              "uuid": "1327e4bb-ddfe-43cf-bf1c-8d700e9da9d2"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "64a5686f-571a-4854-b11a-2e42f890086a",
+              "name": "Start -> Find Technique Record",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/ff18020d-87a9-4e6a-931e-784ed93a6348",
+              "sourceStep": "/api/3/workflow_steps/7616edba-266e-4e8d-9b87-b799dc4cb17a"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "67457a90-0716-438b-b1c9-6aa273b0b110",
+              "name": "Find Technique Record -> Update Record",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/1327e4bb-ddfe-43cf-bf1c-8d700e9da9d2",
+              "sourceStep": "/api/3/workflow_steps/ff18020d-87a9-4e6a-931e-784ed93a6348"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1605598949,
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "d03ad3ef-8098-4b15-88a1-fe4e90991c53",
           "recordTags": [],
           "isPrivate": false,
           "owners": []
@@ -5874,7 +6121,8 @@
                 "ad_groups": "{{vars.steps.Get_Groups_Definition.data.entries}}",
                 "member_of": "[]",
                 "security_id": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.objectSid}}",
-                "raw_member_of": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.memberOf}}"
+                "raw_member_of": "{{vars.steps.Get_User_Attributes.data.entries[0].attributes.memberOf}}",
+                "user_record_data": "{{(vars.input.records[0]['@id'] + \"?$relationships=true\")|fromIRI}}"
               },
               "status": null,
               "left": "125",
@@ -5887,6 +6135,13 @@
               "name": "Update User",
               "description": null,
               "arguments": {
+                "message": {
+                  "tags": [],
+                  "type": "/api/3/picklists/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                  "tenant": "",
+                  "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">User Enrichment</span></p>\n\n- Update user: <<span style=\"color:green;font-weight:bold\">Jill</span>> attributes from Active Directory",
+                  "records": "{{vars.linked_alert_iri}}"
+                },
                 "resource": {
                   "__link": {
                     "recordTags": []
@@ -5917,6 +6172,7 @@
               "description": null,
               "arguments": {
                 "__temp1": "{%if vars.raw_member_of|length > 0%}\n{%for item in vars.raw_member_of%}\n{{vars.member_of.append(item.split(\",\")[0].split(\"=\")[1])}}\n{%endfor%}\n{%endif%}",
+                "linked_alert_iri": "{{vars.user_record_data.alerts.0[\"@id\"]}}",
                 "user_primary_group": "{%for group in vars.ad_groups%}\n{%if '-'+vars.group_id|string in group.attributes.objectSid%}{{group}}{%endif%}\n{%endfor%}"
               },
               "status": null,
@@ -6074,7 +6330,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605538045,
+          "lastModifyDate": 1605592530,
           "priority": null,
           "uuid": "f774be88-ec0a-443a-afb0-0685a3c9956e",
           "recordTags": [],

@@ -22,9 +22,20 @@ The prerequisite will be executed first:
 - Users creation in FortiSOAR (optional)
 - Syslogs sent to a SIEM server (optional)
 
-
-
 The Environment requires a FortiGate to be used as a response enforcement point.
+
+
+## Main Features:
+
+- Generates malicious artifacts (IP Addresses, Hashes, URLs...) to be used within a demo scenario
+- Provides variables (Tags) to be used in scenario to keep the content dynamic and relevant
+- Automatically uploads the scenario playbooks to FortiSOAR
+- Automatically create FortiSOAR dependencies (users, picklist entries)
+- Automatically sends dependent syslogs to SIEM prior to triggering the scenario
+- Checks whether the dependent connectors are: Installed, Configured, Set to default
+- Configurable Alerts transition, could be manual (Key press) or a time laps between alerts
+- Easy framework to add custom scenarios (copy/paste source_data and playbook collections from FortiSOAR)
+
 ## How to use:
 ```
 usage: ProgramName [-h] -f SCENARIO_FOLDER [-j STEP] [-t TENANT]
@@ -95,7 +106,7 @@ It contains the scenario meta data and dependencies, this file is first read and
 |connectors_dependencies| a list of required connectors for the scenario, exp:["whois-rdap","virustotal"]|
 |fsm_events_dependencies|a list of events to be sent to a SIEM before the scenario starts, check syntax below|
 |fsr_user_dependencies|a list of users FortiSOAR will use during the playbooks execution, each user will have a tag 'offender' and a security ID of :10 if it contains the word: bad (such as r.baddler)|
-
+|fsr_picklist_dependencies|a list of dictionaries with the format: "Picklist":["Picklist_item1","Picklist_item2",...] the items will be added to the picklist during init phase |
 
 Example:
 ```json
@@ -105,6 +116,7 @@ Example:
     "category":"soc_analyst",
     "fsr_user_dependencies":["m.goodspeed","f.waldo"],    
     "connectors_dependencies":["whois-rdap","virustotal","fortigate-firewall","fortinet-fortisiem","ssh"],
+    "fsr_picklist_dependencies":{"AlertType":["SECURITY_INIT_ACCESS","SECURITY_EXECUTION"],"SLAState":["NA"]},
     "fsm_events_dependencies":[
         {"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""},
         {"source_ip":"10.0.50.150","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.150 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""}
@@ -273,8 +285,8 @@ A sample template structure:
 - Sleep, determines how many seconds to wait before sending the next event.
 
 ### SOCSIM_Daemon:
-If the scenario includes events to be sent via syslog to FortiSIEM and soc_simulator is running with unprivileged user, the configuration parameter : sudo_password located at config.json will be used to run socsim_dameon.py as root. soc_simulator will then use it to send syslogs via a named pipe.
-If soc_simulator is run as root, events are sent directly.
+
+Depreciated, to be removed soon
 
 
 ### License

@@ -55,7 +55,7 @@
               "phIncidentCategory": "4",
               "incidentClearedTime": "{{TR_FORMATTED_CURRENT_TIME}}",
               "incidentClearedUser": "",
-              "incidentExtTicketId": "",
+              "incidentExtTicketId": "T1210",
               "incidentRptDevStatus": "1 (Pending)",
               "incidentTicketStatus": "6 (None)",
               "incidentClearedReason": "",
@@ -134,7 +134,7 @@
   {
     "data": [
       {
-        "sleep": -1,
+        "sleep": 5,
         "name": "High Severity Inbound Permitted IPS Exploit",
         "source": "SIM-AETR",
         "demo_message": "High Severity Inbound Permitted IPS Exploit\n    - IPS Alert Detected, compares alert CVE with tagret asset CVEs:\n    - IPS detects a remote exploit attack against Asset (A) exploiting vulnerability CVE-2008-XXXX\n    - FortiSOAR checks the vulnerabilities list of Asset (A) where VE-2008-XXXX is not included\n    - FortiSOAR then Closes the alert as **False Positive** for the risk of a successful compromize is null",
@@ -187,7 +187,7 @@
               "phIncidentCategory": "4",
               "incidentClearedTime": "{{TR_FORMATTED_CURRENT_TIME}}",
               "incidentClearedUser": "",
-              "incidentExtTicketId": "",
+              "incidentExtTicketId": "T1210",
               "incidentRptDevStatus": "1 (Pending)",
               "incidentTicketStatus": "6 (None)",
               "incidentClearedReason": "",
@@ -318,7 +318,7 @@
               "phIncidentCategory": "4",
               "incidentClearedTime": "",
               "incidentClearedUser": "",
-              "incidentExtTicketId": "",
+              "incidentExtTicketId": "T1589.001",
               "incidentRptDevStatus": "1 (Pending)",
               "incidentTicketStatus": "6 (None)",
               "incidentClearedReason": "",
@@ -410,7 +410,7 @@
   {
     "data": [
       {
-        "sleep": -1,
+        "sleep": 5,
         "name": "Successful VPN Logon from outside my country",
         "source": "SIM-AETR",
         "demo_message": "Successful VPN Logon from outside my country:\n    - SIEM detects a a successful VPN connection from another country\n    - FortiSOAR get the source IP reputation as an additional data to take an action upon, the IP is **malicious**\n    - FortiSOAR fetches the user details from Active Directory and extract the user's location\n    - FortiSOAR resolves the source IP Country and compares it with the country extracted from Active directory data\n    - the two countries are the different and the source IP is malicious, the alert is escalated as a \n**True Positive** of credentials theft, the analyst is presented with 2 automation response \nplaybooks: Disable user name from Active Directory and Block the source IP on NGFW",
@@ -462,7 +462,7 @@
               "phIncidentCategory": "4",
               "incidentClearedTime": "",
               "incidentClearedUser": "",
-              "incidentExtTicketId": "",
+              "incidentExtTicketId": "T1589.001",
               "incidentRptDevStatus": "1 (Pending)",
               "incidentTicketStatus": "6 (None)",
               "incidentClearedReason": "",
