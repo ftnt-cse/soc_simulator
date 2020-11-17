@@ -788,7 +788,11 @@
                 "linked_users_iris": "{{(vars.alert_to_escalate|json_query('users[].\\\"@id\\\"'))|unique}}",
                 "linked_assets_iris": "{{(vars.alert_to_escalate|json_query('assets[].\\\"@id\\\"'))|unique}}",
                 "linked_comments_iri": "{{(vars.alert_to_escalate|json_query('comments[].\\\"@id\\\"'))|unique}}",
-                "linked_indicator_incidents": "{{(vars.alert_to_escalate|json_query('indicators[].\\\"@id\\\"'))|unique}}"
+                "linked_mitre_techniques": "{{(vars.alert_to_escalate|json_query('mitrelink[].\\\"@id\\\"'))|unique}}",
+                "linked_indicator_incidents": "{{(vars.alert_to_escalate|json_query('indicators[].\\\"@id\\\"'))|unique}}",
+                "linked_mitre_techniques_description": "{{vars.alert_to_escalate.mitrelink.0.description}}",
+                "linked_mitre_techniques_mitigations": "{{vars.alert_to_escalate.mitrelink.0.mitigations}}",
+                "linked_mitre_techniques_externalreferences": "{{vars.alert_to_escalate.mitrelink.0.externalreferences}}"
               },
               "status": null,
               "left": "300",
@@ -845,21 +849,23 @@
                   "fileName": "{{vars.alert_to_escalate.fileName or None}}",
                   "filehash": "{{vars.alert_to_escalate.fileHash or None}}",
                   "severity": "{{vars.alert_to_escalate.severity[\"@id\"] or None}}",
-                  "sourceIP": "{{vars.alert_to_escalate.sourceIP}}",
+                  "sourceIP": "{{vars.alert_to_escalate.sourceIp or None}}",
                   "sourceId": "{{vars.alert_to_escalate.sourceId}}-{{globalVars.Current_Date}}",
                   "__replace": "",
                   "deviceUID": "{{vars.alert_to_escalate.deviceUID or None}}",
                   "indicators": "{{vars.linked_indicator_incidents}}",
                   "sourcedata": "{{vars.alert_to_escalate.sourcedata or None}}",
-                  "description": "{{vars.alert_to_escalate.description or None}}",
+                  "description": "{{vars.alert_to_escalate.description or None}}\n{%if vars.linked_mitre_techniques_description%}\n<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Desctiption (MITRE ATT&CK Technique):</span></p>\n\n> {{vars.linked_mitre_techniques_description}}{%endif%}\n\n {%if vars.linked_mitre_techniques_mitigations%}\n <p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Mitigation (MITRE ATT&CK Technique):</span></p>\n\n> {{vars.linked_mitre_techniques_mitigations}}{%endif%}\n \n {%if vars.linked_mitre_techniques_externalreferences%}\n <p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">External References (MITRE ATT&CK Technique):</span></p>\n\n> {{vars.linked_mitre_techniques_externalreferences}}{%endif%}\n",
                   "processName": "{{vars.alert_to_escalate.processName or None}}",
                   "targetAsset": "{{vars.alert_to_escalate.targetAsset}}",
+                  "affectedUser": "{{vars.alert_to_escalate.userName or None}}",
                   "assigneddate": "{{globalVars.Current_Date}}",
                   "incidentLead": "{{vars.alert_to_escalate.incidentLead or None}}",
                   "senderDomain": "{{vars.alert_to_escalate.domain or None}}",
                   "destinationIP": "{{vars.alert_to_escalate.destinationIp}}",
                   "dateOfIncident": "{{globalVars.Current_Date}}",
                   "confirmationDate": "{{globalVars.Current_Date}}",
+                  "mitreincidentlink": "{{vars.linked_mitre_techniques}}",
                   "senderEmailAddress": "{{vars.alert_to_escalate.senderEmailAddress or None}}",
                   "receipientEmailAddress": "{{alert_to_escalate.recipientEmailAddress or None}}"
                 },
@@ -930,7 +936,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1605596276,
+          "lastModifyDate": 1605638878,
           "priority": null,
           "uuid": "30c99b0d-bfa6-4b7e-9a11-a0fe7ef30b30",
           "recordTags": [],
@@ -5839,6 +5845,67 @@
           "lastModifyDate": 1605172863,
           "priority": null,
           "uuid": "ebe6ad74-1e39-47ab-98ce-43f3df09d4b7",
+          "recordTags": [],
+          "isPrivate": false,
+          "owners": []
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "H > 1: diminuendum dampnum",
+          "aliasName": null,
+          "description": null,
+          "collection": "/api/3/workflow_collections/3b4f08a2-b295-4abb-8243-3d987e49209c",
+          "tag": null,
+          "isActive": true,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/6a7bde5e-1d3d-49fe-9756-d28bdca1899b",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "step_variables": []
+              },
+              "status": null,
+              "left": "125",
+              "top": "30",
+              "stepType": "/api/3/workflow_step_types/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+              "uuid": "6a7bde5e-1d3d-49fe-9756-d28bdca1899b"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Easter Egg",
+              "description": null,
+              "arguments": {
+                "what_you_are_seeking": "{\n  \"type\": \"workflow_collections\",\n  \"data\": [\n    {\n      \"@context\": \"/api/3/contexts/WorkflowCollection\",\n      \"@type\": \"WorkflowCollection\",\n      \"name\": \"00 - Alerts Enrichment and Triage\",\n      \"description\": null,\n      \"visible\": true,\n      \"image\": null,\n      \"id\": 95,\n      \"createDate\": 1605632984,\n      \"modifyDate\": 1605632984,\n      \"recordTags\": [\n        \"SOC_Simulator\"\n      ],\n      \"workflows\": [\n        {\n          \"@type\": \"Workflow\",\n          \"triggerLimit\": null,\n          \"name\": \"Credential Theft Remediation\",\n          \"aliasName\": null,\n          \"description\": null,\n          \"collection\": \"/api/3/workflow_collections/3b4f08a2-b295-4abb-8243-3d987e49209c\",\n          \"tag\": null,\n          \"isActive\": true,\n          \"singleRecordExecution\": false,\n          \"remoteExecutableFlag\": false,\n          \"parameters\": [],\n          \"synchronous\": false,\n          \"triggerStep\": \"/api/3/workflow_steps/4a7f4bf8-7ad2-47fb-8c87-92a5cd30d439\",\n          \"steps\": [\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Start\",\n              \"description\": null,\n              \"arguments\": {\n                \"route\": \"d9ae2c46-8ef1-42e1-a8da-beb34f12a475\",\n                \"resources\": [\n                  \"incidents\"\n                ],\n                \"inputVariables\": [],\n                \"step_variables\": {\n                  \"input\": {\n                    \"records\": \"{{vars.input.records}}\"\n                  }\n                },\n                \"displayConditions\": {\n                  \"incidents\": {\n                    \"sort\": [],\n                    \"limit\": 30,\n                    \"logic\": \"AND\",\n                    \"filters\": []\n                  }\n                },\n                \"executeButtonText\": \"Execute\",\n                \"noRecordExecution\": false,\n                \"singleRecordExecution\": true\n              },\n              \"status\": null,\n              \"left\": \"300\",\n              \"top\": \"30\",\n              \"stepType\": \"/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a\",\n              \"uuid\": \"4a7f4bf8-7ad2-47fb-8c87-92a5cd30d439\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Set Input Data\",\n              \"description\": null,\n              \"arguments\": {\n                \"username\": \"{{vars.input.records[0].affectedUser}}\",\n                \"source_ip\": \"{{vars.input.records[0].sourceIP}}\"\n              },\n              \"status\": null,\n              \"left\": \"300\",\n              \"top\": \"165\",\n              \"stepType\": \"/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f\",\n              \"uuid\": \"44f5133e-2b67-4c91-ac8e-a8b92603febb\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Approve Remediation Action\",\n              \"description\": null,\n              \"arguments\": {\n                \"resource\": {\n                  \"method\": {\n                    \"id\": 116,\n                    \"@id\": \"/api/3/picklists/7a04788b-5128-4288-a0fc-6e82d18c3b7b\",\n                    \"icon\": null,\n                    \"@type\": \"Picklist\",\n                    \"color\": null,\n                    \"display\": \"System\",\n                    \"listName\": \"/api/3/picklist_names/d7bdd0ba-d721-4324-bec5-410e23f0f485\",\n                    \"itemValue\": \"System\",\n                    \"orderIndex\": 1\n                  },\n                  \"owners\": [\n                    \"/api/3/teams/6e569c09-3bd4-40f1-98b0-cc994464c3c5\"\n                  ],\n                  \"status\": {\n                    \"id\": 208,\n                    \"@id\": \"/api/3/picklists/d26464e0-1df4-46c2-a032-018911ba0c40\",\n                    \"icon\": null,\n                    \"@type\": \"Picklist\",\n                    \"color\": \"#bf9937\",\n                    \"listName\": \"/api/3/picklist_names/ce294c1f-9318-425f-9a12-2957292f4cbf\",\n                    \"itemValue\": \"Pending\",\n                    \"orderIndex\": 2\n                  },\n                  \"playbookiri\": \"api/3/workflows/1f755a05-3656-4c98-9115-7ee2744288c1\",\n                  \"playbookname\": \"Credential Theft Remediation\",\n                  \"playbookuuid\": \"1f755a05-3656-4c98-9115-7ee2744288c1\",\n                  \"approvaldescription\": \"To Block the source IP address on FortiGate &\\nDisable the stolen credentials on Active Directory\"\n                },\n                \"collection\": \"approvals\",\n                \"step_variables\": []\n              },\n              \"status\": null,\n              \"left\": \"300\",\n              \"top\": \"300\",\n              \"stepType\": \"/api/3/workflow_step_types/6832e556-b9c7-497a-babe-feda3bd27dcg\",\n              \"uuid\": \"ad33b8f5-d032-4b8f-bb22-ba645fdcaadb\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Is Approved\",\n              \"description\": null,\n              \"arguments\": {\n                \"conditions\": [\n                  {\n                    \"option\": \"yes\",\n                    \"step_iri\": \"/api/3/workflow_steps/387d7ba3-b1f1-4199-9d26-0e34387da031\",\n                    \"condition\": \"{{ vars.steps.Approve_Remediation_Action.approved is sameas true }}\",\n                    \"step_name\": \"Block Source IP\"\n                  },\n                  {\n                    \"option\": \"no\",\n                    \"default\": true,\n                    \"step_iri\": \"/api/3/workflow_steps/ef225168-cb44-4043-ad35-c6ddf8fc1ae2\",\n                    \"step_name\": \"No Action\"\n                  }\n                ]\n              },\n              \"status\": null,\n              \"left\": \"300\",\n              \"top\": \"435\",\n              \"stepType\": \"/api/3/workflow_step_types/12254cf5-5db7-4b1a-8cb1-3af081924b28\",\n              \"uuid\": \"bb653c61-fd36-49c5-bbfd-7e797a2a5081\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"No Action\",\n              \"description\": null,\n              \"arguments\": {\n                \"params\": [],\n                \"version\": \"3.0.5\",\n                \"connector\": \"cyops_utilities\",\n                \"operation\": \"no_op\",\n                \"operationTitle\": \"Utils: No Operation\",\n                \"step_variables\": []\n              },\n              \"status\": null,\n              \"left\": \"125\",\n              \"top\": \"570\",\n              \"stepType\": \"/api/3/workflow_step_types/0109f35d-090b-4a2b-bd8a-94cbc3508562\",\n              \"uuid\": \"ef225168-cb44-4043-ad35-c6ddf8fc1ae2\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Block Source IP\",\n              \"description\": null,\n              \"arguments\": {\n                \"name\": \"Fortinet FortiGate\",\n                \"when\": \"{{vars.source_ip is defined}}\",\n                \"config\": \"008c79ba-e9ce-467d-a900-95f2993d8f43\",\n                \"params\": {\n                  \"vdom\": \"\",\n                  \"method\": \"Quarantine Based\",\n                  \"ip_addresses\": \"{{vars.source_ip}}\",\n                  \"time_to_live\": \"1 Hour\"\n                },\n                \"version\": \"4.0.0\",\n                \"connector\": \"fortigate-firewall\",\n                \"operation\": \"block_ip\",\n                \"operationTitle\": \"Block IP Address\",\n                \"pickFromTenant\": false,\n                \"step_variables\": []\n              },\n              \"status\": null,\n              \"left\": \"475\",\n              \"top\": \"570\",\n              \"stepType\": \"/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671\",\n              \"uuid\": \"387d7ba3-b1f1-4199-9d26-0e34387da031\"\n            },\n            {\n              \"@type\": \"WorkflowStep\",\n              \"name\": \"Disable Username\",\n              \"description\": null,\n              \"arguments\": {\n                \"name\": \"Active Directory\",\n                \"when\": \"{{vars.username is defined}}\",\n                \"config\": \"99f5349d-3efe-4051-bffd-ba33e2822b13\",\n                \"params\": {\n                  \"search_attr_name\": \"SamAccount Name\",\n                  \"search_attr_value\": \"{{vars.username}}\"\n                },\n                \"version\": \"2.1.1\",\n                \"connector\": \"activedirectory\",\n                \"operation\": \"enable_user_account\",\n                \"operationTitle\": \"Enable User Account\",\n                \"pickFromTenant\": false,\n                \"step_variables\": []\n              },\n              \"status\": null,\n              \"left\": \"475\",\n              \"top\": \"705\",\n              \"stepType\": \"/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671\",\n              \"uuid\": \"75e2513f-0e6d-4389-a1ed-9226e33b815d\"\n            }\n          ],\n          \"routes\": [\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"f0b38887-f48d-463f-b443-751e6d0d4ec8\",\n              \"name\": \"Start -> Set Input Data\",\n              \"label\": null,\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/44f5133e-2b67-4c91-ac8e-a8b92603febb\",\n              \"sourceStep\": \"/api/3/workflow_steps/4a7f4bf8-7ad2-47fb-8c87-92a5cd30d439\"\n            },\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"b04fafa3-cf30-4f96-bd3b-5acb6468d56f\",\n              \"name\": \"Set Input Data -> Approve Remediation Action\",\n              \"label\": null,\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/ad33b8f5-d032-4b8f-bb22-ba645fdcaadb\",\n              \"sourceStep\": \"/api/3/workflow_steps/44f5133e-2b67-4c91-ac8e-a8b92603febb\"\n            },\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"514e7a8c-572c-4ccf-9fc4-0d4c480ed4a7\",\n              \"name\": \"Approve Remediation Action -> Is Approved\",\n              \"label\": null,\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/bb653c61-fd36-49c5-bbfd-7e797a2a5081\",\n              \"sourceStep\": \"/api/3/workflow_steps/ad33b8f5-d032-4b8f-bb22-ba645fdcaadb\"\n            },\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"c47aa389-25cb-46bd-bcfc-bc4a0b2d9771\",\n              \"name\": \"Is Approved -> No Action\",\n              \"label\": \"no\",\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/ef225168-cb44-4043-ad35-c6ddf8fc1ae2\",\n              \"sourceStep\": \"/api/3/workflow_steps/bb653c61-fd36-49c5-bbfd-7e797a2a5081\"\n            },\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"d7c111d7-8c83-4a60-8b1e-f3b161efaa61\",\n              \"name\": \"Is Approved -> Block Source IP\",\n              \"label\": \"yes\",\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/387d7ba3-b1f1-4199-9d26-0e34387da031\",\n              \"sourceStep\": \"/api/3/workflow_steps/bb653c61-fd36-49c5-bbfd-7e797a2a5081\"\n            },\n            {\n              \"@type\": \"WorkflowRoute\",\n              \"uuid\": \"3d4fe34e-f5a8-4755-b343-ede2ab4230e1\",\n              \"name\": \"Block Source IP -> Disable Username\",\n              \"label\": null,\n              \"isExecuted\": false,\n              \"targetStep\": \"/api/3/workflow_steps/75e2513f-0e6d-4389-a1ed-9226e33b815d\",\n              \"sourceStep\": \"/api/3/workflow_steps/387d7ba3-b1f1-4199-9d26-0e34387da031\"\n            }\n          ],\n          \"versions\": null,\n          \"lastModifyDate\": 1605643150,\n          \"priority\": \"/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2\",\n          \"uuid\": \"1f755a05-3656-4c98-9115-7ee2744288c1\",\n          \"recordTags\": [],\n          \"isPrivate\": false,\n          \"owners\": []\n        }\n      ]\n    }\n  ]\n}"
+              },
+              "status": null,
+              "left": "125",
+              "top": "165",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "fa1baaed-28d5-43e2-ba52-76122baf8e66"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "70452acc-d02a-4bc2-8ae2-ca0b35f9ee53",
+              "name": "Start -> Easter Egg",
+              "label": null,
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fa1baaed-28d5-43e2-ba52-76122baf8e66",
+              "sourceStep": "/api/3/workflow_steps/6a7bde5e-1d3d-49fe-9756-d28bdca1899b"
+            }
+          ],
+          "versions": null,
+          "lastModifyDate": 1605646941,
+          "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+          "uuid": "efc1400c-9deb-4539-8838-9455397c914e",
           "recordTags": [],
           "isPrivate": false,
           "owners": []
