@@ -22,7 +22,6 @@ import sys
 import datetime
 import base64
 import hashlib
-import paramiko
 import zipfile
 from shutil import copyfile
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
