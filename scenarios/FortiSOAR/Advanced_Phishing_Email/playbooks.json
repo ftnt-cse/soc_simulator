@@ -5453,6 +5453,7 @@
                 "version": "3.4.3",
                 "connector": "exchange",
                 "operation": "run_query",
+                "ignore_errors": true,
                 "operationTitle": "Search Email",
                 "pickFromTenant": false,
                 "step_variables": []
@@ -5530,6 +5531,7 @@
                 },
                 "connector": "exchange",
                 "operation": "delete_email",
+                "ignore_errors": true,
                 "operationTitle": "Delete Email",
                 "pickFromTenant": false,
                 "step_variables": []
@@ -5603,7 +5605,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1614691608,
+          "lastModifyDate": 1615144476,
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "7ee07e36-8fec-4f4d-91ee-19776db29ef3",
           "recordTags": [],
@@ -7281,6 +7283,7 @@
                 "version": "3.4.3",
                 "connector": "exchange",
                 "operation": "send_email",
+                "ignore_errors": true,
                 "operationTitle": "Send Email",
                 "step_variables": []
               },
@@ -7473,7 +7476,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1614693780,
+          "lastModifyDate": 1615144420,
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "b393634a-4696-4b0a-bf81-8550e0444a4e",
           "recordTags": [],
@@ -8980,6 +8983,7 @@
                 "version": "3.4.3",
                 "connector": "exchange",
                 "operation": "send_email",
+                "ignore_errors": true,
                 "operationTitle": "Send Email",
                 "step_variables": []
               },
@@ -9295,7 +9299,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1614772261,
+          "lastModifyDate": 1615144396,
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "f5017b2c-07e6-4b35-8d1b-e5fe4bdc1ced",
           "recordTags": [],
