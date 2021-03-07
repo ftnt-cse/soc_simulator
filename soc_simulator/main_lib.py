@@ -3,8 +3,6 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
 from .artifact_factory import *
-from scapy.all import *
-
 
 MAINCONFIG_FILE = 'config.json'
 PLAYBOOKS_FILE = 'playbooks.json'
