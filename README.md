@@ -1,12 +1,15 @@
 # (ftnt) SOC Simulator:
 
--- Work in Progress --
-
-DISCLAIMER: without any warranty or liability for accuracy and completeness, no legal commitment is made or implied by the content of this repository
+## Changelog:
+0.7:
+- Removed FortiSIEM Support
+- Removed web gui support
+- Updated: Advanced Phishing scenario
+- Updated: Malware Lateral Movement
 
 ## Introduction:
-A tool meant to be used during demos to simulate a SOAR/SIEM environment by sending a series of alerts/events with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR/FSM capabilities.
-it is written in python so it can run on any machine with python installed including FortiSOAR/FSM. It simulates an Asset network connected to the Internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
+A tool meant to be used during demos to simulate a SOAR environment by sending a series of alerts/events with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR capabilities.
+it is written in python so it can run on any machine with python installed including FortiSOAR instance itself. It simulates an Asset network connected to the Internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
 -FortiSIEM
 -FortiAnalyzer
 -MTA
@@ -18,9 +21,8 @@ A sample scenario run would look like:
 
 The prerequisite will be executed first:
 - Connectors verification, each required connector will be checked, it has to be installed, configured and set to Default.
-- The associated playbooks will be uploaded to the FortiSIEM instance
+- The associated playbooks will be uploaded to the FortiSOAR instance
 - Users creation in FortiSOAR (optional)
-- Syslogs sent to a SIEM server (optional)
 
 The Environment requires a FortiGate to be used as a response enforcement point.
 
@@ -31,7 +33,6 @@ The Environment requires a FortiGate to be used as a response enforcement point.
 - Provides variables (Tags) to be used in scenario to keep the content dynamic and relevant
 - Automatically uploads the scenario playbooks to FortiSOAR
 - Automatically create FortiSOAR dependencies (users, picklist entries)
-- Automatically sends dependent syslogs to SIEM prior to triggering the scenario
 - Checks whether the dependent connectors are: Installed, Configured, Set to default
 - Configurable Alerts transition, could be manual (Key press) or a time laps between alerts
 - Easy framework to add custom scenarios (copy/paste source_data and playbook collections from FortiSOAR)
@@ -47,7 +48,7 @@ optional arguments:
   -t TENANT, 			--tenant TENANT 	: Tenant IRI
   -c CONFIG, 			--config CONFIG 	: Configuration file to use, by default config.json 
 
-SOC Simulator: use config.json to configure FortiSIEM and FortiSOAR IPs and credentials depending on your environment
+SOC Simulator: use config.json to configure FortiSOAR IPs and credentials depending on your environment
 ```
 All parameters except: tenant, step and Scenario_folder are stored in a config.json file to avoid having to supply it as an cli argument. it's mandatory to edit config.json_sample and rename it to config.json before you start using the simulator.
 
@@ -57,20 +58,11 @@ Example:
 	"FORTISOAR_IP":"10.2.24.52",
 	"fortisoar_username":"csadmin",
 	"fortisoar_password":"changeme",
-	"FORTISIEM_IP":"10.2.24.20",
-	"fortisiem_username":"admin",
-	"fortisiem_password":"admin*1",
-	"sudo_password":"",
 	"tenant":"",
 	"TR_FG_MGMT_IP":"10.200.3.1",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
 	"TR_CUSTOMER_LAN":"10.200.3.0/24",
-	"TR_FGT_SN": "FGXXXXXXXXXXXXXX",
-	"GUI_mode": "local",
-	"GUI_sshHost": "10.22.24.52",
-	"GUI_sshPort": "20200",
-	"GUI_sshUser": "admin",
-	"GUI_sshPass": "admin*1"
+	"TR_FGT_SN": "FGXXXXXXXXXXXXXX"
 }
 ```
 TR_* are environment constant attributes to be used in the scenarios, see scenario.json section below
@@ -79,8 +71,8 @@ TR_* are environment constant attributes to be used in the scenarios, see scenar
 
 - Main script: The main cli
 - Modules Directory: Contain various functions libraries
-- Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario around a specific product (FortiSOAR/FortiSIEM). it is a list of dictionary objects.
-- SOCSIM_Daemon: implementing functions which require root privileges such as sending spoofed syslogs to FortiSIEM
+- Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario around a specific product (FortiSOAR). it is a list of dictionary objects.
+
 
 ### FortiSOAR Templates:
 Each scenario template is a folder containing:
@@ -96,7 +88,7 @@ It contains the scenario meta data and dependencies, this file is first read and
 | Config attribute | description|
 |---|---|
 |name | Scneario Descriptive Name, (usualy the same as the folder name where the scenario files are stored)|
-| product | fortisoar, fortisiem, This is for the simulator to identify the target product|
+| product | fortisoar, This is for the simulator to identify the target product|
 | connectors_dependencies| [name_of_the_connectors,] FortiSOAR connector name which must be configured and set to default before running the scneario|
 |version | version of the scenario |
 |description | high level scenario description|
@@ -104,7 +96,6 @@ It contains the scenario meta data and dependencies, this file is first read and
 |publisher | scenario owner|
 |infographic | link to the infographic file|
 |connectors_dependencies| a list of required connectors for the scenario, exp:["whois-rdap","virustotal"]|
-|fsm_events_dependencies|a list of events to be sent to a SIEM before the scenario starts, check syntax below|
 |fsr_user_dependencies|a list of users FortiSOAR will use during the playbooks execution, each user will have a tag 'offender' and a security ID of :10 if it contains the word: bad (such as r.baddler)|
 |fsr_picklist_dependencies|a list of dictionaries with the format: "Picklist":["Picklist_item1","Picklist_item2",...] the items will be added to the picklist during init phase |
 
@@ -117,10 +108,6 @@ Example:
     "fsr_user_dependencies":["m.goodspeed","f.waldo"],    
     "connectors_dependencies":["whois-rdap","virustotal","fortigate-firewall","fortinet-fortisiem","ssh"],
     "fsr_picklist_dependencies":{"AlertType":["SECURITY_INIT_ACCESS","SECURITY_EXECUTION"],"SLAState":["NA"]},
-    "fsm_events_dependencies":[
-        {"source_ip":"10.0.50.120","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.120 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""},
-        {"source_ip":"10.0.50.150","destination_ip":"10.0.1.5","payload":"<142>May 17 13:27:37 fortielab.com ApacheLog  10.0.50.150 - Aule [17/Jul/2020:12:11:52 +0000] \"GET /html/index.php HTTP/1.1\" 200 431\"http://www.fortielab.com/\" \"Mozilla/4.05 [en] (MacOSX; I)\" \"USERID=Windows;IMPID=01234\""}
-    ],
     "version": "1.0.0",
     "description": "A Web Server is Compromised, its index.htm overridden with a malicious URL redirect",
     "category": "soc_analyst",
@@ -232,6 +219,7 @@ The list of available dynamic values (Variables):
 |"TR_FG_DEV_NAME"|get_fg_dev_name|get fortigate device name (according to the topology file)|
 |"TR_ASSET_IP"|get_asset_ip| get a random local IP from the prefix: 10.200.3.2-25, to specify another range (30 to 99 for example) use the syntax: {{TR_ASSET_IP,30,99}}|
 |"TR_MALICIOUS_IP"|get_malicious_ip| get a malicious IP from CTI|
+|"TR_SPAM_DOMAIN"|get_spam_domain| get a spam domain from CTI|
 |"TR_NOW"|get_time_now|get current timestamp|
 |"TR_RANDOM_INTEGER"|get_random_integer|get random number between 55555 and 99999 if used without parameters, to specify the range from 1 to 100 use the syntax: {{TR_RANDOM_INTEGER,1,100}}|
 |"TR_MALICIOUS_DOMAIN"|get_malicious_domains| get a malicious domain name from CTI|
@@ -254,39 +242,6 @@ The list of available dynamic values (Variables):
 |"TR_DATE_NOW_ONLY"|get_date_now_only| returns current date|
 |"TR_TIME_NOW_ONLY"|get_time_now_only| returns current time|
 |"TR_TIMEZONE"|get_timezone| returns timezone from config file|
-
-
-
-### FortiSIEM Templates:
-Each scenario template is a folder containing:
-Scenario_Name.pptx 	: A power-point describing the scenario
-info.json 			: Scenario meta data
-infocgraphics.gif 	: Scenario diagram
-scenario.json 		: The list of events to be sent to FortiSIEM
-#### scenario.json
-A sample template structure:
-```json
-[
-  {
-    "sleep": 0,
-    "source_ip": "10.10.11.204",
-    "destination_ip": "",
-    "payload": "<185>date=2020-05-16 time=16:24:41 devname=\"FortiGate-Core\" devid=\"FGVM02TM19000000\" logid=\"0419016384\" type=\"utm\" subtype=\"ips\" eventtype=\"signature\" level=\"alert\" vd=\"root\" eventtime=1589639081585852711 tz=\"+0200\" severity=\"high\" srcip={{TR_MALICIOUS_IP}} srccountry=\"Reserved\" dstip={{TR_ASSET_IP}} srcintf=\"port5\" srcintfrole=\"wan\" dstintf=\"port2\" dstintfrole=\"dmz\" sessionid=1148457 action=\"detected\" proto=6 service=\"HTTP\" policyid=4 attack=\"PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution\" srcport=52848 dstport=80 hostname=\"{{TR_ASSET_IP}}\" url=\"/dvwa/moadmin/moadmin.php?collection=secpulse&action=listRows&find=array();phpinfo();exit;\" direction=\"outgoing\" attackid=40243 profile=\"protect_http_server\" ref=\"http://www.fortinet.com/ids/VID40243\" incidentserialno=7828925 msg=\"web_app: PhpMoAdmin.moadmin.php.Unauthenticated.Remote.Code.Execution,\" crscore=30 craction=8192 crlevel=\"high\""
-  },
-  {
-    "sleep": 0,
-    "source_ip": "10.10.11.204",
-    "destination_ip": "",
-    "payload": "{{TR_ASSET_IP}}1 - - [12/May/2020:15:58:07 +0200] \"GET /dvwa/moadmin/moadmin.php HTTP/1.1\" 200 1049 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36\""
-  }
-]
-```
-- When destination_ip is empty, the event will be sent to the configured FORTISIEM_IP in the global congig.json
-- Sleep, determines how many seconds to wait before sending the next event.
-
-### SOCSIM_Daemon:
-
-Depreciated, to be removed soon
 
 
 ### License

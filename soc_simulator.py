@@ -7,10 +7,9 @@
 import os
 import sys
 # os.chdir(sys.path[0])
-from simulator_files.artifact_factory import *
-from simulator_files.fortisoar_lib import *
-from simulator_files.main_lib import *
-from simulator_files.fortisiem_lib import *
+from soc_simulator.artifact_factory import *
+from soc_simulator.fortisoar_lib import *
+from soc_simulator.main_lib import *
 
 
 def main():
@@ -70,11 +69,7 @@ def main():
 					time.sleep(1)
 
 		else:
-			if 'fsm_events_dependencies' in scenario_data['info.json'] and len(config['sudo_password']) > 3:
-				for event in scenario_data['info.json']['fsm_events_dependencies']:
-					logger.info('sending event to {0}'.format(event['destination_ip']))
-					unprivileged_send_fsm_event(event,config['sudo_password'])
-					time.sleep(1)
+			logger.info('{0}You need to be "root" to send syslogs{1}'.format(bcolors.OKGREEN,bcolors.ENDC))
 
 		alerts,playbooks_definition=cook_alert(config['FORTISOAR_IP'],headers,scenario_data['scenario.json'],scenario_data['playbooks.json'])
 		upload_playbooks(config['FORTISOAR_IP'],headers,playbooks_definition)
@@ -97,24 +92,6 @@ def main():
 			fsr_send_alert(config['FORTISOAR_IP'],headers,alert,False,tenant_iri)
 			if alert['data'][0]['demo_message']:
 				logger.info('{0}\nStep Instructions: \n{1}{2}'.format(bcolors.INST,alert['data'][0]['demo_message'],bcolors.ENDC))
-
-	if 'fortisiem' in args.scenario_folder.lower():
-		for event in cook_fsm_events(scenario_data['scenario.json']):
-			if 'demo_message' in event:
-				logger.info('{0}{1}{2}'.format(bcolors.INST,event['demo_message'],bcolors.ENDC))
-			if len(event['destination_ip']) < 7:
-				logger.info('{0}Setting destination IP address to pre-configured FortiSIEM IP:{1}{2}{3}{4}'
-					.format(bcolors.OKGREEN,bcolors.ENDC,bcolors.MSG,config['FORTISIEM_IP'],bcolors.ENDC))
-				event['destination_ip'] = config['FORTISIEM_IP']
-
-			if 'sleep' in event:
-				if event['sleep'] >= 0:
-					time.sleep(event['sleep'])
-				else:
-					input(bcolors.MSG+"Press Enter key to continue"+bcolors.ENDC)
-			logger.info('{0}Sending event from{1} {2} {3} {4}'
-				.format(bcolors.OKGREEN,str(event['source_ip']),'to:',str(event['destination_ip']),bcolors.ENDC))
-			send_fsm_event(event)
 
 if __name__ == '__main__':
 	main()
