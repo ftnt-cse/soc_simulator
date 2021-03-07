@@ -30,22 +30,6 @@ def is_valid_ip(ip):
 			return False
 	return True
 
-def send_event(source_ip,destination_ip,payload):
-	try:	
-		spoofed_packet = IP(src=source_ip, dst=destination_ip) / UDP(sport=random.randint(30000, 35000), dport=514) / payload
-		send(spoofed_packet)
-	except:
-		logger.error('Sending Event Failed', sys.exc_info()[0])
-
-def read_json(data):
-		try:
-			json_data=json.loads(data)
-
-		except ValueError:
-			logger.error(bcolors.FAIL+"Bad JSON Syntax: "+data+bcolors.ENDC)
-			return None
-		else:
-			return json_data
 
 def load_scenario_folder(scenario_folder_path,scenario_files):
 	"""loads the json files within the scenario folder into a single json object"""
@@ -95,21 +79,6 @@ def read_config(config_file=MAINCONFIG_FILE):
 		sys.exit()
 	else:
 		return config
-
-
-def send_fsm_event(event):
-	"""Default FortiSIEM send events while the tool is running as root"""
-	try:
-		source_ip=event['source_ip']
-		destination_ip=event['destination_ip']
-		payload=event['payload']
-		if not is_valid_ip(source_ip) or not is_valid_ip(destination_ip):
-			logger.info(source_ip,destination_ip,' not a valid IP address')
-			return None
-		send_event(source_ip,destination_ip,payload)
-	except:
-		logger.error(bcolors.FAIL+"Couldn't send event: "+payload+bcolors.ENDC)
-		exit()
 
 
 def resolve_tags(scenario_json):
