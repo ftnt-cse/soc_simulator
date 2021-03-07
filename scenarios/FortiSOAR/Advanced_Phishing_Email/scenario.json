@@ -1,0 +1,195 @@
+[
+  {
+    "data": [
+      {
+        "sleep": 0,
+        "name": "Suspicious eMail Attached",
+        "source": "PHISHING-1",
+        "demo_message": "1) Malicious Email as Attachement reported by Adam Smith\n2) Auto-reply: Email received (show email client)\n3) Body/Header Artifacts [file,url,domain...] extracted/rated (Show rating Playbook)\n4) Existing indicators linked\n5) Some indicators are malicious\n6) Block original sender on FortiMail (show FML)\n7) Block URLs on FortiGate (show fortigate and/or Blacklist webserver)\nSend Block notification to the reporter/all recipients\n8) Create a Task for EIS to handle the case and notify them",
+        "sourcedata": {
+          "body": {
+            "html": "",
+            "json": null,
+            "text": "Hi Team,\r\nPlease check this email, it looks suspicious\r\n\r\nAdam Smith\r\n+5473542145\r\n"
+          },
+          "headers": {
+            "to": "sysadmin <sysadmin@fortielab.com>",
+            "date": "Fri, 26 Jun 2020 02:08:39 +0000",
+            "from": "adam smith <asmith@fortielab.com>",
+            "subject": "Fwd: Immediate action required",
+            "received": "from Exch19.fortielab.com ([::1]) by Exch19.fortielab.com ([::1]) with mapi id 15.02.0529.005; Thu, 25 Jun 2020 19:08:39 -0700",
+            "message-id": "<A470F95A-F468-4E00-BD14-{{TR_RANDOM_INTEGER}}@fortielab.com>",
+            "content-type": "multipart/mixed; boundary=\"_002_A470F95AF4684E00BD14A8908FB49BE4fortielabcom_\"",
+            "mime-version": "1.0",
+            "thread-index": "AQHWS161GeM1wUjCkU6ZkzBayqtggw==",
+            "thread-topic": "Immediate action required",
+            "accept-language": "en-US",
+            "x-ms-has-attach": "yes",
+            "content-language": "en-US",
+            "x-ms-tnef-correlator": "",
+            "x-ms-exchange-organization-scl": "-1",
+            "x-ms-exchange-organization-authas": "Internal",
+            "x-ms-exchange-organization-authsource": "Exch19.fortielab.com",
+            "x-ms-exchange-organization-authmechanism": "04",
+            "x-ms-exchange-organization-network-message-id": "\t0774bf90-b3b8-4474-61cd-08d81975d7d8",
+            "x-ms-exchange-organization-recordreviewcfmtype": "0"
+          },
+          "item_id": "AAMkADZlMDUzMTg3LTExNDItNGI5ZC05Y2Q3LWMxZmVkNmE1YmFhMwBGAAAAAABzZXpOu00yT74x97UacTW9BwBFcsYwZw3XQ4GsCA56I3BFAAAAAAEMAABFcsYwZw3XQ4GsCA56I3BFAAAAAAo0AAA=",
+          "epilogue": "",
+          "preamble": "",
+          "attachments": [
+            {
+              "file": "e2c47c781691423187bb5038e3a3566c",
+              "json": null,
+              "text": "<data expunged>",
+              "metadata": {
+                "md5": "4642c008e3a7af59ea4335192eebd290",
+                "sha1": "700f1ae39c7e2bc880cc1df7340ed109b1f2296d",
+                "sha256": "015a8f5f60cf061447cc9f5a4e8d8f819c00cc999f6a3b547b2035fd7225a0ba",
+                "filename": "attachment_1.eml",
+                "content_type": "message/rfc822",
+                "content_length": 22608
+              }
+            }
+          ],
+          "folder_path": "/root/Top of Information Store/Inbox",
+          "attachment_files": [
+            "e2c47c781691423187bb5038e3a3566c"
+          ],
+          "extract_attach_data": true,
+          "parsed_attachment_data": [
+            {
+              "body": {
+                "html": "<html><head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body><div style=\"font-family: Verdana;font-size: 12.0px;\"><div>\r\n<p>A Critical vulnerability has been found in our internal ERP client application<br>\r\n, a patch has been made available in our internal website&nbsp;<a href=\"{{TR_MALICIOUS_URL}}\" target=\"_blank\"><span style=\"color:#22a6af\"><span style=\"text-decoration:none\">ER16453 Patch</span></span></a><br>\r\n.It is mandatory for all employes to download it and install it immediately. Instructions PDF Attached<br>\r\nOffice of the CTO</p>\r\n\r\n<hr><font color=\"#000000\"><b>*** Please note that this message and any attachments may contain confidential and proprietary material and information and are intended only for the use of the intended recipient(s). If you are not the intended recipient, you are hereby notified that any review, use, disclosure, dissemination, distribution or copying of this message and any attachments is strictly prohibited. If you have received this email in error, please immediately notify the sender and destroy this e-mail and any attachments and all copies, whether electronic or printed. Please also note that any views, opinions, conclusions or commitments expressed in this message are those of the individual sender and do not necessarily reflect the views of fortielab, Inc., its affiliates, and emails are not binding on fortielab and only a writing manually signed by fortielab's General Counsel can be a binding commitment of fortielab to fortielab's customers or partners. Thank you. ***</b></font></div></div></body></html>",
+                "json": null,
+                "text": ""
+              },
+              "file": "64e04d2ab03b4d4980a865afc42c75fb",
+              "headers": {
+                "to": "adam smith <asmith@fortielab.com>, david ricardo <dricardo@fortielab.com>, masha <masha@fortielab.com>, sasha <sasha@fortielab.com>",
+                "cc": "misha <misha@fortielab.com>",
+                "date": "Thu, 25 Jun 2020 18:46:43 +0200",
+                "from": "cto_office@fortielab.com <cto_office@{{TR_SPAM_DOMAIN}}>",
+                "reply-to": "adrian ilian <cto_office@{{TR_SPAM_DOMAIN}}>",
+                "subject": "Immediate action required",
+                "received": [
+                  "from Exch19.fortielab.com (10.200.3.67) by Exch19.fortielab.com (10.200.3.67) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.5291.5 via Mailbox Transport; Thu, 25 Jun 2020 18:54:53 -0700",
+                  "from Exch19.fortielab.com (10.200.3.67) by Exch19.fortielab.com (10.200.3.67) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.5291.5; Thu, 25 Jun 2020 18:54:51 -0700",
+                  "from FortiMail.fortielab.com (10.200.3.64) by Exch19.fortielab.com (10.200.3.67) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.5291.5 via Frontend Transport; Thu, 25 Jun 2020 18:54:51 -0700"
+                ],
+                "message-id": "<20200625185503.05PIt3{{TR_RANDOM_INTEGER}}@fortielab.com>",
+                "references": "<74A63798-94C2-470D-AEC3-797B76BE6493@fortielab.com>",
+                "x-feas-spf": " spf-result=pass, ip={{TR_MALICIOUS_IP}}, helo=mout.{{TR_SPAM_DOMAIN}}, mailFrom=cto_office@{{TR_SPAM_DOMAIN}}",
+                "return-path": "cto_office@{{TR_SPAM_DOMAIN}}",
+                "sensitivity": "Normal",
+                "x-originating-ip": "{{TR_MALICIOUS_IP}}",
+                "x-feas-dkim": "Valid",
+                "x-spam-flag": "NO",
+                "content-type": "multipart/mixed; boundary=\"refeik-7ef5edcf-4db2-4dfc-ba30-ad76360e2fcc\"",
+                "mime-version": "1.0",
+                "x-provags-id": " V03:K1:8aLIA2pIMTMISc76Ez90RHHryJ+CFXSExI2vGoSRGIqLadFvkaGN2hCu1ZvN/zsMQrCZG QZMHyJkUzd23ItHtlklJirFr7mcxpdtYQ4TBABr31YIEahP9NVgc5JXl5bqx07SxoLR1TiTaWEK0 UAvgnQI0DvobfHnY84K1S+iCvbBtr0VDd4ss70S/k5m7J4fC/bT4h31TRn4MuhQuVAOW3mEtsPlz 5Xt3nWO/uYaQaI+NeBI95e1MAniPe+ziUCB+lGbqycyuStFAjj655Tm2c+B1Nwne4YTf/UPg/iVm ag=",
+                "dkim-signature": "v=1; a=rsa-sha256; c=relaxed/simple; d={{TR_SPAM_DOMAIN}};\ts=badeba3b8450; t=1593103603;\tbh=xvSjxZVr7uKp2KyOy3l6AeHb7jFrYUQ7d0lB0+8jF/s=;\th=X-UI-Sender-Class:From:To:Subject:Date:References;\tb=N3US1dqQ649Y1qFsEFA51TYKV6ahkXYAwRq8HUK0xiZPBDRX/9YnCmFKoNc4vqMVM\t zxNgAdGqsgBqtiqYxoYGzQoidXsSTMpY3cN1/eMVwMdnt9B5oV++Cg46ZvNOZprEVd\t DyJqRhgESxkfgOF2LRE6HnNtBLwZGkLGJPqSwssA=",
+                "x-feas-client-ip": "{{TR_MALICIOUS_IP}}",
+                "x-feas-webfilter": "{{TR_MALICIOUS_URL}}",
+                "x-ui-message-type": "mail",
+                "x-ui-sender-class": "01bb95c1-4bf8-414a-932a-4f6e2808ef9c",
+                "authentication-results": "fortimail.fortielab.com;\tspf=pass (fortielab.com: domain of cto_office@{{TR_SPAM_DOMAIN}} designates {{TR_MALICIOUS_IP}} as permitted sender) smtp.mailfrom=cto_office@{{TR_SPAM_DOMAIN}};\tdkim=pass header.i=@{{TR_SPAM_DOMAIN}}",
+                "x-ui-out-filterresults": "notjunk:1;V03:K0:XSt/46XxDAs=:+BQTkwlY3/ldLqDFvqy/rW 3jNvSmKDgoozuQXAro05pkNtwG4/cgYm7LXQ5LhaESf9WtPXqFVNRqFM0zP1eo8igwREMVKMj 6/pkXm+9UvVmohVUmAWIjsULtda3cTmO+ie0rZO9Q4Vf9vAKo4IAH3uWhnn3vC0yATHdLIoQV NBbNgeY/ZN1tXKAk0Ro+UxA3pTCU/dTjvt+/GWUwl30gxvAac4G2966cGhEgQtP7dWcg1uaTB wo2yCngP03FF2Kid9KMieMT5oofDMCkuS2jLY2J0TFm4SeYZdVL/+n95FTr2lP2mYNRCuIFMb ylJTQZ55qRXV5EZulEzHbmELsLZjcux/EJEmHIm9KCnBqJR8+uRo3FS3UCGS88bA7e1FkvclB D4OD23q2F6VA8BU5HBzJ7pfawW76qUAcIKRN6GGOBeMShW9vffkwtCwF0eOkyI2Pr0HFHBcT1 n9FaytD6B3KQtWwmrhLnAh+XNyDs2sX65DhA2pLXpxUt/OqsKrFmR2VFYTEk37SzjKt/8efr+ EqVsp1jJ7qIcIlU5zH60Ds+m0Jyi13FFVtY4EJxnu8H6h5buK/+EABSwWXU8/PL0Jjij9xdCp m8i+HIlYoWs9Ps2Hh6Mm70p7dL4pDNAUE8SPuKIHAQAmTaG6SQahuKbXZLcxSBH30zqaP3R4g zgWJaK/i1rVKzGCZ0BYHKahnM3srQBOn5Sir20s77jqLxcephrf7y61WV+yDc+nbJvHc=",
+                "x-ms-exchange-organization-authas": "Anonymous",
+                "x-ms-exchange-organization-authsource": "Exch19.fortielab.com",
+                "x-ms-exchange-processed-by-bccfoldering": "15.02.0529.005",
+                "x-ms-exchange-transport-endtoendlatency": "00:00:02.1142676",
+                "x-ms-exchange-organization-network-message-id": " 85ddee63-5fdf-4ae7-df53-08d81973ea72"
+              },
+              "epilogue": "",
+              "preamble": "",
+              "attachments": [
+                {
+                  "file": "{{TR_MALICIOUS_FILE}}",
+                  "metadata": {
+                    "md5": "",
+                    "sha1": "",
+                    "sha256": "",
+                    "filename": "Instructions_{{TR_RANDOM_INTEGER,100,199}}.pdf",
+                    "content_type": "application/pdf",
+                    "content_length": 12376
+                  },
+                  "file_type": "xlsx"
+                }
+              ],
+              "attachment_files": [
+                "OffOrd_185099039-00-11122018-47392353.pdf"
+              ],
+              "parsed_attachment_data": []
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "data": [
+      {
+        "sleep": -1,
+        "name": "Suspicious eMail Inline",
+        "source": "PHISHING-1",
+        "demo_message": "Alert: Malicious Email Attached Inline Sent",
+        "sourcedata": {
+          "body": {
+            "html": "<html>MIS Team, Please investigate the forwarded email below, it looks suspicious. Thank you <br>Adam Smith<br>Financial Analyst<br>+9754235452<br><hr>From: CTO Office <cto_office@fortielab.com> <br>Date: {{TR_FORMATTED_CURRENT_TIME}}<br>To: Adam Smith <asmith@fortielab.com> <br>CC: \"dricardo@fortielab.com\" <dricardo@fortielab.com><br>Subject:Immediate action required<br>\nA Critical vulnerability has been found in our internal ERP client application<br>,\n a patch has been made available in our internal website <a href=https://www.fortielab.com/patches/09870987.exe>Windows Patch</a><br>.\nIt is mandatory for all employes to download it and install it immediately.<br><br>\n<p>Office of the CTO</p></html>",
+            "json": null,
+            "text": ""
+          },
+          "headers": {
+            "to": "\"sysadmin@fortielab.com\" <sysadmin@fortielab.com>",
+            "date": "{{TR_FORMATTED_CURRENT_TIME}}+0000",
+            "from": "Adam Smith <asmith@fortielab.com>",
+            "subject": "Fw: Immediate action required",
+            "received": "from Exch19.fortielab.com ([::1]) by Exch19.fortielab.com ([::1]) with mapi id 15.02.0529.005; {{TR_FORMATTED_CURRENT_TIME}}",
+            "message-id": "<3d608901d41a4b9cac6c28aa2f7{{TR_RANDOM_INTEGER}}@fortielab.com>",
+            "references": "\\t<trinity-bd6386d6-bd3b-450a-b891-568a58bb9451-1589777406906@3c-app-mailcom-bs14>",
+            "in-reply-to": "\\t<trinity-bd6386d6-bd3b-450a-b891-568a58bb9451-1589777406906@3c-app-mailcom-bs14>",
+            "content-type": "multipart/mixed; boundary=\"_004_3d608901d41a4b9cac6c28aa2f7f6482fortielabcom_\"",
+            "mime-version": "1.0",
+            "thread-index": "AQHWLRs8LbaV7JClfk+OJUM6d1glXait3Lq+",
+            "thread-topic": "Important Patch",
+            "accept-language": "en-US",
+            "x-ms-has-attach": "yes",
+            "content-language": "en-US",
+            "x-ms-tnef-correlator": "",
+            "x-ms-exchange-organization-scl": "-1",
+            "x-ms-exchange-organization-authas": "Internal",
+            "x-ms-exchange-organization-authsource": "Exch19.fortielab.com",
+            "x-ms-exchange-organization-authmechanism": "04",
+            "x-ms-exchange-organization-network-message-id": "\\tef9b53ec-dab9-4ed9-9348-08d7fb32b227",
+            "x-ms-exchange-organization-recordreviewcfmtype": "0"
+          },
+          "item_id": "AAMkADZlMDUzMTg3LTExNDItNGI5ZC05Y2Q3LWMxZmVkNmE1YmFhMwBGAAAAAABzZXpOu00yT74x97UacTW9BwBFcsYwZw3XQ4GsCA56I3BFAAAAAAEMAABFcsYwZw3XQ4GsCA56I3BFAAAAAAn6AAA=",
+          "epilogue": "",
+          "preamble": "",
+          "attachments": [
+            {
+              "file": "",
+              "json": null,
+              "text": "<data expunged>",
+              "metadata": {
+                "md5": "",
+                "sha1": "",
+                "sha256": "",
+                "filename": "",
+                "content_type": "",
+                "content_length": 0
+              }
+            }
+          ],
+          "folder_path": "/root/Top of Information Store/Inbox",
+          "attachment_files": [
+            "e97a56113c1c4820a8b77da92a80ac91"
+          ],
+          "extract_attach_data": true,
+          "parsed_attachment_data": []
+        }
+      }
+    ]
+  }
+]
