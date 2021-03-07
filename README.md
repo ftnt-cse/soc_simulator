@@ -2,29 +2,30 @@
 
 ## Changelog:
 0.7:
-- Removed FortiSIEM Support
-- Removed web gui support
+- Removed outdated FortiSIEM Support
+- Removed outdated web gui support
 - Updated: Advanced Phishing scenario
 - Updated: Malware Lateral Movement
 
 ## Introduction:
 A tool meant to be used during demos to simulate a SOAR environment by sending a series of alerts/events with a specific timing according to a template. this creates a scenario to illustrate targeted FortiSOAR capabilities.
 it is written in python so it can run on any machine with python installed including FortiSOAR instance itself. It simulates an Asset network connected to the Internet via FortiGate Firewall (FortiGate-Edge) and a set of alert sources including:
--FortiSIEM
--FortiAnalyzer
--MTA
--Others
+
+- FortiSIEM
+- FortiAnalyzer
+- MTA
+- Others
 
 A sample scenario run would look like:
 
 ![img](documentation/media/sample_scenario.png)
 
-The prerequisite will be executed first:
-- Connectors verification, each required connector will be checked, it has to be installed, configured and set to Default.
+The prerequisite will be verified first:
+- Connectors requirements: each required connector will be checked, it has to be installed, configured and set to Default.
 - The associated playbooks will be uploaded to the FortiSOAR instance
-- Users creation in FortiSOAR (optional)
+- Required users will be created in FortiSOAR
 
-The Environment requires a FortiGate to be used as a response enforcement point.
+If a scenario is used with an active remediation, a Configured corresponding connector must be present
 
 
 ## Main Features:
@@ -46,7 +47,7 @@ optional arguments:
   -f SCENARIO_FOLDER, 	--scenario-folder 	: SCENARIO_FOLDER Scenario folder exp: ./scenarios/FortiSOAR/Comprmised_Web_Server/
   -j STEP, 				--step STEP 		: Run a specific step of the scenario and exit
   -t TENANT, 			--tenant TENANT 	: Tenant IRI
-  -c CONFIG, 			--config CONFIG 	: Configuration file to use, by default config.json 
+  -c CONFIG, 			--config CONFIG 	: Path to configuration file to use, by default config.json 
 
 SOC Simulator: use config.json to configure FortiSOAR IPs and credentials depending on your environment
 ```
@@ -55,7 +56,7 @@ All parameters except: tenant, step and Scenario_folder are stored in a config.j
 Example:
 ```json
 {
-	"FORTISOAR_IP":"10.2.24.52",
+	"FORTISOAR_IP":"127.0.0.1",
 	"fortisoar_username":"csadmin",
 	"fortisoar_password":"changeme",
 	"tenant":"",
@@ -69,12 +70,12 @@ TR_* are environment constant attributes to be used in the scenarios, see scenar
 
 ## Components:
 
-- Main script: The main cli
-- Modules Directory: Contain various functions libraries
+- Main script: soc_simulator.py
+- Modules Directory: Contains various functions libraries
 - Templates Directory: Contains the available templates to be used during the demo, each template file represents a scenario around a specific product (FortiSOAR). it is a list of dictionary objects.
 
 
-### FortiSOAR Templates:
+### FortiSOAR Scenarios Templates:
 Each scenario template is a folder containing:
 Scenario_Name.pptx 	: A power-point describing the scenario
 info.json 			: Scenario meta data

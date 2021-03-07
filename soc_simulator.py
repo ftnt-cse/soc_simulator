@@ -6,7 +6,6 @@
 
 import os
 import sys
-# os.chdir(sys.path[0])
 from soc_simulator.artifact_factory import *
 from soc_simulator.fortisoar_lib import *
 from soc_simulator.main_lib import *
