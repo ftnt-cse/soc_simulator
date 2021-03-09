@@ -54,7 +54,7 @@ To configure soc_simulator use the below instructions (Only required if your For
 - Alert Description: Alert Summary
 - Alert Description: MITRE ATT&CK technique descriptions, more details => Correlations tab > ATTACK Technique > right click > Open in new tab
 
-![](mitre_record.png)
+![](media/mitre_record.png)
 
 - Details: 
     - Assigned to
@@ -66,7 +66,7 @@ To configure soc_simulator use the below instructions (Only required if your For
 - Review the phishing email body and header
 - Indicators: expand each indicator highlighting the rating and threat intelligence details in the description 
 
-![](expand_indicators.png)
+![](media/expand_indicators.png)
 
 - Correlations: Describe each related object
 - Playbooks: Review the playbooks chronology (Bottom up)
@@ -85,19 +85,20 @@ To configure soc_simulator use the below instructions (Only required if your For
             - Notify reporter
             - Connect to each recipient mailbox and delete the malicious email
 
-![](playbooks.png)
+![](media/playbooks.png)
 
 - Audit Logs: quick description 
 - Correlations > Incidents : Open the escalated Incident
     - All Alert content has been copied
     - Describe the graphical correlation
-
-![](incident_correlation.png)
-
     - Browse to Tasks: Open Assign Investigate and Remediate Incident task and describe the content
     - Mark the task as completed
     - Change the incident severity to Critical
     - change phase to "Aftermath"
     - Change status: Resolved 
     - Fill: Incident Summary, next Step, Resolution and click Update
-    
+
+![](media/incident_correlation.png)
+
+
+A sample demo of this scenario is available [here](https://www.youtube.com/watch?v=vuiDVAXjIEA)
