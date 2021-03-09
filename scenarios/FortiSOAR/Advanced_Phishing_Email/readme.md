@@ -6,6 +6,7 @@ Phishing scenarios are one the most requested demos with FortiSAOR, this HowTo d
 -  A running FortiSOAR 6.4.4+ installation
 -  An Installed content pack
 -  A configured Code Snippet connector
+-  For a more realistic scenario, a working Exchange server (Optional)
 
 # Installation
 Download the soc_simulator to your FortiSOAR VM (or any box with Python3) and install it with the following commands:
