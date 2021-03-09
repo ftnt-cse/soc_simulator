@@ -5863,7 +5863,7 @@
               "name": "Compute Message IDs",
               "description": null,
               "arguments": {
-                "message_ids": "{{(vars.email_search_results.emails|json_query(\"[].headers.[\\\"Message-ID\\\"]\"))|flatten(levels=1)}}"
+                "message_ids": "{%if vars.email_search_results.emails%}{{(vars.email_search_results.emails|json_query(\"[].headers.[\\\"Message-ID\\\"]\"))|flatten(levels=1)}}{%else%}<161521630813.1257.6206494626344010218@fortisoar-53>{%endif%}"
               },
               "status": null,
               "left": "125",
@@ -6001,7 +6001,7 @@
             }
           ],
           "versions": null,
-          "lastModifyDate": 1615277262,
+          "lastModifyDate": 1615281012,
           "priority": "/api/3/picklists/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
           "uuid": "7ee07e36-8fec-4f4d-91ee-19776db29ef3",
           "recordTags": [],
