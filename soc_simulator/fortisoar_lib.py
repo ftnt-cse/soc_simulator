@@ -219,7 +219,8 @@ def lookup_source_data(server,headers):
 def upload_playbooks(server,headers,playbooks_definition):
     if not playbooks_definition:
         return False
-
+    exported_tags_json = {"__unique":["uuid"],"__replace":False,"__data":[]}
+    #{"uuid":"placeholder"},{"uuid":"FortiTAG"}
     upload_playbook_json={
         "__data": [{
             "@context": "/api/3/contexts/WorkflowCollection",
@@ -246,6 +247,16 @@ def upload_playbooks(server,headers,playbooks_definition):
             headers=headers,verify=False)
 
         if len(response.json()["hydra:member"]) == 0:
+            if playbooks_definition['exported_tags'] and len(playbooks_definition['exported_tags']) > 0:
+                for tag in playbooks_definition['exported_tags']:
+                    exported_tags_json['__data'].append({"uuid":tag})
+                response = requests.post(url='https://'+server+'/api/3/bulkupsert/tags',
+                headers=headers,json=exported_tags_json,verify=False)                
+                if response.status_code != 200:
+                    logger.error(bcolors.FAIL+"Could not exported tags: "+response.text+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
+                    exit()
+                else:
+                     logger.info(bcolors.MSG+"Exported Tags uploaded: "+", ".join(playbooks_definition['exported_tags'])+bcolors.ENDC)
             logger.info(bcolors.MSG+"Uploading Scenario Playbook Collection to FortiSOAR"+bcolors.ENDC)
             response = requests.post(url='https://'+server+'/api/3/bulkupsert/workflow_collections',
             headers=headers,json=upload_playbook_json,verify=False)

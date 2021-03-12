@@ -59,17 +59,6 @@ def main():
 			for entry in scenario_data['info.json']['fsr_picklist_dependencies']:
 				fsr_update_picklist(config['FORTISOAR_IP'],headers,entry,scenario_data['info.json']['fsr_picklist_dependencies'][entry])
 				
-		if os.getuid() == 0:
-			logger.info('running as root')
-			if 'fsm_events_dependencies' in scenario_data['info.json']:
-				for event in scenario_data['info.json']['fsm_events_dependencies']:
-					logger.info('sending event to {0}'.format(event['destination_ip']))
-					send_fsm_event(event)
-					time.sleep(1)
-
-		else:
-			logger.info('{0}You need to be "root" to send syslogs{1}'.format(bcolors.OKGREEN,bcolors.ENDC))
-
 		alerts,playbooks_definition=cook_alert(config['FORTISOAR_IP'],headers,scenario_data['scenario.json'],scenario_data['playbooks.json'])
 		upload_playbooks(config['FORTISOAR_IP'],headers,playbooks_definition)
 
