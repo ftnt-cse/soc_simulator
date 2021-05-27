@@ -1,7 +1,12 @@
 # (ftnt) SOC Simulator:
 
 ## Changelog:
+0.81:
+- FortiSOAR 7.0 API has change
+- Only 1 working scenario: Phishing And Lateral Movement Investigation
+
 0.7:
+- No Support for FortiSOAR 7, max supported version is 6.4.4
 - Removed outdated FortiSIEM Support
 - Removed outdated web gui support
 - Updated: Advanced Phishing scenario
