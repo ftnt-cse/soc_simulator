@@ -5,6 +5,7 @@
 # FortiSOAR CSE Team
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
 
+
 import logging
 import requests
 import argparse
@@ -24,14 +25,18 @@ import base64
 import hashlib
 import zipfile
 from shutil import copyfile
+from requests_toolbelt.utils import dump
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
 
 log_formatter = '%(asctime)s [%(levelname)s]: %(message)s'
 logging.basicConfig(format=log_formatter, datefmt='%H:%M:%S', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+MAINCONFIG_FILE = 'config.json'
+PLAYBOOKS_FILE = 'playbooks.json'
+FSR_CONFIG_FILE = 'fsr_config.json'
+SCENARIO_FILES = ['info.json','infographics.gif',PLAYBOOKS_FILE,'scenario.json']
 
 templates_path 			= './'
 config_file				= './config.json'
@@ -42,11 +47,105 @@ malicious_ip_file		= './threat_intelligence/malicious_ips.txt'
 malicious_urls_file		= './threat_intelligence/malicious_urls.txt'
 spam_domains_file		= './threat_intelligence/spam_domains.txt'
 SOCSIM_FIFO				= '/tmp/socsim.pipe'
-MALWARE_FILE 			= '/tmp/malware.pdf'
-MALICIOUS_FILE_PASSWD	= 'pass'
-MALICIOUS_FILE_PATH		= './threat_intelligence/malware.bin/attachment.pdf.zip'
+MALWARE_FILE 			= '/tmp/malware.doc'
+MALICIOUS_FILE_PASSWD	= 'infected'
+MALICIOUS_FILE_PATH		= './threat_intelligence/malware.bin/password_reset.zip'
 
 
+
+
+#TODO
+def remote_repo_sync():
+# old_git_version=git --git-dir
+# status=`git -C $gitDir pull`
+# if status != "Already up-to-date.":
+# 	git -C $gitDir fetch origin
+# 	git -C $gitDir reset --hard origin/master
+	return None
+
+def is_valid_ip(ip):
+	ip = ip.split('.')
+	if len(ip) != 4:
+		return False
+	for x in ip:
+		if not x.isdigit():
+			return False
+		i = int(x)
+		if i < 0 or i > 255:
+			return False
+	return True
+
+
+def load_scenario_folder(scenario_folder_path,scenario_files):
+	"""loads the json files within the scenario folder into a single json object"""
+	scenario_data={}
+
+	for file in scenario_files:
+		if not 'json' in file:
+			continue
+
+		if scenario_folder_path[-1] != '/':
+			scenario_folder_path=scenario_folder_path + '/'
+
+		try:
+			with open(scenario_folder_path+file, 'r') as f:
+				file_content = f.read()
+			f.close()
+			file_content=json.loads(file_content)
+		except IOError:
+			if file == PLAYBOOKS_FILE:
+				scenario_data.update({PLAYBOOKS_FILE:""})
+				continue
+			logger.error(bcolors.FAIL+"Couldn't open scenario file "+file+", make sure the file exists"+bcolors.ENDC)
+			exit()
+		except ValueError:
+			logger.error(bcolors.FAIL+"Bad Config file: "+file+" syntax"+bcolors.ENDC)
+			exit()
+		else:
+			scenario_data.update({file:file_content})
+
+	return scenario_data
+
+
+def read_config(config_file=MAINCONFIG_FILE):
+	try:
+		with open(config_file, 'r') as file:
+			config = file.read()
+		file.close()
+		logger.info('Parsing config file: {0}'.format(config_file))
+		config=json.loads(config)
+		copyfile(config_file, tmp_config_file)
+
+	except IOError:
+		logger.error(bcolors.FAIL+"Couldn't open config file: {0}, make sure the file exists and its JSON syntax is correct".format(config_file)+bcolors.ENDC)
+		sys.exit()
+	except ValueError:
+		logger.error(bcolors.FAIL+"Bad Config file JSON syntax"+bcolors.ENDC)
+		sys.exit()
+	else:
+		return config
+
+
+def resolve_tags(scenario_json):
+	''' Reads json scenario and replaces each tag with its equivalent function output'''
+	try:
+		template_file = json.dumps(scenario_json)
+		tag_list = re.findall('\{\{(.*?)\}\}',template_file)
+		for tag in tag_list:
+			if ',' in tag and length(tag.split(",")) > 1:
+				args_list = tag.split(",")
+				tag = args_list[0]
+				function_args = args_list[1:]
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag](tuple(function_args)))) # use *args as functions input
+			else:
+				template_file=template_file.replace('{{'+tag+'}}',str(function_dictionary[tag]()))
+	except:
+		logger.error(bcolors.FAIL+"Couldn't process template,playbooks definition files: "+bcolors.ENDC)
+		exit()
+
+	return json.loads(template_file),json.loads(playbooks_definition)	
+
+########################################################################--ARTIFACT--########################################################################
 class bcolors:
 	''' Color code cli output '''
 	OKGREEN = '\033[92m'
@@ -72,20 +171,30 @@ def _read_json_file(file):
 	else:
 		return file_content
 
+def get_pod_number(params = None):
+	try:
+		config = read_config()	
+		return config['pod_number']
+	except Exception as e:
+		logger.error("{0}Incorrect Pod Number, make sure you set your pod number in your config.json: {1}{2}".format(bcolors.FAIL,e,bcolors.ENDC))
+		sys.exit()
+
 def get_malicious_file(params = None):
-	''' Pads a malicious pdf and returns it in base64 encoding and write a binary copy of it under .tmp/'''
+	''' Pads a malicious file and returns it in base64 encoding then write a binary copy of it under .tmp/'''
 	try:
 		zip_file = zipfile.ZipFile(MALICIOUS_FILE_PATH, 'r')
 		extracted_file = zip_file.namelist()
 		zip_file.extractall(path=os.path.dirname(MALICIOUS_FILE_PATH), pwd = bytes(MALICIOUS_FILE_PASSWD, 'utf-8'))
 		zip_file.close()
-		extracted_file = os.path.join(os.path.dirname(MALICIOUS_FILE_PATH), extracted_file[0])	# only one file expected
+		file_name = extracted_file[0] # only one file expected
+		extracted_file = os.path.join(os.path.dirname(MALICIOUS_FILE_PATH), file_name)	
 		with open(extracted_file,'rb') as f:
 			file_content = f.read()
-		
 		malicious_file = file_content + bytes([random.randint(0, 255),random.randint(0, 255),random.randint(0, 255)])
 		with open(MALWARE_FILE, 'wb') as f:
 			f.write(malicious_file)
+		#clean up
+		os.remove(extracted_file)
 
 	except IOError as e:
 		logger.error("{0}Couldn't open malware file: {1}{2}{3}".format(bcolors.FAIL,MALICIOUS_FILE_PATH,e,bcolors.ENDC))
@@ -390,7 +499,8 @@ function_dictionary={
 "TR_T-4":get_time_minus_four,
 "TR_T-5":get_time_minus_five,
 "TR_T-6":get_time_minus_six,
-"TR_X_MIN_AGO":get_time_x_min_ago
+"TR_X_MIN_AGO":get_time_x_min_ago,
+"TR_POD_NUMBER":get_pod_number
 }
 
 

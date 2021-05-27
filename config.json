@@ -1,11 +1,15 @@
 {
-	"FORTISOAR_IP":"127.0.0.1",
+	"FORTISOAR_IP":"34.77.107.210:10406",
 	"fortisoar_username":"csadmin",
-	"fortisoar_password":"changeme",
+	"fortisoar_password":"FSMlab*2020",
+	"pod_number":1,
+	"FORTISIEM_IP":"",
+	"fortisiem_username":"admin",
+	"fortisiem_password":"admin*1",
+	"sudo_password":"",
 	"random":"yes",
 	"tenant":"",
-	"TR_FG_MGMT_IP":"10.200.3.1",
+	"TR_FG_MGMT_IP":"10.200.3.254",
 	"TR_FG_DEV_NAME":"FortiGate-Edge",
-	"FGT_SN": "FGXXXXXXXXXXXXXX",
 	"TR_CUSTOMER_LAN":"10.200.3.0/24"
 }

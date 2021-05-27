@@ -5,7 +5,6 @@
 #import pdb;pdb.set_trace()
 
 from .artifact_factory import *
-from .main_lib import *
 
 
 class FortiSoarAC(object):
@@ -34,6 +33,7 @@ class FortiSoarAC(object):
                 url=server+'/auth/authenticate', json=body,
                 verify=False
             )
+            logger.debug('\nreq data:\n{0}\n'.format(dump.dump_all(response).decode('utf-8')))
             if response.status_code != 200:
                 logger.error('{0}Authentication error{1}'.format(bcolors.FAIL,bcolors.ENDC))
                 exit()
@@ -92,7 +92,7 @@ def fsr_login(server,username,password):
             exit()
         json_response = response.json()
         token = json_response['token']
-        headers = {"Authorization": "Bearer " + token}
+        headers = {"Content-Type":"application/json","Authorization": "Bearer " + token}
     except requests.ConnectionError:
         logger.error('{0}Connection error{1}'.format(bcolors.FAIL,bcolors.ENDC))
         exit()
@@ -107,7 +107,7 @@ def lookup_tenant_iri(server,headers,tenant_name):
         response = requests.get(url='https://'+server+'/api/3/tenants',
             headers=headers,verify=False)
 
-        if response.status_code != 200:
+        if response.status_code != 201:
             logger.error('{0}Error retrieving tenants IRI:{1}{2}'.format(bcolors.FAIL,response.text,bcolors.ENDC))
             exit()
         tenants=response.json()
@@ -130,6 +130,7 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies):
     try:
         response = requests.get(url='https://'+server+'/api/integration/connectors/?configured=true&ordering=label&page_size=100', #TODO: use : search=Connector_name
             headers=headers,verify=False)
+       
         logger.debug('total Items: {}'.format(response.json()['totalItems']))
         if response.status_code != 200 or len(response.json()["data"]) < 1:
             logger.error('{0}Error Getting Connectors List: {1}{2}'.format(bcolors.FAIL,response.text,bcolors.ENDC))
@@ -141,7 +142,6 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies):
                     format(bcolors.FAIL,required_connector,bcolors.ENDC))
                 exit()
     
-
         for required_connector in connectors_dependencies:
             for connector in response.json()["data"]:
                 if required_connector == connector["name"]:
@@ -149,7 +149,7 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies):
                         logger.error(bcolors.FAIL+'Connector: '+required_connector+' is not Configured, Configure it and try again'+bcolors.ENDC)
                         exit()                      
                     # get connector default config:
-                    config_response = requests.get(url='https://'+server+'/api/integration/connectors/'+
+                    config_response = requests.post(url='https://'+server+'/api/integration/connectors/'+
                         connector["name"]+'/'+
                         connector["version"]+
                         '/?format=json',
@@ -159,7 +159,7 @@ def check_connectors_prerequisites(server,headers,connectors_dependencies):
                         if config['default']:
                             status_response = requests.get(url='https://'+server+'/api/integration/connectors/healthcheck/'+connector["name"]+'/'+connector["version"]+\
                                 '/?config='+config['config_id'],headers=headers,verify=False)
-
+                            
                             if connector['active'] and status_response.json()['status'] == 'Available':
                                 logger.info(bcolors.MSG+"Connector: "+connector["name"]+" is properly configured"+bcolors.ENDC)
                             else:
@@ -252,7 +252,7 @@ def upload_playbooks(server,headers,playbooks_definition):
                     exported_tags_json['__data'].append({"uuid":tag})
                 response = requests.post(url='https://'+server+'/api/3/bulkupsert/tags',
                 headers=headers,json=exported_tags_json,verify=False)                
-                if response.status_code != 200:
+                if response.status_code != 201:
                     logger.error(bcolors.FAIL+"Could not exported tags: "+response.text+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
                     exit()
                 else:
@@ -260,7 +260,7 @@ def upload_playbooks(server,headers,playbooks_definition):
             logger.info(bcolors.MSG+"Uploading Scenario Playbook Collection to FortiSOAR"+bcolors.ENDC)
             response = requests.post(url='https://'+server+'/api/3/bulkupsert/workflow_collections',
             headers=headers,json=upload_playbook_json,verify=False)
-            if response.status_code != 200:
+            if response.status_code != 201:
                 logger.error(bcolors.FAIL+"Could not Upload Playbook Collection: "+response.text+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
                 exit()
             else:
@@ -325,7 +325,7 @@ def fsr_create_user(server,headers,username):
             response = requests.delete(url='https://'+server+'/api/3/delete/users',
                 headers=headers,json=delete_user_json,verify=False)
 
-            if response.status_code != 200:
+            if response.status_code != 201:
                 logger.error(bcolors.FAIL+"Could not delete: "+username+'\nStatus Code:'+str(response.status_code)+bcolors.ENDC)
                 exit()
 
@@ -361,10 +361,11 @@ def fsr_send_alert(server,headers,body,single_step=False,tenant=None):
                 else:
                     input(bcolors.MSG+"Type any key to continue"+bcolors.ENDC)
 
+        body['data'][0]['sourcedata'] = json.dumps(body['data'][0]['sourcedata'])
         response = requests.post(url='https://'+server+'/api/3/insert/alerts',
             headers=headers,json=body,verify=False)
 
-        if response.status_code != 200:
+        if response.status_code != 201:
             logger.error(bcolors.FAIL+'Error Updating :'+response.text+bcolors.ENDC)
             exit()
         else:

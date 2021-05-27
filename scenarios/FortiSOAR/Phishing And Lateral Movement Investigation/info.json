@@ -1,0 +1,212 @@
+{
+  "publisher": "CSE-Team",
+  "name": "Phishing Email Scenario",
+  "product": "fortisoar",
+  "category": "soc_analyst",
+  "connectors_dependencies": [
+    "code-snippet"
+  ],
+  "version": "1.0.0",
+  "description": "A user receives a suspicious email and forward it to FortiSOAR for analysis",
+  "infographic": "https://github...",
+  "fsm_events_dependencies": [
+    {
+      "comment": "########################################################################### Download malicious doc",
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<189>date=2021-05-19 time=08:24:05 devname=\"FGVM01TM20000895\" devid=\"FGVM02TM21001331\" logid=\"0317013312\" type=\"utm\" subtype=\"webfilter\" eventtype=\"ftgd_allow\" level=\"notice\" vd=\"root\" eventtime=1620918270477676910 tz=\"+0000\" policyid=1 sessionid=17612 srcip=10.130.3.10 srcport=43646 srcintf=\"port2\" srcintfrole=\"lan\" dstip=104.248.8.135 dstport=443 dstintf=\"port1\" dstintfrole=\"wan\" proto=6 service=\"HTTPS\" hostname=\"TR_MALICIOUS_URL\" profile=\"monitor-all\" action=\"passthrough\" reqtype=\"direct\" url=\"TR_MALICIOUS_URL/instructions_cred.doc\" sentbyte=207 rcvdbyte=2913 direction=\"outgoing\" msg=\"URL belongs to an allowed category in policy\" method=\"domain\" cat=61 catdesc=\"Phishing\" crscore=30 craction=4194304 crlevel=\"high\""
+    },
+    {
+      "comment": "########################################################################### Dropper",
+      "sleep": 10,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<189>date=2021-05-19 time=08:25:01 devname=\"FGVM01TM20000895\" devid=\"FGVM02TM21001331\" logid=\"0317013312\" type=\"utm\" subtype=\"webfilter\" eventtype=\"ftgd_allow\" level=\"notice\" vd=\"root\" eventtime=1620918270477676910 tz=\"+0000\" policyid=1 sessionid=17612 srcip=10.130.3.10 srcport=43646 srcintf=\"port2\" srcintfrole=\"lan\" dstip=104.248.8.135 dstport=443 dstintf=\"port1\" dstintfrole=\"wan\" proto=6 service=\"HTTPS\" hostname=\"TR_MALICIOUS_URL\" profile=\"monitor-all\" action=\"passthrough\" reqtype=\"direct\" url=\"TR_MALICIOUS_URL/security_updates.exe\" sentbyte=207 rcvdbyte=2913 direction=\"outgoing\" msg=\"URL belongs to an allowed category in policy\" method=\"domain\" cat=61 catdesc=\"Phishing\" crscore=30 craction=4194304 crlevel=\"high\""
+    },
+    {
+      "sleep": 1,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "Tue Apr 05 08:26:40 2020 Workstation-MKT-ISR-10 10.130.3.10 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"masha\" [domain]=\"fortielab.com\" [eventTime]=\"May 19 2021 19:48:34\" [fileName]=\"C:\\Users\\masha\\AppData\\Local\\Temp\\security_updates.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "comment": "########################################################################### Discovery",
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.1 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.2 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.3 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.4 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.5 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.6 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.7 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.8 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.9 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.11 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.12 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.13 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.14 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.15 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.16 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.17 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.18 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.19 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.20 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.21 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.22 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.23 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "sleep": 0,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<190>date=2020-05-19 time=08:27:30 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"1059028704\" type=\"utm\" subtype=\"app-ctrl\" eventtype=\"signature\" level=\"information\" vd=\"root\" eventtime=1595481211008289367 tz=\"+0200\" appid=24466 srcip=10.130.3.10 dstip=10.130.3.24 srcport=32094 dstport=8 srcintf=\"port3\" srcintfrole=\"lan\" dstintf=\"port2\" dstintfrole=\"dmz\" proto=1 service=\"PING\" direction=\"outgoing\" policyid=5 sessionid=5975095 applist=\"default\" action=\"pass\" appcat=\"Network.Service\" app=\"Ping\" incidentserialno=205946554 msg=\"Network.Service: Ping,\" apprisk=\"elevated\""
+    },
+    {
+      "comment": "########################################################################### Workstation-MKT-ISR-5",
+      "sleep": 1,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<189>date=2020-05-19 time=08:27:55 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0000000013\" type=\"traffic\" subtype=\"forward\" level=\"notice\" vd=\"root\" eventtime=1595481061592196284 tz=\"+0200\" srcip=10.130.3.10 srcport=34532 srcintf=\"port3\" srcintfrole=\"lan\" dstip=10.130.3.5 dstport=445 dstintf=\"port2\" dstintfrole=\"dmz\" srccountry=\"Reserved\" dstcountry=\"Reserved\" sessionid=5974776 proto=6 action=\"pass\" policyid=5 policytype=\"policy\" poluuid=\"2b375acc-aa67-51ea-9e67-57aae273bde3\" policyname=\"LAN -> DMZ\" service=\"SMB\" trandisp=\"noop\" appid=44624 app=\"SMB.v3\" appcat=\"Network.Service\" apprisk=\"elevated\" applist=\"default\" appact=\"detected\" duration=1 sentbyte=351492 rcvdbyte=10366 sentpkt=252 rcvdpkt=252 wanin=838 wanout=882 lanin=882 lanout=882 utmaction=\"allow\" countapp=2 mastersrcmac=\"52:54:00:4e:6e:7c\" srcmac=\"52:54:00:4e:6e:7c\" srcserver=0"
+    },
+    {
+      "sleep": 6,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "Tue Apr 05 08:26:40 2020 Workstation-MKT-ISR-5 10.130.3.5 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"dricardo\" [domain]=\"fortielab.com\" [eventTime]=\"May 19 2021 19:48:34\" [fileName]=\"C:\\Users\\dricardo\\AppData\\Local\\Temp\\security_updates.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "comment": "########################################################################### Workstation-MKT-ISR-14",
+      "sleep": 7,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<189>date=2020-05-19 time=08:27:55 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0000000013\" type=\"traffic\" subtype=\"forward\" level=\"notice\" vd=\"root\" eventtime=1595481061592196284 tz=\"+0200\" srcip=10.130.3.10 srcport=34532 srcintf=\"port3\" srcintfrole=\"lan\" dstip=10.130.3.14 dstport=445 dstintf=\"port2\" dstintfrole=\"dmz\" srccountry=\"Reserved\" dstcountry=\"Reserved\" sessionid=5974776 proto=6 action=\"pass\" policyid=5 policytype=\"policy\" poluuid=\"2b375acc-aa67-51ea-9e67-57aae273bde3\" policyname=\"LAN -> DMZ\" service=\"SMB\" trandisp=\"noop\" appid=44624 app=\"SMB.v3\" appcat=\"Network.Service\" apprisk=\"elevated\" applist=\"default\" appact=\"detected\" duration=1 sentbyte=351492 rcvdbyte=10366 sentpkt=252 rcvdpkt=252 wanin=838 wanout=882 lanin=882 lanout=882 utmaction=\"allow\" countapp=2 mastersrcmac=\"52:54:00:4e:6e:7c\" srcmac=\"52:54:00:4e:6e:7c\" srcserver=0"
+    },
+    {
+      "sleep": 6,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "Tue Apr 05 08:26:40 2020 Workstation-MKT-ISR-14 10.130.3.14 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"wakira\" [domain]=\"fortielab.com\" [eventTime]=\"May 19 2021 19:48:34\" [fileName]=\"C:\\Users\\wakira\\AppData\\Local\\Temp\\security_updates.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ffe31a\" [msg]=\"\""
+    },
+    {
+      "comment": "########################################################################### Workstation-MKT-ISR-15",
+      "sleep": 7,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "<189>date=2020-05-19 time=08:27:55 devname=\"FortiGate-Core\" devid=\"FGVM02TM19008304\" logid=\"0000000013\" type=\"traffic\" subtype=\"forward\" level=\"notice\" vd=\"root\" eventtime=1595481061592196284 tz=\"+0200\" srcip=10.130.3.10 srcport=34532 srcintf=\"port3\" srcintfrole=\"lan\" dstip=10.130.3.15 dstport=445 dstintf=\"port2\" dstintfrole=\"dmz\" srccountry=\"Reserved\" dstcountry=\"Reserved\" sessionid=5974776 proto=6 action=\"pass\" policyid=5 policytype=\"policy\" poluuid=\"2b375acc-aa67-51ea-9e67-57aae273bde3\" policyname=\"LAN -> DMZ\" service=\"SMB\" trandisp=\"noop\" appid=44624 app=\"SMB.v3\" appcat=\"Network.Service\" apprisk=\"elevated\" applist=\"default\" appact=\"detected\" duration=1 sentbyte=351492 rcvdbyte=10366 sentpkt=252 rcvdpkt=252 wanin=838 wanout=882 lanin=882 lanout=882 utmaction=\"allow\" countapp=2 mastersrcmac=\"52:54:00:4e:6e:7c\" srcmac=\"52:54:00:4e:6e:7c\" srcserver=0"
+    },
+    {
+      "sleep": 6,
+      "source_ip": "10.0.1.6",
+      "destination_ip": "10.0.1.5",
+      "payload": "Tue Apr 05 08:26:40 2020 Workstation-MKT-ISR-15 10.130.3.15 AccelOps-WUA-FileMon [monitorStatus]=\"Success\" [Locale]=\"en-GB\" [MachineGuid]=\"3ec9cc36-2447-4306-94b5-e7797a2e9a97\" [userId]=\"asmith\" [domain]=\"fortielab.com\" [eventTime]=\"May 19 2021 19:48:34\" [fileName]=\"C:\\Users\\asmith\\AppData\\Local\\Temp\\security_updates.exe\" [osObjAction]=\"Added\" [objectType]=\"File\" [hashCode]=\"ae12fbae3451e56ac55efca123ffe31a\" [msg]=\"\""
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "publisher": "CSE-Team",
+  "name": "IPS Alert Triage",
+  "product": "fortisoar",
+  "category": "soc_analyst",
+  "connectors_dependencies": [],
+  "fsr_picklist_dependencies":{"AlertType":["SECURITY_INIT_ACCESS","SECURITY_EXECUTION"],"SLAState":["NA"]},
+  "fsm_events_dependencies": [],
+  "version": "1.0.0",
+  "description": "Apply Enrichment from AD, CMDB, Vulnerability Management on alerts and Triage",
+  "infographic": "https://github..."
+}
